@@ -13,13 +13,15 @@ import java.util.TreeMap;
 public class PrestonDataFile
 {
 
+	public final static String FORMATTED_DATE = "FormattedDate";
+
 //	public TUF3DDataFile()
 //	{
 //		super();
 //		// TODO Auto-generated constructor stub
 //	}
 
-	public PrestonDataFile(String path, String filename)
+	public PrestonDataFile(String path, String filename, boolean skip30s)
 	{
 		super();
 
@@ -28,7 +30,7 @@ public class PrestonDataFile
 
 		setPath(path);
 		setFilename(filename);
-		readDataFile(path, filename);
+		readDataFile(path, filename, skip30s);
 	}
 
 //	public SUEWSDataFile(String path, String filename, boolean reformatFullFile)
@@ -57,15 +59,15 @@ public class PrestonDataFile
 		String path = Messages.getString("PrestonDataFile.DATA_PATH");
 		String filename = Messages.getString("PrestonDataFile.DATA_FILE");
 
-		PrestonDataFile prestonDataFile = new PrestonDataFile(path, filename);
+		PrestonDataFile prestonDataFile = new PrestonDataFile(path, filename, false);
 		TreeMap<String, ArrayList<String>> theData = prestonDataFile.getData();
 		//System.out.println(theData.toString());
 
-		System.out.println(theData.get("Kup").toString());
+		System.out.println(theData.get(prestonDataFile.FORMATTED_DATE).toString());
 
 	}
 
-	public void readDataFile(String path, String filename)
+	public void readDataFile(String path, String filename, boolean skip30s)
 	{
 		String dataFile = path + File.separator + filename;
 
@@ -87,15 +89,21 @@ public class PrestonDataFile
 				//dis.readLine(); dis.readLine(); dis.readLine(); dis.readLine();
 				String variableStr = dis.readLine();
 				//variableStr = variableStr.replaceFirst("%", "");
-				StringTokenizer st = new StringTokenizer(variableStr, "\t");
-				while (st.hasMoreTokens())
+				String[] splitString = variableStr.split("\t");
+				System.out.println ("variable string size=" + splitString.length);
+				//StringTokenizer st = new StringTokenizer(variableStr, "\t");
+				//while (st.hasMoreTokens())
+				for (String aVariable : splitString)
 				{
-					String aVariable = st.nextToken().trim();
-					System.out.println("Variable=" + aVariable);
-					this.variables.add(aVariable);
+					//String aVariable = st.nextToken().trim();
+					//System.out.println("Variable=" + aVariable);
+					this.variables.add(aVariable.trim().replaceAll(" ", "_"));
 				}
+				//not in the data files, added during processing
+				this.variables.add(FORMATTED_DATE);
 			}
 
+			int readCount = 0;
 			while (dis.available()>0)
 			{
 				int count = 0;
@@ -104,41 +112,58 @@ public class PrestonDataFile
 				String time;
 				String dataStr = dis.readLine();
 
-				StringTokenizer st = new StringTokenizer(dataStr, "\t");
-				while (st.hasMoreTokens())
+				if (skip30s)
 				{
+					//if count is even, skip this line
+					if (readCount % 2 == 0)
+					{
+						readCount ++;
+						continue;
+					}
+				}
+
+				String[] splitString = dataStr.split("\t");
+				//System.out.println ("variable string size=" + splitString.length);
+
+				//StringTokenizer st = new StringTokenizer(dataStr, "\t");
+				//while (st.hasMoreTokens())
+				for (String variableValue : splitString)
+				{
+					if (variableValue.equals(FORMATTED_DATE))
+					{
+						continue;
+					}
 					String variableName = this.variables.get(count);
-					ArrayList dataSet = this.data.get(variableName);
+					ArrayList<String> dataSet = this.data.get(variableName);
 					if (dataSet == null)
 					{
 						dataSet = new ArrayList<String>();
 					}
 
-					String variableValue = st.nextToken().trim();
+					//String variableValue = st.nextToken().trim();
 
 					dataSet.add(variableValue);
 					this.data.put(variableName, dataSet);
 
-//					if (variableName.equals("Year"))
-//					{
-//						year = variableValue;
-//					}
-//					else if (variableName.equals("Day of year"))
-//					{
-//						dayOfYear = variableValue;
-//					}
-//					else if (variableName.equals("Day of year"))
-//					{
-//						dayOfYear = variableValue;
-//					}
-//					else
 					if (variableName.equals("timecode"))
 					{
-						dayOfYear = variableValue;
+						year = variableValue.substring(0, 4);
+						dayOfYear = variableValue.substring(4, 7);
+						time = variableValue.substring(7, 11);
+
+						String formattedDate = year + "-" + dayOfYear + "-" + time;
+						ArrayList<String> formattedDateDataSet = this.data.get(FORMATTED_DATE);
+						if (formattedDateDataSet == null)
+						{
+							formattedDateDataSet = new ArrayList<String>();
+						}
+						formattedDateDataSet.add(formattedDate);
+						this.data.put(FORMATTED_DATE, formattedDateDataSet);
 					}
 
 					count ++;
 				}
+				readCount ++;
 
 			}
 

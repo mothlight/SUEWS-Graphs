@@ -55,7 +55,7 @@ public class ENVICommon
 	public static final int Surface_Albedo = 20;
 	public static final int Deposition_Speed = 21;
 	public static final int Mass_Deposed = 22;
-	
+
 	public static final String RUN_DATE = "run_date";
 	public static final String RUN_DESC = "run_desc";
 	public static final String RUN_NAME = "run_name";
@@ -63,7 +63,7 @@ public class ENVICommon
 	public static final String ENVI_VERSION3 = "3";
 	public static final String ENVI_VERSION4 = "4";
 	public static final String DATA_DIR = "data_dir";
-	
+
 	public static final String RECEPTOR_ID = "receptor_id";
 	public static final String RECEPTOR_X = "x";
 	public static final String RECEPTOR_Y = "y";
@@ -71,7 +71,7 @@ public class ENVICommon
 	public static final String RECEPTOR_PATH = "path";
 
 	/*
-	 * 
+	 *
 	 * <td>1</td><td>z Topo (m)</td></tr> <td>2</td><td>T Surface (K)</td></tr>
 	 * <td>3</td><td>T Surface Diff. (K)</td></tr> <td>4</td><td>T Surface
 	 * Change (K/h)</td></tr> <td>5</td><td>q Surface (g/kg)</td></tr>
@@ -108,25 +108,65 @@ public class ENVICommon
 		}
 
 	}
-	
+
+	public String padLeft(String str, int size, char padChar)
+	{
+		//StringBuffer padded = new StringBuffer(str);
+		String padded = str;
+		while (padded.length() < size)
+		{
+			padded = padChar + padded;
+			//padded.append(padChar);
+		}
+		//return padded.toString();
+		return padded;
+	}
+
+	public String padRight(String str, int size, char padChar)
+	{
+		StringBuffer padded = new StringBuffer(str);
+		//String padded = str;
+		while (padded.length() < size)
+		{
+			//padded = padChar + padded;
+			padded.append(padChar);
+		}
+		return padded.toString();
+		//return padded;
+	}
+
+
+//	public static String padLeft(String s, int n)
+//	{
+//		return String.format("%0" + n,s);
+//	    //return String.format("%1$#" + n + "s", s);
+//	}
+
+//	public static String padRight(String s, int n)
+//	{
+//	     return String.format("%1$-" + n + "s", s);
+//	}
+
+
+
 	public boolean createDirectory(String directory)
 	{
 //	    // Create one directory
 //	    boolean success = (new File(directory)).mkdir();
 //	    if (success) {
 //	      System.out.println("Directory: " + directory + " created");
-//	    }    
-	  
+//	    }
+
 
 	    // Create multiple directories
 	    boolean success = (new File(directory)).mkdirs();
 	    if (success) {
 	      System.out.println("Directories: " + directory + " created");
 	    }
-	    
+
 	    return success;
 
-	    
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -151,11 +191,11 @@ public class ENVICommon
 				return accept;
 			}
 		};
-		
-		
+
+
 		File dir = new File(directory);
-		
-		File files[] = dir.listFiles(filter);		 
+
+		File files[] = dir.listFiles(filter);
 		Arrays.sort( files, new Comparator<File>()
 		{
 //		     public int compare(final Object o1, final Object o2) {
@@ -169,8 +209,8 @@ public class ENVICommon
 				return new Long((o1).lastModified()).compareTo
 	             (new Long(( o2).lastModified()));
 			}
-		}); 
-		
+		});
+
 		String[] fileNames = new String[files.length];
 		int count = 0;
 		for (File file : files)
@@ -180,7 +220,7 @@ public class ENVICommon
 			count ++;
 		}
 
-		
+
 //		//String[] children = dir.list();
 //		if (files == null)
 //		{
@@ -193,8 +233,8 @@ public class ENVICommon
 //				String filename = children[i];
 //			}
 //		}
-//		
-//		children = dir.list(filter);		
+//
+//		children = dir.list(filter);
 //		return children;
 		return fileNames;
 
@@ -400,7 +440,7 @@ public class ENVICommon
 		TreeMap<String, Integer> variables = new TreeMap<String, Integer>();
 		String query = "select variable_id, variable_name from run_variables ";
 
-		Connection conn = getMySqlConnection();		
+		Connection conn = getMySqlConnection();
 		try
 		{
 			Statement stat = conn.createStatement();
@@ -410,7 +450,7 @@ public class ENVICommon
 			{
 				Integer variableID = rs.getInt("variable_id");
 				String variableName = rs.getString("variable_name");
-				
+
 				variables.put(variableName, variableID);
 			}
 			rs.close();
@@ -420,17 +460,17 @@ public class ENVICommon
 		{
 			e.printStackTrace();
 		}
-		
+
 		System.out.println(variables.toString());
 		return variables;
-	}	
-	
+	}
+
 	public TreeMap<String, String> getMetaDataForRun(int runID)
 	{
 		TreeMap<String, String> metaData = new TreeMap<String, String>();
 		String query = "select run_date,run_desc,run_name,envi_version,data_dir from runs where run_id = " +runID;
 
-		Connection conn = getMySqlConnection();		
+		Connection conn = getMySqlConnection();
 		try
 		{
 			Statement stat = conn.createStatement();
@@ -450,16 +490,16 @@ public class ENVICommon
 		{
 			e.printStackTrace();
 		}
-		
+
 		return metaData;
-	}		
-	
+	}
+
 	public TreeMap<String, String> getReceptorMetaDataFromDB(int runID)
 	{
 		TreeMap<String, String> metaData = new TreeMap<String, String>();
 		String query = "select receptor_id,x,y,filename,path from receptor_files where run_id = " +runID;
 
-		Connection conn = getMySqlConnection();		
+		Connection conn = getMySqlConnection();
 		try
 		{
 			Statement stat = conn.createStatement();
@@ -472,7 +512,7 @@ public class ENVICommon
 				metaData.put(RECEPTOR_Y, ""+rs.getInt(RECEPTOR_Y));
 				metaData.put(RECEPTOR_FILENAME, rs.getString(RECEPTOR_FILENAME));
 				metaData.put(RECEPTOR_PATH, rs.getString(RECEPTOR_PATH));
-				
+
 			}
 			rs.close();
 			conn.close();
@@ -481,21 +521,21 @@ public class ENVICommon
 		{
 			e.printStackTrace();
 		}
-		
+
 		return metaData;
-	}		
-	
+	}
+
 	public String removeIllegalCharacters(String str)
 	{
 		return str.replaceAll("/", "_");
 	}
-	
+
     public void actualPlotCmd(String plotname, String outputDirectory)
     {
     	try
-		{    	
+		{
 			String[] commands = new String[]{"/home/kerryn/bin/gnuplot_bin_indiv.sh", plotname, outputDirectory};
-			Process aProcess = Runtime.getRuntime().exec(commands);		
+			Process aProcess = Runtime.getRuntime().exec(commands);
 			aProcess.waitFor();
 
 		} catch (Exception e)
@@ -503,32 +543,32 @@ public class ENVICommon
 			System.err.println(e);
 			System.exit(1);
 		}
-    }	
+    }
 	public void runPlotCmd(String outputDirectory, Splot aPlot)
 	{
 		try
 		{
 			String plotName = aPlot.plot();
 			//System.out.println("Plotting cmd=" + plotName);
-			actualPlotCmd(plotName, outputDirectory);		
+			actualPlotCmd(plotName, outputDirectory);
 
 		} catch (Exception e)
 		{
 			System.err.println(e);
 			System.exit(1);
 		}
-	}   
-	
+	}
+
 	public void imageMakeTransparent(String inImage, String outImage)
 	{
 		// convert startImage.png -transparent white EndImageT.png
-		
+
 		IMOperation op = new IMOperation();
 		op.transparent("white");
 		ConvertCmd convert = new ConvertCmd();
 	    op.addImage();  // read and crop first image
 	    op.addImage();  // read and crop second image
-	      
+
 		try
 		{
 			convert.run(op, inImage, outImage);
@@ -546,16 +586,16 @@ public class ENVICommon
 			e1.printStackTrace();
 		}
 	}
-	
+
 	public void imageCompositeBlendCmd(String baseImage, String overlayImage, String outputImage, Integer blend)
-	{		
+	{
 		IMOperation op = new IMOperation();
 		op.blend(blend);
 		op.gravity("center");
 		CompositeCmd composite = new CompositeCmd();
 	    op.addImage();  // read and crop first image
 	    op.addImage();  // read and crop second image
-	    op.addImage();    
+	    op.addImage();
 		try
 		{
 			composite.run(op,baseImage,overlayImage,outputImage);
@@ -574,19 +614,19 @@ public class ENVICommon
 		}
 
 	}
-	
+
 	public void imageCompositeDifferenceCmd(String baseImage, String overlayImage, String outputImage)
-	{		
+	{
 		IMOperation op = new IMOperation();
 		op.compose("difference");
 //		op.dissolve(percent);
-		
+
 //		op.blend(blend);
 		op.gravity("center");
 		CompositeCmd composite = new CompositeCmd();
 	    op.addImage();  // read and crop first image
 	    op.addImage();  // read and crop second image
-	    op.addImage();    
+	    op.addImage();
 		try
 		{
 			composite.run(op,baseImage,overlayImage,outputImage);
@@ -604,19 +644,19 @@ public class ENVICommon
 			e1.printStackTrace();
 		}
 
-	}		
-	
+	}
+
 	public void imageCompositeDissolveCmd(String baseImage, String overlayImage, String outputImage, Integer percent)
-	{		
+	{
 		IMOperation op = new IMOperation();
 		op.dissolve(percent);
-		
+
 //		op.blend(blend);
 		op.gravity("center");
 		CompositeCmd composite = new CompositeCmd();
 	    op.addImage();  // read and crop first image
 	    op.addImage();  // read and crop second image
-	    op.addImage();    
+	    op.addImage();
 		try
 		{
 			composite.run(op,baseImage,overlayImage,outputImage);
@@ -634,8 +674,8 @@ public class ENVICommon
 			e1.printStackTrace();
 		}
 
-	}	
-	
+	}
+
 //	ReadEDTFile trimEDTOfIgnored(ReadEDTFile readEDTFile, String[] ignoredFields)
 //	{
 //		TreeMap<String, ArrayList> edtData = readEDTFile.getData();
@@ -647,7 +687,7 @@ public class ENVICommon
 //
 //		return readEDTFile;
 //	}
-	
+
 //	ArrayList<String> trimVariablesOfIgnored(ArrayList<String> fileVariables,
 //			String[] ignoredFields)
 //	{
@@ -682,6 +722,6 @@ public class ENVICommon
 //		}
 //		return returnVariables;
 //	}
-	
+
 
 }

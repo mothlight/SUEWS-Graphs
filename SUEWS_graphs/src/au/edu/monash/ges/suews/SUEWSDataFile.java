@@ -19,7 +19,7 @@ public class SUEWSDataFile
 //		// TODO Auto-generated constructor stub
 //	}
 
-	public SUEWSDataFile(String path, String filename)
+	public SUEWSDataFile(String path, String filename, boolean skipEveryOtherLine)
 	{
 		super();
 
@@ -28,9 +28,10 @@ public class SUEWSDataFile
 
 		setPath(path);
 		setFilename(filename);
-		readDataFile(path, filename);
+		setYear(parseYear(filename));
+		readDataFile(path, filename, skipEveryOtherLine);
 	}
-	
+
 //	public SUEWSDataFile(String path, String filename, boolean reformatFullFile)
 //	{
 //		super();
@@ -40,12 +41,33 @@ public class SUEWSDataFile
 //
 //		setPath(path);
 //		setFilename(filename);
-//		
-//	}	
+//
+//	}
 
 
 	private String path;
 	private String filename;
+	private String year;
+
+	private String parseYear(String filename)
+	{
+		String year;
+
+		String[] filenameSplit = filename.split("_");
+		year = filenameSplit[1];
+
+		return year;
+	}
+
+	public String getYear()
+	{
+		return year;
+	}
+
+	public void setYear(String year)
+	{
+		this.year = year;
+	}
 
 	ArrayList<String> variables;
 	TreeMap<String, ArrayList<String>> data;
@@ -55,17 +77,17 @@ public class SUEWSDataFile
 	public static void main(String[] args)
 	{
 		String path = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DATA_PATH");
-		String filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE");		
-		
-		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename);
+		String filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE");
+
+		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, false);
 		TreeMap<String, ArrayList<String>> theData = sUEWSDataFile.getData();
 		//System.out.println(theData.toString());
-		
+
 		System.out.println(theData.get("kup").toString());
-		
+
 	}
 
-	public void readDataFile(String path, String filename)
+	public void readDataFile(String path, String filename, boolean skipEveryOtherLine)
 	{
 		String dataFile = path + File.separator + filename;
 
@@ -91,15 +113,28 @@ public class SUEWSDataFile
 				while (st.hasMoreTokens())
 				{
 					String aVariable = st.nextToken().trim();
-					System.out.println("Variable=" + aVariable);
+					//System.out.println("Variable=" + aVariable);
 					this.variables.add(aVariable);
 				}
 			}
 
+			int readCount = 0;
 			while (dis.available()>0)
 			{
 				int count = 0;
 				String dataStr = dis.readLine();
+
+				if (skipEveryOtherLine)
+				{
+					//if count is even, skip this line
+					if (readCount % 2 == 0)
+					{}
+					else
+					{
+						readCount ++;
+						continue;
+					}
+				}
 
 				StringTokenizer st = new StringTokenizer(dataStr);
 				while (st.hasMoreTokens())
@@ -118,6 +153,7 @@ public class SUEWSDataFile
 
 					count ++;
 				}
+				readCount ++;
 
 			}
 
