@@ -1,6 +1,13 @@
 package au.edu.monash.ges.suews;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.jgnuplot.Axes;
@@ -15,6 +22,94 @@ public class SuewsPrestonComparisonGraphs
 {
 
 	ENVICommon common = new ENVICommon();
+	
+	public static String XRANGE_BEG = "2004-001-0000";
+	public static String XRANGE_END = "2004-020-0000";
+	//public static String GRAPH_SIZE = "1024,600";
+	public static String GRAPH_SIZE = "1536,900";
+	
+	public static String PRESTON_Year = "1";
+	public static String PRESTON_Day_of_year = "2";
+	public static String PRESTON_time = "3";
+	public static String PRESTON_timecode = "4";
+	public static String PRESTON_month = "5";
+	public static String PRESTON_week = "6";
+	public static String PRESTON_Kdown = "7";
+	public static String PRESTON_Kup = "8";
+	public static String PRESTON_Ldown = "9";
+	public static String PRESTON_Lup = "10";
+	public static String PRESTON_NET = "11";
+	public static String PRESTON_QH = "12";
+	public static String PRESTON_QE = "13";
+	public static String PRESTON_QG = "14";
+	public static String PRESTON_Flux_validity = "15";
+	public static String PRESTON_CO2flux_final = "16";
+	public static String PRESTON_CO2_flux_validity = "17";
+	public static String PRESTON_Temp = "18";
+	public static String PRESTON_e_a = "19";
+	public static String PRESTON_wind_spd = "20";
+	public static String PRESTON_wind_dir = "21";
+	public static String PRESTON_pressure = "22";
+	public static String PRESTON_Precip = "23";
+	public static String PRESTON_Anthrop = "24";
+	public static String PRESTON_tau = "25";
+	public static String PRESTON_soil_moisture = "26";
+	public static String PRESTON_deep_soil_temp = "27";
+	public static String PRESTON_FormattedDate = "28";
+	
+	public static String SUEWS_id_it = "1";
+	//public static String SUEWS_it = "2";
+	public static String SUEWS_dectime = "2";
+	public static String SUEWS_kdown = "3";
+	public static String SUEWS_kup = "4";
+	public static String SUEWS_ldown = "5";
+	public static String SUEWS_lup = "6";
+	public static String SUEWS_Tsurf = "7";
+	public static String SUEWS_qn = "8";
+	public static String SUEWS_h_mod = "9";
+	public static String SUEWS_e_mod = "10";
+	public static String SUEWS_qs = "11";
+	public static String SUEWS_QF = "12";
+	public static String SUEWS_QH = "13";
+	public static String SUEWS_QE = "14";
+	public static String SUEWS_P_i = "15";
+	public static String SUEWS_Ie_i = "16";
+	public static String SUEWS_E_i = "17";
+	public static String SUEWS_DR_i = "18";
+	public static String SUEWS_Ch_i = "19";
+	public static String SUEWS_ST_i = "20";
+	public static String SUEWS_ROsoil_i = "21";
+	public static String SUEWS_RO_i = "22";
+	public static String SUEWS_ROpipe = "23";
+	public static String SUEWS_ROpav = "24";
+	public static String SUEWS_ROveg = "25";
+	public static String SUEWS_ROwater = "26";
+	public static String SUEWS_RA = "27";
+	public static String SUEWS_RS = "28";
+	public static String SUEWS_ustar = "29";
+	public static String SUEWS_L_mod = "30";
+	public static String SUEWS_SoilSt_pav = "31";
+	public static String SUEWS_SoilSt_blg = "32";
+	public static String SUEWS_SoilSt_con = "33";
+	public static String SUEWS_SoilSt_dec = "34";
+	public static String SUEWS_SoilSt_Irrgr = "35";
+	public static String SUEWS_SoilSt_Gr = "36";
+	public static String SUEWS_St_pav = "37";
+	public static String SUEWS_St_blg = "38";
+	public static String SUEWS_St_con = "39";	
+	public static String SUEWS_St_dec = "40";
+	public static String SUEWS_St_Irrgr = "41";
+	public static String SUEWS_St_Gr = "42";
+	public static String SUEWS_St_water = "43";
+	public static String SUEWS_Fcld = "44";
+	public static String SUEWS_SoilState = "45";
+	public static String SUEWS_smd = "46";
+	public static String SUEWS_LAI = "47";
+	public static String SUEWS_Fw = "48";
+	public static String SUEWS_addWater = "49";
+	public static String SUEWS_FormattedDate = "50";
+	
+	
 	/**
 	 * @param args
 	 */
@@ -43,31 +138,61 @@ public class SuewsPrestonComparisonGraphs
 		processSUEWSRun.generateReformattedDataFile(suewsDataFile);
 		//String timeField = "dectime";
 		String variable = "kdown";
-		String suewsTimeField = "50";
-		String prestonTimeField = "26";
+		String suewsTimeField = SUEWS_FormattedDate;
+		String prestonTimeField = PRESTON_FormattedDate;
 		String suewsVariableNumber = "3";
 		String prestonVariableNumber = "7";
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 
 		variable = "Tsurf";
-		suewsVariableNumber = "7";
-		prestonVariableNumber = "18";
+		suewsVariableNumber = SUEWS_Tsurf;
+		prestonVariableNumber =  PRESTON_Temp ;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 
 		variable = "QH";
-		suewsVariableNumber = "7";
-		prestonVariableNumber = "9";
+		suewsVariableNumber =  SUEWS_QH;
+		//suewsVariableNumber =  SUEWS_h_mod;
+		prestonVariableNumber = PRESTON_QH;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 
 		variable = "QE";
-		suewsVariableNumber = "8";
-		prestonVariableNumber = "10";
+		suewsVariableNumber = SUEWS_QE;
+		//suewsVariableNumber = SUEWS_e_mod;
+		prestonVariableNumber = PRESTON_QE;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 
 		variable = "QG";
-		suewsVariableNumber = "9";
-		prestonVariableNumber = "11";
+		suewsVariableNumber = SUEWS_qs;
+		prestonVariableNumber = PRESTON_QG;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
+
+		variable = "kup";
+		suewsVariableNumber = SUEWS_kup;
+		prestonVariableNumber = PRESTON_Kup;
+		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
+
+		variable = "lup";
+		suewsVariableNumber = SUEWS_lup;
+		prestonVariableNumber = PRESTON_Lup;
+		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
+		
+		variable = "ldown";
+		suewsVariableNumber = SUEWS_ldown;
+		prestonVariableNumber = PRESTON_Ldown;
+		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
+		
+		variable = "net";
+		suewsVariableNumber = SUEWS_qn;
+		prestonVariableNumber = PRESTON_NET;
+		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
+		
+
+		variable = "Anthrop";
+		suewsVariableNumber = SUEWS_QF;
+		prestonVariableNumber = PRESTON_Anthrop;
+		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
+
+		
 //
 //		variable = "QG";
 //		suewsVariableNumber = "9";
@@ -95,7 +220,9 @@ public class SuewsPrestonComparisonGraphs
 		aPlot.setKey("right box");
 		aPlot.unsetParametric();
 		aPlot.unsetPolar();
-		aPlot.setOutput(Terminal.PNG, outputFile, " 1024,600  enhanced font Vera 14 ");
+		aPlot.setOutput(Terminal.PNG, outputFile, " " +
+				GRAPH_SIZE +
+				"  enhanced font Vera 14 ");
 		aPlot.unsetLogscale();
 		aPlot.setYTics("nomirror");
 //		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 pi 20");
@@ -117,7 +244,11 @@ public class SuewsPrestonComparisonGraphs
 
 		aPlot.addExtra("set xdata time");
 		aPlot.addExtra("set timefmt '%Y-%j-%H%M'");
-		aPlot.addExtra("set xrange [\"2004-001-0000\":\"2004-045-0000\"]");
+		aPlot.addExtra("set xrange [\"" +
+				XRANGE_BEG +
+				"\":\"" +
+				XRANGE_END +
+				"\"]");
 
 		aPlot.addExtra("set dgrid3d 10,10,1");
 		aPlot.addExtra("set ylabel \" " + variable + "\"");
@@ -131,13 +262,111 @@ public class SuewsPrestonComparisonGraphs
 
 		try
 		{
+			OutputStream stdin = null;
+		    InputStream stderr = null;
+		    InputStream stdout = null;
+		    String line;
+
+			
 			String plotCommand = aPlot.plot();
-			//System.out.println("command=" + command);
+			
+			plotCmd(plotCommand, plotDirectory);
+			
+//			String gnuplotScriptFile = plotCommand.replaceFirst("gnuplot", "");
+//			String[] commands = new String[]{Messages.getString("ProcessSUEWSRun.GNUPLOT_SH"), " " + plotDirectory, " " + gnuplotScriptFile};
+//			
+//
+//			ProcessBuilder pb2= new ProcessBuilder("/usr/bin/gnuplot", gnuplotScriptFile);
+//			pb2.directory(new File(plotDirectory));
+//			Process p2 = pb2.start();
+//			p2.waitFor();
+			
+			
+			
+			
+			
+			
+//			ProcessBuilder pb= new ProcessBuilder(Messages.getString("ProcessSUEWSRun.GNUPLOT_SH"), gnuplotScriptFile, plotDirectory);
+//			pb.directory(new File(plotDirectory));
+//			Process p = pb.start();
+//			List<String> commandList = pb.command();
+//			System.out.println(commandList.toString());
+//			p.waitFor();
+//			stdin = p.getOutputStream ();
+//		    stderr = p.getErrorStream ();
+//		    stdout = p.getInputStream ();
+//		    BufferedReader brCleanUp = new BufferedReader (new InputStreamReader (stdout));
+//		    while ((line = brCleanUp.readLine ()) != null) 
+//		    {
+//		        System.out.println ("[Stdout] " + line);
+//		    }
+//		    brCleanUp.close();
+//		    brCleanUp = new BufferedReader (new InputStreamReader (stderr));
+//		    while ((line = brCleanUp.readLine ()) != null) 
+//		    {
+//		    	System.out.println ("[Stderr] " + line);
+//		    }
+//		    brCleanUp.close();
+
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void plotCmd(String plotCommand, String plotDirectory)
+	{
+		try
+		{
+			OutputStream stdin = null;
+		    InputStream stderr = null;
+		    InputStream stdout = null;
+		    String line;
+
 			String gnuplotScriptFile = plotCommand.replaceFirst("gnuplot", "");
-			String[] commands = new String[]{Messages.getString("ProcessSUEWSRun.GNUPLOT_SH"), " " + plotDirectory, " " + gnuplotScriptFile};
-			Process aProcess = Runtime.getRuntime().exec(commands);
-			System.out.println("commands="+ commands[0] + commands[1] + commands[2] );
-			//System.out.println("aProcess.exitValue()="+ aProcess.exitValue());
+			//String[] commands = new String[]{Messages.getString("ProcessSUEWSRun.GNUPLOT_SH"), " " + plotDirectory, " " + gnuplotScriptFile};
+			
+
+			ProcessBuilder pb= new ProcessBuilder("/usr/bin/gnuplot", gnuplotScriptFile);
+			
+			//environ.remove("DISPLAY");
+			pb.environment().remove("DISPLAY");
+			pb.environment().remove("FOAM_SRC");
+			
+			//Map<String, String> environ = pb.environment();
+			//System.out.println(environ.toString());
+						
+			pb.directory(new File(plotDirectory));
+			Process p = pb.start();
+			
+			p.waitFor();
+			
+			
+			
+			
+			
+//			
+//			ProcessBuilder pb= new ProcessBuilder(Messages.getString("ProcessSUEWSRun.GNUPLOT_SH"), gnuplotScriptFile, plotDirectory);
+//			pb.directory(new File(plotDirectory));
+//			Process p = pb.start();
+//			List<String> commandList = pb.command();
+//			System.out.println(commandList.toString());
+//			p.waitFor();
+			stdin = p.getOutputStream ();
+		    stderr = p.getErrorStream ();
+		    stdout = p.getInputStream ();
+		    BufferedReader brCleanUp = new BufferedReader (new InputStreamReader (stdout));
+		    while ((line = brCleanUp.readLine ()) != null) 
+		    {
+		        System.out.println ("[Stdout] " + line);
+		    }
+		    brCleanUp.close();
+		    brCleanUp = new BufferedReader (new InputStreamReader (stderr));
+		    while ((line = brCleanUp.readLine ()) != null) 
+		    {
+		    	System.out.println ("[Stderr] " + line);
+		    }
+		    brCleanUp.close();
 
 		} catch (Exception e)
 		{

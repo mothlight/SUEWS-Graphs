@@ -85,11 +85,10 @@ public class PrestonDataFile
 
 			if (dis.available()>0)
 			{
-				//use up lines
-				//dis.readLine(); dis.readLine(); dis.readLine(); dis.readLine();
+							
 				String variableStr = dis.readLine();
 				//variableStr = variableStr.replaceFirst("%", "");
-				String[] splitString = variableStr.split("\t");
+				String[] splitString = variableStr.split(",");
 				System.out.println ("variable string size=" + splitString.length);
 				//StringTokenizer st = new StringTokenizer(variableStr, "\t");
 				//while (st.hasMoreTokens())
@@ -97,7 +96,7 @@ public class PrestonDataFile
 				{
 					//String aVariable = st.nextToken().trim();
 					//System.out.println("Variable=" + aVariable);
-					this.variables.add(aVariable.trim().replaceAll(" ", "_"));
+					this.variables.add(aVariable.trim().replaceAll(" ", "_").replaceAll("\"", ""));
 				}
 				//not in the data files, added during processing
 				this.variables.add(FORMATTED_DATE);
@@ -122,7 +121,7 @@ public class PrestonDataFile
 					}
 				}
 
-				String[] splitString = dataStr.split("\t");
+				String[] splitString = dataStr.split(",");
 				//System.out.println ("variable string size=" + splitString.length);
 
 				//StringTokenizer st = new StringTokenizer(dataStr, "\t");
@@ -141,7 +140,10 @@ public class PrestonDataFile
 					}
 
 					//String variableValue = st.nextToken().trim();
-
+					if (variableValue == null || variableValue.trim().equals(""))
+					{						
+						variableValue = "?";
+					}
 					dataSet.add(variableValue);
 					this.data.put(variableName, dataSet);
 

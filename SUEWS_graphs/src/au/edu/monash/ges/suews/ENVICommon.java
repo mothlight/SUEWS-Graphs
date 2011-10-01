@@ -245,6 +245,134 @@ public class ENVICommon
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	public void CalculateH(double t1, double rh1, double t2)  
+	{
+		
+			t1 = t1 + 273.0;
+			t2 = t2 + 273.0;
+					
+			double	p0, deltaH, R;
+			p0 = 7.5152E8;
+			deltaH = 42809;
+			R = 8.314;
+					
+			double sat_p1, sat_p2, vapor, rh2, dew;
+			sat_p1 = p0 * Math.exp(-deltaH/(R*t1));
+			sat_p2 = p0 * Math.exp(-deltaH/(R*t2));
+			vapor = sat_p1 * rh1/100;
+			rh2 = (vapor/sat_p2)*100;
+			dew = -deltaH/(R*Math.log(vapor/p0)) - 273;
+
+			//vapor = Math.round(vapor*10)/10;
+			//rh2   = Math.round(rh2*10)/10;
+			//dew   = Math.round(dew*10)/10;
+			
+			System.out.println("rh2=" + rh2);
+			System.out.println("dew=" + dew);
+			System.out.println("vapor=" + vapor);
+			
+			
+			
+
+//			rh2text   = rh2.toString();
+//			dewtext   = dew.toString();
+//			vaportext = vapor.toString();
+			
+	}
+	
+	public void CalculateH(double t1, double rh1)  
+	{
+		
+			t1 = t1 + 273.0;
+			//t2 = t2 + 273.0;
+					
+			double	p0, deltaH, R;
+			p0 = 7.5152E8;
+			deltaH = 42809;
+			R = 8.314;
+					
+			double sat_p1, sat_p2, vapor, rh2, dew;
+			sat_p1 = p0 * Math.exp(-deltaH/(R*t1));
+			//sat_p2 = p0 * Math.exp(-deltaH/(R*t2));
+			vapor = sat_p1 * rh1/100;
+			//rh2 = (vapor/sat_p2)*100;
+			dew = -deltaH/(R*Math.log(vapor/p0)) - 273;
+
+			//vapor = Math.round(vapor*10)/10;
+			//rh2   = Math.round(rh2*10)/10;
+			//dew   = Math.round(dew*10)/10;
+			
+			//System.out.println("rh2=" + rh2);
+			System.out.println("dew=" + dew);
+			System.out.println("vapor=" + vapor);
+			
+			
+			
+
+//			rh2text   = rh2.toString();
+//			dewtext   = dew.toString();
+//			vaportext = vapor.toString();
+			
+	}	
+	
+	public double CalculateRH(double tempC, double vapor)  
+	{
+		double rh1=0;
+		double tempK = tempC + 273.0;
+			
+		double p0 = 7.5152E8;
+		double deltaH = 42809;
+		double R = 8.314;
+		
+		double sat_p1 = 7.5152E8 * Math.exp(-42809/(8.314*tempK));
+		
+		rh1 = 100 * vapor / sat_p1;
+		
+		//vapor = sat_p1 * rh1/100;
+			
+//		double sat_p1 = p0 * Math.exp(-deltaH/(R*tempK));
+//		vapor = sat_p1 * rh1/100;
+		
+		//double dew = -deltaH/(R*Math.log(vapor/p0)) - 273;
+			
+		//System.out.println("dew=" + dew);
+		System.out.println("vapor=" + vapor);
+		System.out.println("rh1=" + rh1);
+		
+		return rh1;
+			
+	}	
+	
+	public double CalculateRH2(double tempC, double vapor)  
+	{
+		 
+//		double tempK = tempC + 273.0;
+			
+//		double p0 = 7.5152E8;
+//		double deltaH = 42809;
+//		double R = 8.314;
+		
+//		double sat_p1 = 7.5152E8 * Math.exp(-42809/(8.314*(tempC + 273.0)));
+		
+		double rh = 100 * vapor / (7.5152E8 * Math.exp(-42809/(8.314*(tempC + 273.0))));
+		
+		//vapor = sat_p1 * rh1/100;
+			
+//		double sat_p1 = p0 * Math.exp(-deltaH/(R*tempK));
+//		vapor = sat_p1 * rh1/100;
+		
+		//double dew = -deltaH/(R*Math.log(vapor/p0)) - 273;
+			
+		//System.out.println("dew=" + dew);
+		//System.out.println("vapor=" + vapor);
+		//System.out.println("rh1=" + rh);
+		
+		return rh;
+			
+	}		
+
 
 	public Connection getMySqlConnection()
 	{
