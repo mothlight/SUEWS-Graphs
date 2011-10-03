@@ -19,7 +19,127 @@ public class SUEWSDataFile
 //		// TODO Auto-generated constructor stub
 //	}
 
-	public SUEWSDataFile(String path, String filename, boolean skipEveryOtherLine)
+
+	public static String SUEWS_NARP_day = "1";
+	public static String SUEWS_NARP_dectime = "2";
+	public static String SUEWS_NARP_kup_pav = "3";
+	public static String SUEWS_NARP_kup_blg = "4";
+	public static String SUEWS_NARP_kup_con = "5";
+	public static String SUEWS_NARP_kup_dec = "6";
+	public static String SUEWS_NARP_kup_Irrgr = "7";
+	public static String SUEWS_NARP_kup_Gr = "8";
+	public static String SUEWS_NARP_kup_wtr = "9";
+	public static String SUEWS_NARP_lup_pav = "10";
+	public static String SUEWS_NARP_lup_blg = "11";
+	public static String SUEWS_NARP_lup_con = "12";
+	public static String SUEWS_NARP_lup_dec = "13";
+	public static String SUEWS_NARP_lup_Irrgr = "14";
+	public static String SUEWS_NARP_lup_Gr = "15";
+	public static String SUEWS_NARP_lup_wtr = "16";
+	public static String SUEWS_NARP_Ts_pav = "17";
+	public static String SUEWS_NARP_Ts_blg = "18";
+	public static String SUEWS_NARP_Ts_con = "19";
+	public static String SUEWS_NARP_Ts_dec = "20";
+	public static String SUEWS_NARP_Ts_Irrgr = "21";
+	public static String SUEWS_NARP_Ts_Gr = "22";
+	public static String SUEWS_NARP_Ts_wtr = "23";
+	public static String SUEWS_NARP_qn_pav = "24";
+	public static String SUEWS_NARP_qn_blg = "25";
+	public static String SUEWS_NARP_qn_con = "26";
+	public static String SUEWS_NARP_qn_dec = "27";
+	public static String SUEWS_NARP_qn_Irrgr = "28";
+	public static String SUEWS_NARP_qn_Gr = "29";
+	public static String SUEWS_NARP_qn_wtr = "30";
+	public static String SUEWS_NARP_REFORMAT_FormattedDate = "30";
+
+	public static String SUEWS_NARP_STR_day = "day";
+	public static String SUEWS_NARP_STR_dectime = "dectime";
+	public static String SUEWS_NARP_STR_kup_pav = "kup_pav";
+	public static String SUEWS_NARP_STR_kup_blg = "kup_blg";
+	public static String SUEWS_NARP_STR_kup_con = "kup_con";
+	public static String SUEWS_NARP_STR_kup_dec = "kup_dec";
+	public static String SUEWS_NARP_STR_kup_Irrgr = "kup_Irrgr";
+	public static String SUEWS_NARP_STR_kup_Gr = "kup_Gr";
+	public static String SUEWS_NARP_STR_kup_wtr = "kup_wtr";
+	public static String SUEWS_NARP_STR_lup_pav = "lup_pav";
+	public static String SUEWS_NARP_STR_lup_blg = "lup_blg";
+	public static String SUEWS_NARP_STR_lup_con = "lup_con";
+	public static String SUEWS_NARP_STR_lup_dec = "lup_dec";
+	public static String SUEWS_NARP_STR_lup_Irrgr = "lup_Irrgr";
+	public static String SUEWS_NARP_STR_lup_Gr = "lup_Gr";
+	public static String SUEWS_NARP_STR_lup_wtr = "lup_wtr";
+	public static String SUEWS_NARP_STR_Ts_pav = "Ts_pav";
+	public static String SUEWS_NARP_STR_Ts_blg = "Ts_blg";
+	public static String SUEWS_NARP_STR_Ts_con = "Ts_con";
+	public static String SUEWS_NARP_STR_Ts_dec = "Ts_dec";
+	public static String SUEWS_NARP_STR_Ts_Irrgr = "Ts_Irrgr";
+	public static String SUEWS_NARP_STR_Ts_Gr = "Ts_Gr";
+	public static String SUEWS_NARP_STR_Ts_wtr = "Ts_wtr";
+	public static String SUEWS_NARP_STR_qn_pav = "qn_pav";
+	public static String SUEWS_NARP_STR_qn_blg = "qn_blg";
+	public static String SUEWS_NARP_STR_qn_con = "qn_con";
+	public static String SUEWS_NARP_STR_qn_dec = "qn_dec";
+	public static String SUEWS_NARP_STR_qn_Irrgr = "qn_Irrgr";
+	public static String SUEWS_NARP_STR_qn_Gr = "qn_Gr";
+	public static String SUEWS_NARP_STR_qn_wtr = "qn_wtr";
+	public static String SUEWS_NARP_STR_FormattedDate = "FormattedDate";
+
+	public static int LINES_TO_SKIP_NARP = 0;
+	public static int LINES_TO_SKIP_DAILY_FILE = 0;
+	public static int LINES_TO_SKIP_60 = 4;
+
+	public static String SUEWS_DAILY_FILE_day = "1";
+	public static String SUEWS_DAILY_FILE_STR_day = "day";
+
+	public static String SUEWS_DAILY_FILE_counter = "2";
+	public static String SUEWS_DAILY_FILE_STR_counter = "counter";
+
+	public static String SUEWS_DAILY_FILE_qn = "3";
+	public static String SUEWS_DAILY_FILE_STR_qn = "qn";
+
+	public static String SUEWS_DAILY_FILE_qs = "4";
+	public static String SUEWS_DAILY_FILE_STR_qs = "qs";
+
+	public static String SUEWS_DAILY_FILE_qf = "5";
+	public static String SUEWS_DAILY_FILE_STR_qf = "qf";
+
+	public static String SUEWS_DAILY_FILE_qe_S = "6";
+	public static String SUEWS_DAILY_FILE_STR_qe_S = "qe_S";
+
+	public static String SUEWS_DAILY_FILE_pp = "7";
+	public static String SUEWS_DAILY_FILE_STR_pp = "pp";
+
+	public static String SUEWS_DAILY_FILE_ext_Ie = "8";
+	public static String SUEWS_DAILY_FILE_STR_ext_Ie = "ext_Ie";
+
+	public static String SUEWS_DAILY_FILE_int_Ie = "9";
+	public static String SUEWS_DAILY_FILE_STR_int_Ie = "int_Ie";
+
+	public static String SUEWS_DAILY_FILE_tot_ie = "10";
+	public static String SUEWS_DAILY_FILE_STR_tot_ie = "tot_ie";
+
+	public static String SUEWS_DAILY_FILE_E_S = "11";
+	public static String SUEWS_DAILY_FILE_STR_E_S = "E_S";
+
+	public static String SUEWS_DAILY_FILE_Change = "12";
+	public static String SUEWS_DAILY_FILE_STR_Change = "Change";
+
+	public static String SUEWS_DAILY_FILE_R_Soil = "13";
+	public static String SUEWS_DAILY_FILE_STR_R_Soil = "R_Soil";
+
+	public static String SUEWS_DAILY_FILE_R = "14";
+	public static String SUEWS_DAILY_FILE_STR_R = "R";
+
+	public static String SUEWS_DAILY_FILE_Fw = "15";
+	public static String SUEWS_DAILY_FILE_STR_Fw = "Fw";
+
+	public static String SUEWS_DAILY_FILE_addWater = "16";
+	public static String SUEWS_DAILY_FILE_STR_addWater = "addWater";
+
+	public static String SUEWS_DAILY_FILE_STR_FormattedDate = "FormattedDate";
+	public static String SUEWS_DAILY_FILE_FormattedDate = "16";
+
+	public SUEWSDataFile(String path, String filename, boolean skipEveryOtherLine, int initialLinesToSkip)
 	{
 		super();
 
@@ -29,7 +149,7 @@ public class SUEWSDataFile
 		setPath(path);
 		setFilename(filename);
 		setYear(parseYear(filename));
-		readDataFile(path, filename, skipEveryOtherLine);
+		readDataFile(path, filename, skipEveryOtherLine, initialLinesToSkip);
 	}
 
 //	public SUEWSDataFile(String path, String filename, boolean reformatFullFile)
@@ -77,17 +197,17 @@ public class SUEWSDataFile
 	public static void main(String[] args)
 	{
 		String path = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DATA_PATH");
-		String filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE");
+		String filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_NARP_FILE");
 
-		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, false);
+		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, LINES_TO_SKIP_NARP);
 		TreeMap<String, ArrayList<String>> theData = sUEWSDataFile.getData();
 		//System.out.println(theData.toString());
 
-		System.out.println(theData.get("kup").toString());
+		System.out.println(theData.get(SUEWS_NARP_STR_kup_blg).toString());
 
 	}
 
-	public void readDataFile(String path, String filename, boolean skipEveryOtherLine)
+	public void readDataFile(String path, String filename, boolean skipEveryOtherLine, int initialLinesToSkip)
 	{
 		String dataFile = path + File.separator + filename;
 
@@ -105,14 +225,21 @@ public class SUEWSDataFile
 
 			if (dis.available()>0)
 			{
-				//use up lines
-				dis.readLine(); dis.readLine(); dis.readLine(); dis.readLine();
+				for (int i=0;i<initialLinesToSkip;i++)
+				{
+					//use up lines
+					dis.readLine();
+					//dis.readLine(); dis.readLine(); dis.readLine();
+
+				}
 				String variableStr = dis.readLine();
 				variableStr = variableStr.replaceFirst("%", "");
-				StringTokenizer st = new StringTokenizer(variableStr);
-				while (st.hasMoreTokens())
+				//StringTokenizer st = new StringTokenizer(variableStr);
+				String[] splitString = variableStr.split("\\s+");
+				//while (st.hasMoreTokens())
+				for (String aVariable : splitString)
 				{
-					String aVariable = st.nextToken().trim();
+					//String aVariable = st.nextToken().trim();
 					//System.out.println("Variable=" + aVariable);
 					this.variables.add(aVariable);
 				}
@@ -135,18 +262,30 @@ public class SUEWSDataFile
 						continue;
 					}
 				}
+				if (dataStr != null)
+				{
+					//System.out.println(dataStr);
+					dataStr = dataStr.trim();
+					//System.out.println(dataStr);
+					//System.exit(1);
+				}
 
-				StringTokenizer st = new StringTokenizer(dataStr);
-				while (st.hasMoreTokens())
+				//StringTokenizer st = new StringTokenizer(dataStr);
+				String[] splitString = dataStr.split("\\s+");
+				//while (st.hasMoreTokens())
+				for (String variableValue : splitString)
 				{
 					String variableName = this.variables.get(count);
-					ArrayList dataSet = this.data.get(variableName);
+					//System.out.println("variableName=" + variableName);
+					ArrayList<String> dataSet = this.data.get(variableName);
 					if (dataSet == null)
 					{
 						dataSet = new ArrayList<String>();
 					}
 
-					String variableValue = st.nextToken().trim();
+					//String variableValue = st.nextToken().trim();
+					variableValue = variableValue.trim();
+					//System.out.println("variableValue=" + variableValue);
 
 					dataSet.add(variableValue);
 					this.data.put(variableName, dataSet);

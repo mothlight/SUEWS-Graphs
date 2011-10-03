@@ -24,7 +24,7 @@ public class SuewsPrestonComparisonGraphs
 	ENVICommon common = new ENVICommon();
 
 	public static String XRANGE_BEG = "2004-001-0000";
-	public static String XRANGE_END = "2004-005-0000";
+	public static String XRANGE_END = "2004-004-0000";
 	//public static String GRAPH_SIZE = "1024,600";
 	public static String GRAPH_SIZE = "1536,900";
 
@@ -138,7 +138,7 @@ public class SuewsPrestonComparisonGraphs
 		String suewsFilename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE");
 
 		ProcessSUEWSRun processSUEWSRun = new ProcessSUEWSRun();
-		SUEWSDataFile suewsDataFile = new SUEWSDataFile(suewsPath, suewsFilename, true);
+		SUEWSDataFile suewsDataFile = new SUEWSDataFile(suewsPath, suewsFilename, true, SUEWSDataFile.LINES_TO_SKIP_60);
 		suewsDataFile.setPath(graphDir);
 		processSUEWSRun.generateReformattedDataFile(suewsDataFile);
 		//String timeField = "dectime";
@@ -220,10 +220,219 @@ public class SuewsPrestonComparisonGraphs
 		prestonVariableNumber = PRESTON_Anthrop;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 
-
-
 		suewsPrestonComparisonGraphs.plotDataMultiples(suewsDataFile, variableArray, prestonDataFile, suewsVariableNumberArray, prestonVariableNumberArray, suewsTimeField, prestonTimeField, "EnergyBalance");
 
+//----------------------------------
+
+		String path = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DATA_PATH");
+		String filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_NARP_FILE");
+
+		ArrayList<String> variableArray2 = new ArrayList<String>();
+		ArrayList<String> suewsVariableNumberArray2 = new ArrayList<String>();
+
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_kup_pav);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_kup_pav);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_kup_blg);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_kup_blg);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_kup_con);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_kup_con);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_kup_dec);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_kup_dec);
+
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_kup_Irrgr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_kup_Irrgr);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_kup_Gr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_kup_Gr);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_kup_wtr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_kup_wtr);
+
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_lup_pav);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_lup_pav);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_lup_blg);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_lup_blg);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_lup_con);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_lup_con);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_lup_dec);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_lup_dec);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_lup_Irrgr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_lup_Irrgr);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_lup_Gr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_lup_Gr);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_lup_wtr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_lup_wtr);
+
+		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, SUEWSDataFile.LINES_TO_SKIP_NARP);
+		sUEWSDataFile.setPath(graphDir);
+		String dayFieldNarpFile = SUEWSDataFile.SUEWS_NARP_STR_day;
+		String timeFieldNarpFile = SUEWSDataFile.SUEWS_NARP_STR_dectime;
+		processSUEWSRun.generateReformattedGenericDataFile(sUEWSDataFile, dayFieldNarpFile, timeFieldNarpFile);
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_NARP_REFORMAT_FormattedDate, "NARP_K_L");
+
+		variableArray2.clear();
+		suewsVariableNumberArray2.clear();
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_Ts_pav);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_pav);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_Ts_blg);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_blg);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_Ts_con);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_con);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_Ts_dec);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_dec);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_Ts_Irrgr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_Irrgr);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_Ts_Gr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_Gr);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_Ts_wtr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_wtr);
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_NARP_REFORMAT_FormattedDate, "NARP_T");
+
+		variableArray2.clear();
+		suewsVariableNumberArray2.clear();
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_qn_pav);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_pav);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_qn_blg);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_blg);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_qn_con);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_con);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_qn_dec);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_dec);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_qn_Irrgr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_Irrgr);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_qn_Gr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_Gr);
+		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_qn_wtr);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_wtr);
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_NARP_REFORMAT_FormattedDate, "NARP_Q");
+
+// ----------------------------------
+
+		path = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DATA_PATH");
+		filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DAILY_FILE");
+
+		sUEWSDataFile = new SUEWSDataFile(path, filename, true, SUEWSDataFile.LINES_TO_SKIP_DAILY_FILE);
+		sUEWSDataFile.setPath(graphDir);
+		String dayFieldDailyFile = SUEWSDataFile.SUEWS_DAILY_FILE_day;
+		String timeFieldDailyFile = SUEWSDataFile.SUEWS_DAILY_FILE_counter;
+		processSUEWSRun.generateReformattedGenericDataFile(sUEWSDataFile, dayFieldDailyFile, timeFieldDailyFile);
+
+		variableArray2 = new ArrayList<String>();
+		suewsVariableNumberArray2 = new ArrayList<String>();
+
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_qn);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_qn);
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_qs);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_qs);
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_qf);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_qf);
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_qe_S);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_qe_S);
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_DAILY_FILE_STR_FormattedDate, "DAILY_Q");
+
+		variableArray2.clear();
+		suewsVariableNumberArray2.clear();
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_ext_Ie);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_ext_Ie);
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_int_Ie);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_int_Ie);
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_tot_ie);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_tot_ie);
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_DAILY_FILE_STR_FormattedDate, "DAILY_IE");
+
+		variableArray2.clear();
+		suewsVariableNumberArray2.clear();
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_R_Soil);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_R_Soil);
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_R);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_R);
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_DAILY_FILE_STR_FormattedDate, "DAILY_R");
+
+		variableArray2.clear();
+		suewsVariableNumberArray2.clear();
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_E_S);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_E_S);
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_Change);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_Change);
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_Fw);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_Fw);
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_addWater);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_addWater);
+		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_pp);
+		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_pp);
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_DAILY_FILE_STR_FormattedDate, "DAILY_VAR");
+
+	}
+
+	public void plotDataMultiples(SUEWSDataFile sUEWSDataFile, ArrayList<String> variableArray,
+			ArrayList<String> suewsVariableNumberArray, String suewsTimeField, String graphPrefix)
+	{
+		String suewsDataFileName = sUEWSDataFile.getPath() + sUEWSDataFile.getFilename() + ".gnuplot.dat";
+		//String prestonDataFileName = prestonDataFile.getPath() + prestonDataFile.getFilename() + ".gnuplot.dat";
+		String outputFile = sUEWSDataFile.getPath() + sUEWSDataFile.getFilename() + "_" + graphPrefix + ".png";
+
+		Plot.setGnuplotExecutable("gnuplot");
+		String plotDirectory = sUEWSDataFile.getPath().substring(0, sUEWSDataFile.getPath().length()-1);
+		Plot.setPlotDirectory(plotDirectory);
+		Plot aPlot = new Plot();
+
+		aPlot.setTitle("Plot for " + graphPrefix);
+		aPlot.setGrid();
+		aPlot.setKey("right box");
+		aPlot.unsetParametric();
+		aPlot.unsetPolar();
+		aPlot.setOutput(Terminal.PNG, outputFile, " " + GRAPH_SIZE + "  enhanced font Vera 14 ");
+		aPlot.unsetLogscale();
+		aPlot.setYTics("nomirror");
+		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 pi 20");
+		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 pi 20");
+		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 pi 20");
+		aPlot.addExtra("set style line 4 linecolor rgbcolor \"#988f03\" lw 2 pt 4 ps 1 pi 20");
+		aPlot.addExtra("set style line 5 linecolor rgbcolor \"#be7400\" lw 2 pt 5 ps 1 pi 20");
+		aPlot.addExtra("set style line 6 linecolor rgbcolor \"#00AA00\" lw 2 pt 6 ps 1 pi 20");
+		aPlot.addExtra("set style line 7 linecolor rgbcolor \"#00b7be\" lw 2 pt 7 ps 1 pi 20");
+		aPlot.addExtra("set style line 8 linecolor rgbcolor \"#808080\" lw 2 pt 8 ps 1 pi 20");
+		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 pi 20");
+		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 pi 20");
+		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 pi 20");
+
+		aPlot.addExtra("set tmargin 1");
+		aPlot.addExtra("set bmargin 2");
+		aPlot.addExtra("set lmargin 6");
+		aPlot.addExtra("set rmargin 1");
+
+		aPlot.addExtra("set xdata time");
+		aPlot.addExtra("set timefmt '%Y-%j-%H%M'");
+		aPlot.addExtra("set xrange [\"" + XRANGE_BEG + "\":\"" + XRANGE_END + "\"]");
+
+		aPlot.addExtra("set dgrid3d 10,10,1");
+		aPlot.addExtra("set ylabel \" " + graphPrefix + "\"");
+		String xLabel = "Time";
+		aPlot.addExtra("set xlabel \" " + xLabel + "\"");
+
+		aPlot.setDataFileName(suewsDataFileName);
+
+		for (int i=0;i<variableArray.size();i++)
+		{
+			String variable = variableArray.get(i);
+			String suewsVariableNumber = suewsVariableNumberArray.get(i);
+			//String prestonVariableNumber = prestonVariableNumberArray.get(i);
+
+			aPlot.pushGraph(new Graph(suewsDataFileName, suewsTimeField + ":" + suewsVariableNumber, Axes.X1Y1, variable + "-SUEWS", Style.LINESPOINTS, LineType.NOT_SPECIFIED, PointType.NOT_SPECIFIED));
+			//aPlot.pushGraph(new Graph(prestonDataFileName, prestonTimeField + ":" + prestonVariableNumber, Axes.X1Y1, variable + "-Preston", Style.LINESPOINTS, LineType.NOT_SPECIFIED, PointType.NOT_SPECIFIED));
+		}
+
+		try
+		{
+//			OutputStream stdin = null;
+//		    InputStream stderr = null;
+//		    InputStream stdout = null;
+//		    String line;
+			String plotCommand = aPlot.plot();
+			plotCmd(plotCommand, plotDirectory);
+
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void plotDataMultiples(SUEWSDataFile sUEWSDataFile, ArrayList<String> variableArray, PrestonDataFile prestonDataFile,

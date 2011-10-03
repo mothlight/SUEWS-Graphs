@@ -43,7 +43,7 @@ public class ProcessSUEWSRun {
 	public void process(String path, String filename)
 	{
 
-		SUEWSDataFile suewsDataFile = new SUEWSDataFile(path, filename, false);
+		SUEWSDataFile suewsDataFile = new SUEWSDataFile(path, filename, false, SUEWSDataFile.LINES_TO_SKIP_60);
 		//System.out.println(suewsDataFile.getVariables().toString());
 		//TreeMap<String, ArrayList<String>> theData = suewsDataFile.getData();
 
@@ -163,6 +163,104 @@ public class ProcessSUEWSRun {
 //					dayOfYear = common.padLeft(dayOfYearStr, 3, '0');
 //				}
 				if (variable.equals("it"))
+				{
+					// if 1, needs to be 0100, if 10, needs to be 1000
+					String timeStr = theData.get(variable).get(i);
+					time = common.padLeft(timeStr, 2, '0');
+					time = common.padRight(time, 4, '0');
+				}
+
+				if (count == variables.size())
+				{
+					String formattedDate = sUEWSDataFile.getYear() + "-" + dayOfYear + "-" + time;
+					outputStr.append(formattedDate + " ");
+				}
+
+			}
+			outputStr.append('\n');
+		}
+
+		String dataFileName = sUEWSDataFile.getPath() + sUEWSDataFile.getFilename() + ".gnuplot.dat";
+		common.writeFile(outputStr.toString(), dataFileName);
+	}
+
+	public void generateReformattedGenericDataFile(SUEWSDataFile sUEWSDataFile, String dayField, String timeField)
+	{
+
+
+		StringBuffer outputStr = new StringBuffer("# ");
+
+		ArrayList<String> variables = sUEWSDataFile.getVariables();
+		int count = 0;
+
+		for (String variable : variables)
+		{
+			if (count ==0)
+			{
+				//skip this one
+				count++;
+				continue;
+			}
+			else if (count == 1)
+			{
+				outputStr.append(variables.get(0) + "-" + variable + " ");
+				count++;
+			}
+			else
+			{
+				outputStr.append(variable + " ");
+				count++;
+			}
+
+			if (count == variables.size())
+			{
+				String formattedDate = PrestonDataFile.FORMATTED_DATE;
+				outputStr.append(formattedDate + " ");
+			}
+
+
+
+		}
+		outputStr.append('\n');
+
+
+		TreeMap<String, ArrayList<String>> theData = sUEWSDataFile.getData();
+		ArrayList<String> timeArray = theData.get(dayField);
+		//ArrayList<String> varibleArray = theData.get(variable);
+
+		String dayOfYear = "";
+		String time = "";
+		for (int i = 0;i<timeArray.size();i++)
+		{
+			count = 0;
+			for (String variable : variables)
+			{
+				if (count == 0)
+				{
+					String dayOfYearStr = theData.get(variable).get(i);
+					dayOfYear = common.padLeft(dayOfYearStr, 3, '0');
+
+					count++;
+					//skip this one
+					continue;
+				}
+				else if (count == 1)
+				{
+					outputStr.append(theData.get(dayField).get(i) + "-" + theData.get(timeField).get(i) + " ");
+					count++;
+				}
+				else
+				{
+					outputStr.append(theData.get(variable).get(i) + " ");
+					count++;
+				}
+
+//				if (variable.equals("id"))
+//				{
+//					String dayOfYearStr = theData.get(variable).get(i);
+//					dayOfYear = common.padLeft(dayOfYearStr, 3, '0');
+//				}
+				if (variable.equals(timeField))
 				{
 					// if 1, needs to be 0100, if 10, needs to be 1000
 					String timeStr = theData.get(variable).get(i);
