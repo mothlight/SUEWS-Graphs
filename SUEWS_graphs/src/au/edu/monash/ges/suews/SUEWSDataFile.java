@@ -85,55 +85,55 @@ public class SUEWSDataFile
 	public static String SUEWS_NARP_STR_FormattedDate = "FormattedDate";
 
 	public static int LINES_TO_SKIP_NARP = 0;
-	public static int LINES_TO_SKIP_DAILY_FILE = 0;
+	public static int LINES_TO_SKIP_DAILY_FILE = 1;
 	public static int LINES_TO_SKIP_60 = 4;
 
 	public static String SUEWS_DAILY_FILE_day = "1";
 	public static String SUEWS_DAILY_FILE_STR_day = "day";
 
-	public static String SUEWS_DAILY_FILE_counter = "2";
+	public static String SUEWS_DAILY_FILE_counter = "1";
 	public static String SUEWS_DAILY_FILE_STR_counter = "counter";
 
-	public static String SUEWS_DAILY_FILE_qn = "3";
+	public static String SUEWS_DAILY_FILE_qn = "2";
 	public static String SUEWS_DAILY_FILE_STR_qn = "qn";
 
-	public static String SUEWS_DAILY_FILE_qs = "4";
+	public static String SUEWS_DAILY_FILE_qs = "3";
 	public static String SUEWS_DAILY_FILE_STR_qs = "qs";
 
-	public static String SUEWS_DAILY_FILE_qf = "5";
+	public static String SUEWS_DAILY_FILE_qf = "4";
 	public static String SUEWS_DAILY_FILE_STR_qf = "qf";
 
-	public static String SUEWS_DAILY_FILE_qe_S = "6";
+	public static String SUEWS_DAILY_FILE_qe_S = "5";
 	public static String SUEWS_DAILY_FILE_STR_qe_S = "qe_S";
 
-	public static String SUEWS_DAILY_FILE_pp = "7";
+	public static String SUEWS_DAILY_FILE_pp = "6";
 	public static String SUEWS_DAILY_FILE_STR_pp = "pp";
 
-	public static String SUEWS_DAILY_FILE_ext_Ie = "8";
+	public static String SUEWS_DAILY_FILE_ext_Ie = "7";
 	public static String SUEWS_DAILY_FILE_STR_ext_Ie = "ext_Ie";
 
-	public static String SUEWS_DAILY_FILE_int_Ie = "9";
+	public static String SUEWS_DAILY_FILE_int_Ie = "8";
 	public static String SUEWS_DAILY_FILE_STR_int_Ie = "int_Ie";
 
-	public static String SUEWS_DAILY_FILE_tot_ie = "10";
+	public static String SUEWS_DAILY_FILE_tot_ie = "9";
 	public static String SUEWS_DAILY_FILE_STR_tot_ie = "tot_ie";
 
-	public static String SUEWS_DAILY_FILE_E_S = "11";
+	public static String SUEWS_DAILY_FILE_E_S = "10";
 	public static String SUEWS_DAILY_FILE_STR_E_S = "E_S";
 
-	public static String SUEWS_DAILY_FILE_Change = "12";
+	public static String SUEWS_DAILY_FILE_Change = "11";
 	public static String SUEWS_DAILY_FILE_STR_Change = "Change";
 
-	public static String SUEWS_DAILY_FILE_R_Soil = "13";
+	public static String SUEWS_DAILY_FILE_R_Soil = "12";
 	public static String SUEWS_DAILY_FILE_STR_R_Soil = "R_Soil";
 
-	public static String SUEWS_DAILY_FILE_R = "14";
+	public static String SUEWS_DAILY_FILE_R = "13";
 	public static String SUEWS_DAILY_FILE_STR_R = "R";
 
-	public static String SUEWS_DAILY_FILE_Fw = "15";
+	public static String SUEWS_DAILY_FILE_Fw = "14";
 	public static String SUEWS_DAILY_FILE_STR_Fw = "Fw";
 
-	public static String SUEWS_DAILY_FILE_addWater = "16";
+	public static String SUEWS_DAILY_FILE_addWater = "15";
 	public static String SUEWS_DAILY_FILE_STR_addWater = "addWater";
 
 	public static String SUEWS_DAILY_FILE_STR_FormattedDate = "FormattedDate";
@@ -197,13 +197,13 @@ public class SUEWSDataFile
 	public static void main(String[] args)
 	{
 		String path = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DATA_PATH");
-		String filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_NARP_FILE");
+		String filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DAILY_FILE");
 
-		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, LINES_TO_SKIP_NARP);
+		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, LINES_TO_SKIP_DAILY_FILE);
 		TreeMap<String, ArrayList<String>> theData = sUEWSDataFile.getData();
-		//System.out.println(theData.toString());
+		System.out.println(theData.toString());
 
-		System.out.println(theData.get(SUEWS_NARP_STR_kup_blg).toString());
+		System.out.println(theData.get(SUEWS_DAILY_FILE_STR_Change).toString());
 
 	}
 
@@ -286,6 +286,10 @@ public class SUEWSDataFile
 					//String variableValue = st.nextToken().trim();
 					variableValue = variableValue.trim();
 					//System.out.println("variableValue=" + variableValue);
+					if (variableName.equals(SUEWS_DAILY_FILE_STR_counter))
+					{
+						variableValue = "1200";
+					}
 
 					dataSet.add(variableValue);
 					this.data.put(variableName, dataSet);

@@ -203,7 +203,20 @@ public class ProcessSUEWSRun {
 			}
 			else if (count == 1)
 			{
-				outputStr.append(variables.get(0) + "-" + variable + " ");
+				String dayStr = variables.get(0);
+//				int dayStrEndPos = dayStr.length() -1;
+//				//remove following . if there is one.
+//				if (dayStr.charAt(dayStrEndPos) == '.' )
+//				{
+//					dayStr = dayStr.substring(0,dayStrEndPos-1);
+//				}
+				String hourStr = variable;
+//				int hourStrEndPos = dayStr.length() -1;
+//				if (hourStr.charAt(hourStrEndPos) == '.' )
+//				{
+//					hourStr = hourStr.substring(0,hourStrEndPos-1);
+//				}
+				outputStr.append(dayStr + "-" + hourStr + " ");
 				count++;
 			}
 			else
@@ -238,6 +251,13 @@ public class ProcessSUEWSRun {
 				if (count == 0)
 				{
 					String dayOfYearStr = theData.get(variable).get(i);
+					int dayStrEndPos = dayOfYearStr.length() ;
+					//remove following . if there is one.
+					if (dayOfYearStr.endsWith(".") )
+					{
+						dayOfYearStr = dayOfYearStr.substring(0,dayStrEndPos-1);
+					}
+
 					dayOfYear = common.padLeft(dayOfYearStr, 3, '0');
 
 					count++;
@@ -246,7 +266,28 @@ public class ProcessSUEWSRun {
 				}
 				else if (count == 1)
 				{
-					outputStr.append(theData.get(dayField).get(i) + "-" + theData.get(timeField).get(i) + " ");
+					String dayStr = theData.get(dayField).get(i);
+					String timeStr = theData.get(timeField).get(i);
+
+					int dayStrEndPos = dayStr.length() ;
+					//remove following . if there is one.
+					if (dayStr.endsWith(".") )
+					{
+						dayStr = dayStr.substring(0,dayStrEndPos-1);
+					}
+					int timeStrEndPos = timeStr.length() -1;
+					if (timeStr.equals("48."))
+					{
+						timeStr = "1200";
+					}
+
+					//remove following . if there is one.
+					if (timeStr.endsWith(".") )
+					{
+						timeStr = timeStr.substring(0,timeStrEndPos-1);
+					}
+
+					outputStr.append(dayStr + "-" + timeStr + " ");
 					count++;
 				}
 				else

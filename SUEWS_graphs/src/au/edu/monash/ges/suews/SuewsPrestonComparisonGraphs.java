@@ -23,10 +23,13 @@ public class SuewsPrestonComparisonGraphs
 
 	ENVICommon common = new ENVICommon();
 
-	public static String XRANGE_BEG = "2004-001-0000";
-	public static String XRANGE_END = "2004-004-0000";
+	public String XRANGE_BEG = "2004-001-0000";
+	public String XRANGE_END = "2004-004-0000";
 	//public static String GRAPH_SIZE = "1024,600";
 	public static String GRAPH_SIZE = "1536,900";
+
+	public static boolean SKIP_LINES_TRUE = true;
+	public static boolean SKIP_LINES_FALSE = false;
 
 	public static String PRESTON_Year = "1";
 	public static String PRESTON_Day_of_year = "2";
@@ -138,7 +141,7 @@ public class SuewsPrestonComparisonGraphs
 		String suewsFilename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE");
 
 		ProcessSUEWSRun processSUEWSRun = new ProcessSUEWSRun();
-		SUEWSDataFile suewsDataFile = new SUEWSDataFile(suewsPath, suewsFilename, true, SUEWSDataFile.LINES_TO_SKIP_60);
+		SUEWSDataFile suewsDataFile = new SUEWSDataFile(suewsPath, suewsFilename, SKIP_LINES_TRUE, SUEWSDataFile.LINES_TO_SKIP_60);
 		suewsDataFile.setPath(graphDir);
 		processSUEWSRun.generateReformattedDataFile(suewsDataFile);
 		//String timeField = "dectime";
@@ -261,7 +264,7 @@ public class SuewsPrestonComparisonGraphs
 		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_lup_wtr);
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_lup_wtr);
 
-		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, SUEWSDataFile.LINES_TO_SKIP_NARP);
+		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, SKIP_LINES_TRUE, SUEWSDataFile.LINES_TO_SKIP_NARP);
 		sUEWSDataFile.setPath(graphDir);
 		String dayFieldNarpFile = SUEWSDataFile.SUEWS_NARP_STR_day;
 		String timeFieldNarpFile = SUEWSDataFile.SUEWS_NARP_STR_dectime;
@@ -306,13 +309,15 @@ public class SuewsPrestonComparisonGraphs
 
 // ----------------------------------
 
+		suewsPrestonComparisonGraphs.setXRANGE_END("2004-055-0000");
+
 		path = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DATA_PATH");
 		filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DAILY_FILE");
 
-		sUEWSDataFile = new SUEWSDataFile(path, filename, true, SUEWSDataFile.LINES_TO_SKIP_DAILY_FILE);
+		sUEWSDataFile = new SUEWSDataFile(path, filename, SKIP_LINES_FALSE, SUEWSDataFile.LINES_TO_SKIP_DAILY_FILE);
 		sUEWSDataFile.setPath(graphDir);
-		String dayFieldDailyFile = SUEWSDataFile.SUEWS_DAILY_FILE_day;
-		String timeFieldDailyFile = SUEWSDataFile.SUEWS_DAILY_FILE_counter;
+		String dayFieldDailyFile = SUEWSDataFile.SUEWS_DAILY_FILE_STR_day;
+		String timeFieldDailyFile = SUEWSDataFile.SUEWS_DAILY_FILE_STR_counter;
 		processSUEWSRun.generateReformattedGenericDataFile(sUEWSDataFile, dayFieldDailyFile, timeFieldDailyFile);
 
 		variableArray2 = new ArrayList<String>();
@@ -326,7 +331,7 @@ public class SuewsPrestonComparisonGraphs
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_qf);
 		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_qe_S);
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_qe_S);
-		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_DAILY_FILE_STR_FormattedDate, "DAILY_Q");
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, suewsVariableNumberArray2, variableArray2, SUEWSDataFile.SUEWS_DAILY_FILE_FormattedDate, "DAILY_Q");
 
 		variableArray2.clear();
 		suewsVariableNumberArray2.clear();
@@ -336,7 +341,7 @@ public class SuewsPrestonComparisonGraphs
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_int_Ie);
 		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_tot_ie);
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_tot_ie);
-		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_DAILY_FILE_STR_FormattedDate, "DAILY_IE");
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, suewsVariableNumberArray2, variableArray2, SUEWSDataFile.SUEWS_DAILY_FILE_FormattedDate, "DAILY_IE");
 
 		variableArray2.clear();
 		suewsVariableNumberArray2.clear();
@@ -344,7 +349,7 @@ public class SuewsPrestonComparisonGraphs
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_R_Soil);
 		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_R);
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_R);
-		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_DAILY_FILE_STR_FormattedDate, "DAILY_R");
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, suewsVariableNumberArray2, variableArray2, SUEWSDataFile.SUEWS_DAILY_FILE_FormattedDate, "DAILY_R");
 
 		variableArray2.clear();
 		suewsVariableNumberArray2.clear();
@@ -358,7 +363,7 @@ public class SuewsPrestonComparisonGraphs
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_addWater);
 		variableArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_pp);
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_DAILY_FILE_STR_pp);
-		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_DAILY_FILE_STR_FormattedDate, "DAILY_VAR");
+		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, suewsVariableNumberArray2, variableArray2, SUEWSDataFile.SUEWS_DAILY_FILE_FormattedDate, "DAILY_VAR");
 
 	}
 
@@ -662,5 +667,24 @@ public class SuewsPrestonComparisonGraphs
 		common.writeFile(outputStr.toString(), dataFileName);
 	}
 
+	public String getXRANGE_BEG()
+	{
+		return XRANGE_BEG;
+	}
+
+	public void setXRANGE_BEG(String xRANGE_BEG)
+	{
+		XRANGE_BEG = xRANGE_BEG;
+	}
+
+	public String getXRANGE_END()
+	{
+		return XRANGE_END;
+	}
+
+	public void setXRANGE_END(String xRANGE_END)
+	{
+		XRANGE_END = xRANGE_END;
+	}
 
 }
