@@ -19,6 +19,19 @@ public class SUEWSDataFile
 //		// TODO Auto-generated constructor stub
 //	}
 
+	public static String SUEWS_id = "id";
+	public static String SUEWS_it = "it";
+	public static String SUEWS_kdown = "kdown";
+	public static String SUEWS_kup = "kup";
+	public static String SUEWS_ldown = "ldown";
+	public static String SUEWS_lup = "lup";
+	public static String SUEWS_QH = "QH";
+	public static String SUEWS_QE = "QE";
+	public static String SUEWS_qs = "qs";
+
+	public static String SUEWS_availableEnergy = "availableEnergy";
+	public static String SUEWS_dailyEnergyBalance = "dailyEnergyBalance";
+	public static String SUEWS_Rn_G_H_LE = "Rn_G_H_LE";
 
 	public static String SUEWS_NARP_day = "1";
 	public static String SUEWS_NARP_dectime = "2";

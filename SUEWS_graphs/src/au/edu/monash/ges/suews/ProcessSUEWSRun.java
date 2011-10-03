@@ -118,6 +118,11 @@ public class ProcessSUEWSRun {
 			{
 				String formattedDate = PrestonDataFile.FORMATTED_DATE;
 				outputStr.append(formattedDate + " ");
+
+				outputStr.append("availableEnergy" + " ");
+				outputStr.append("dailyEnergyBalance" + " ");
+				outputStr.append("Rn_G_H_LE" + " ");
+
 			}
 
 
@@ -127,7 +132,7 @@ public class ProcessSUEWSRun {
 
 
 		TreeMap<String, ArrayList<String>> theData = sUEWSDataFile.getData();
-		ArrayList<String> timeArray = theData.get("id");
+		ArrayList<String> timeArray = theData.get(SUEWSDataFile.SUEWS_id);
 		//ArrayList<String> varibleArray = theData.get(variable);
 
 		String dayOfYear = "";
@@ -135,6 +140,11 @@ public class ProcessSUEWSRun {
 		for (int i = 0;i<timeArray.size();i++)
 		{
 			count = 0;
+
+			String kdown = null, kup = null, ldown = null, lup = null, QG = null, QH = null, QE = null;
+			Double availableEnergy = 0.0, dailyEnergyBalance = 0.0, Rn_G_H_LE = 0.0;
+
+
 			for (String variable : variables)
 			{
 				if (count == 0)
@@ -148,7 +158,7 @@ public class ProcessSUEWSRun {
 				}
 				else if (count == 1)
 				{
-					outputStr.append(theData.get("id").get(i) + "-" + theData.get("it").get(i) + " ");
+					outputStr.append(theData.get(SUEWSDataFile.SUEWS_id).get(i) + "-" + theData.get(SUEWSDataFile.SUEWS_it).get(i) + " ");
 					count++;
 				}
 				else
@@ -162,7 +172,7 @@ public class ProcessSUEWSRun {
 //					String dayOfYearStr = theData.get(variable).get(i);
 //					dayOfYear = common.padLeft(dayOfYearStr, 3, '0');
 //				}
-				if (variable.equals("it"))
+				if (variable.equals(SUEWSDataFile.SUEWS_it))
 				{
 					// if 1, needs to be 0100, if 10, needs to be 1000
 					String timeStr = theData.get(variable).get(i);
@@ -170,10 +180,51 @@ public class ProcessSUEWSRun {
 					time = common.padRight(time, 4, '0');
 				}
 
+				if (variable.equals(SUEWSDataFile.SUEWS_kup))
+				{
+					kup = theData.get(variable).get(i);
+				}
+				else if (variable.equals(SUEWSDataFile.SUEWS_kdown))
+				{
+					kdown = theData.get(variable).get(i);
+				}
+				else if (variable.equals(SUEWSDataFile.SUEWS_ldown))
+				{
+					ldown = theData.get(variable).get(i);
+				}
+				else if (variable.equals(SUEWSDataFile.SUEWS_lup))
+				{
+					lup = theData.get(variable).get(i);
+				}
+				else if (variable.equals(SUEWSDataFile.SUEWS_QH))
+				{
+					QH = theData.get(variable).get(i);
+				}
+				else if (variable.equals(SUEWSDataFile.SUEWS_QE))
+				{
+					QE = theData.get(variable).get(i);
+				}
+				else if (variable.equals(SUEWSDataFile.SUEWS_qs))
+				{
+					QG = theData.get(variable).get(i);
+				}
+
 				if (count == variables.size())
 				{
 					String formattedDate = sUEWSDataFile.getYear() + "-" + dayOfYear + "-" + time;
 					outputStr.append(formattedDate + " ");
+				}
+
+				if (count == variables.size())
+				{
+					ArrayList<Double> energyBalanceValues = common.energyBalance(kdown, kup, ldown, lup, QG, QH, QE);
+					availableEnergy = energyBalanceValues.get(0);
+					dailyEnergyBalance = energyBalanceValues.get(1);
+					Rn_G_H_LE = energyBalanceValues.get(2);
+
+					outputStr.append(availableEnergy + " ");
+					outputStr.append(dailyEnergyBalance + " ");
+					outputStr.append(Rn_G_H_LE + " ");
 				}
 
 			}

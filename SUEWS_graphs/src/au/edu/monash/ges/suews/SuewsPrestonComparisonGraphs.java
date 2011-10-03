@@ -23,8 +23,8 @@ public class SuewsPrestonComparisonGraphs
 
 	ENVICommon common = new ENVICommon();
 
-	public String XRANGE_BEG = "2004-001-0000";
-	public String XRANGE_END = "2004-004-0000";
+	public String XRANGE_BEG = "2004-002-0000";
+	public String XRANGE_END = "2004-005-0000";
 	//public static String GRAPH_SIZE = "1024,600";
 	public static String GRAPH_SIZE = "1536,900";
 
@@ -112,6 +112,10 @@ public class SuewsPrestonComparisonGraphs
 	public static String SUEWS_addWater = "49";
 	public static String SUEWS_FormattedDate = "50";
 
+	public static String SUEWS_availableEnergy = "51";
+	public static String SUEWS_dailyEnergyBalance = "52";
+	public static String SUEWS_Rn_G_H_LE = "53";
+
 
 	/**
 	 * @param args
@@ -159,6 +163,36 @@ public class SuewsPrestonComparisonGraphs
 		suewsVariableNumber = SUEWS_Tsurf;
 		prestonVariableNumber =  PRESTON_Temp ;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
+
+//		public static String SUEWS_availableEnergy = "availableEnergy";
+//		public static String SUEWS_dailyEnergyBalance = "dailyEnergyBalance";
+//		public static String SUEWS_Rn_G_H_LE = "Rn_G_H_LE";
+//
+//		public static String SUEWS_availableEnergy = "51";
+//		public static String SUEWS_dailyEnergyBalance = "52";
+//		public static String SUEWS_Rn_G_H_LE = "53";
+
+		ArrayList<String> energyVariableArray = new ArrayList<String>();
+		ArrayList<String> energyVariableNumberArray = new ArrayList<String>();
+		energyVariableArray.add(SUEWSDataFile.SUEWS_availableEnergy);
+		energyVariableNumberArray.add(SUEWS_availableEnergy);
+		//prestonVariableNumber =  PRESTON_Temp ;
+		//suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
+
+		energyVariableArray.add(SUEWSDataFile.SUEWS_dailyEnergyBalance);
+		energyVariableNumberArray.add(SUEWS_dailyEnergyBalance);
+		//prestonVariableNumber =  PRESTON_Temp ;
+		//suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
+
+//		energyVariableArray.add(SUEWSDataFile.SUEWS_Rn_G_H_LE);
+//		energyVariableNumberArray.add(SUEWS_Rn_G_H_LE);
+//		//prestonVariableNumber =  PRESTON_Temp ;
+//		//suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
+
+		suewsPrestonComparisonGraphs.plotDataMultiples(suewsDataFile, energyVariableArray, energyVariableNumberArray, SUEWS_FormattedDate, "energyBalance");
+
+
+
 
 		variable = "QH";
 		suewsVariableNumber =  SUEWS_QH;
@@ -686,5 +720,7 @@ public class SuewsPrestonComparisonGraphs
 	{
 		XRANGE_END = xRANGE_END;
 	}
+
+
 
 }

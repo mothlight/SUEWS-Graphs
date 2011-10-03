@@ -109,6 +109,51 @@ public class ENVICommon
 
 	}
 
+	public ArrayList<Double> energyBalance(String kdown, String kup, String ldown, String lup, String QG, String QH, String QE)
+	{
+		ArrayList<Double> returnValues = new ArrayList<Double>();
+
+		if (kdown == null || kup == null || ldown== null || lup== null || QG== null || QH== null || QE== null)
+		{
+			returnValues.add(0.0);
+			returnValues.add(0.0);
+			returnValues.add(0.0);
+			return returnValues;
+		}
+		double swIn = new Double(kdown).doubleValue();
+		double swOut = new Double(kup).doubleValue();
+		double lwIn = new Double(ldown).doubleValue();
+		double lwOut = new Double(lup).doubleValue();
+		double netRadiation = (swIn - swOut) + (lwIn - lwOut);
+		double soilHeatFlux = new Double(QG).doubleValue();
+		double availableEnergy = netRadiation - soilHeatFlux;
+		double sensibleHeatFlux = new Double(QH).doubleValue();
+		double latentHeatFlux = new Double(QE).doubleValue();
+		double dailyEnergyBalance = netRadiation - soilHeatFlux - sensibleHeatFlux - latentHeatFlux;
+		double Rn_G_H_LE = netRadiation - soilHeatFlux - sensibleHeatFlux - latentHeatFlux;
+
+		returnValues.add(availableEnergy);
+		returnValues.add(dailyEnergyBalance);
+		returnValues.add(Rn_G_H_LE);
+
+		return returnValues;
+
+
+//		double swIn = swDirectRadiation + swDiffuseRadiation;
+//		double swOut = (surfaceAlbedo) * (swIn);
+//		//double lwIn = longwaveRadFromEnvironment;
+//		double lwIn = rs.getDouble(REC_QLW_SKY);
+
+//		double lwOut = 0.0000000567 * Math.pow(tSurfaceK, 4);
+//		double netRadiation = (swIn - swOut) + (lwIn - lwOut);
+//		double availableEnergy = netRadiation - soilHeatFlux;
+
+//		double dailyEnergyBalance = netRadiation - soilHeatFlux - sensibleHeatFlux - latentHeatFlux;
+
+		// Rn-G-H-LE
+
+	}
+
 	public String padLeft(String str, int size, char padChar)
 	{
 		//StringBuffer padded = new StringBuffer(str);
@@ -245,19 +290,19 @@ public class ENVICommon
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	public void CalculateH(double t1, double rh1, double t2)  
+
+
+	public void CalculateH(double t1, double rh1, double t2)
 	{
-		
+
 			t1 = t1 + 273.0;
 			t2 = t2 + 273.0;
-					
+
 			double	p0, deltaH, R;
 			p0 = 7.5152E8;
 			deltaH = 42809;
 			R = 8.314;
-					
+
 			double sat_p1, sat_p2, vapor, rh2, dew;
 			sat_p1 = p0 * Math.exp(-deltaH/(R*t1));
 			sat_p2 = p0 * Math.exp(-deltaH/(R*t2));
@@ -268,31 +313,31 @@ public class ENVICommon
 			//vapor = Math.round(vapor*10)/10;
 			//rh2   = Math.round(rh2*10)/10;
 			//dew   = Math.round(dew*10)/10;
-			
+
 			System.out.println("rh2=" + rh2);
 			System.out.println("dew=" + dew);
 			System.out.println("vapor=" + vapor);
-			
-			
-			
+
+
+
 
 //			rh2text   = rh2.toString();
 //			dewtext   = dew.toString();
 //			vaportext = vapor.toString();
-			
+
 	}
-	
-	public void CalculateH(double t1, double rh1)  
+
+	public void CalculateH(double t1, double rh1)
 	{
-		
+
 			t1 = t1 + 273.0;
 			//t2 = t2 + 273.0;
-					
+
 			double	p0, deltaH, R;
 			p0 = 7.5152E8;
 			deltaH = 42809;
 			R = 8.314;
-					
+
 			double sat_p1, sat_p2, vapor, rh2, dew;
 			sat_p1 = p0 * Math.exp(-deltaH/(R*t1));
 			//sat_p2 = p0 * Math.exp(-deltaH/(R*t2));
@@ -303,75 +348,75 @@ public class ENVICommon
 			//vapor = Math.round(vapor*10)/10;
 			//rh2   = Math.round(rh2*10)/10;
 			//dew   = Math.round(dew*10)/10;
-			
+
 			//System.out.println("rh2=" + rh2);
 			System.out.println("dew=" + dew);
 			System.out.println("vapor=" + vapor);
-			
-			
-			
+
+
+
 
 //			rh2text   = rh2.toString();
 //			dewtext   = dew.toString();
 //			vaportext = vapor.toString();
-			
-	}	
-	
-	public double CalculateRH(double tempC, double vapor)  
+
+	}
+
+	public double CalculateRH(double tempC, double vapor)
 	{
 		double rh1=0;
 		double tempK = tempC + 273.0;
-			
+
 		double p0 = 7.5152E8;
 		double deltaH = 42809;
 		double R = 8.314;
-		
+
 		double sat_p1 = 7.5152E8 * Math.exp(-42809/(8.314*tempK));
-		
+
 		rh1 = 100 * vapor / sat_p1;
-		
+
 		//vapor = sat_p1 * rh1/100;
-			
+
 //		double sat_p1 = p0 * Math.exp(-deltaH/(R*tempK));
 //		vapor = sat_p1 * rh1/100;
-		
+
 		//double dew = -deltaH/(R*Math.log(vapor/p0)) - 273;
-			
+
 		//System.out.println("dew=" + dew);
 		System.out.println("vapor=" + vapor);
 		System.out.println("rh1=" + rh1);
-		
+
 		return rh1;
-			
-	}	
-	
-	public double CalculateRH2(double tempC, double vapor)  
+
+	}
+
+	public double CalculateRH2(double tempC, double vapor)
 	{
-		 
+
 //		double tempK = tempC + 273.0;
-			
+
 //		double p0 = 7.5152E8;
 //		double deltaH = 42809;
 //		double R = 8.314;
-		
+
 //		double sat_p1 = 7.5152E8 * Math.exp(-42809/(8.314*(tempC + 273.0)));
-		
+
 		double rh = 100 * vapor / (7.5152E8 * Math.exp(-42809/(8.314*(tempC + 273.0))));
-		
+
 		//vapor = sat_p1 * rh1/100;
-			
+
 //		double sat_p1 = p0 * Math.exp(-deltaH/(R*tempK));
 //		vapor = sat_p1 * rh1/100;
-		
+
 		//double dew = -deltaH/(R*Math.log(vapor/p0)) - 273;
-			
+
 		//System.out.println("dew=" + dew);
 		//System.out.println("vapor=" + vapor);
 		//System.out.println("rh1=" + rh);
-		
+
 		return rh;
-			
-	}		
+
+	}
 
 
 	public Connection getMySqlConnection()
