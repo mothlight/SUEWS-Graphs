@@ -31,34 +31,7 @@ public class SuewsPrestonComparisonGraphs
 	public static boolean SKIP_LINES_TRUE = true;
 	public static boolean SKIP_LINES_FALSE = false;
 
-	public static String PRESTON_Year = "1";
-	public static String PRESTON_Day_of_year = "2";
-	public static String PRESTON_time = "3";
-	public static String PRESTON_timecode = "4";
-	public static String PRESTON_month = "5";
-	public static String PRESTON_week = "6";
-	public static String PRESTON_Kdown = "7";
-	public static String PRESTON_Kup = "8";
-	public static String PRESTON_Ldown = "9";
-	public static String PRESTON_Lup = "10";
-	public static String PRESTON_NET = "11";
-	public static String PRESTON_QH = "12";
-	public static String PRESTON_QE = "13";
-	public static String PRESTON_QG = "14";
-	public static String PRESTON_Flux_validity = "15";
-	public static String PRESTON_CO2flux_final = "16";
-	public static String PRESTON_CO2_flux_validity = "17";
-	public static String PRESTON_Temp = "18";
-	public static String PRESTON_e_a = "19";
-	public static String PRESTON_wind_spd = "20";
-	public static String PRESTON_wind_dir = "21";
-	public static String PRESTON_pressure = "22";
-	public static String PRESTON_Precip = "23";
-	public static String PRESTON_Anthrop = "24";
-	public static String PRESTON_tau = "25";
-	public static String PRESTON_soil_moisture = "26";
-	public static String PRESTON_deep_soil_temp = "27";
-	public static String PRESTON_FormattedDate = "28";
+
 
 	public static String SUEWS_id_it = "1";
 	//public static String SUEWS_it = "2";
@@ -111,6 +84,58 @@ public class SuewsPrestonComparisonGraphs
 	public static String SUEWS_Fw = "48";
 	public static String SUEWS_addWater = "49";
 	public static String SUEWS_FormattedDate = "50";
+	
+//	public static String SUEWS_STR_id_it = "id_it";
+//	//public static String SUEWS_it = "2";
+//	public static String SUEWS_STR_dectime = "dectime";
+//	public static String SUEWS_STR_kdown = "kdown";
+//	public static String SUEWS_STR_kup = "kup";
+//	public static String SUEWS_STR_ldown = "ldown";
+//	public static String SUEWS_STR_lup = "lup";
+//	public static String SUEWS_STR_Tsurf = "Tsurf";
+//	public static String SUEWS_STR_qn = "qn";
+//	public static String SUEWS_STR_h_mod = "h_mod";
+//	public static String SUEWS_STR_e_mod = "e_mod";
+//	public static String SUEWS_STR_qs = "qs";
+//	public static String SUEWS_STR_QF = "QF";
+//	public static String SUEWS_STR_QH = "QH";
+//	public static String SUEWS_STR_QE = "QE";
+//	public static String SUEWS_STR_P_i = "P_i";
+//	public static String SUEWS_STR_Ie_i = "Ie_i";
+//	public static String SUEWS_STR_E_i = "E_i";
+//	public static String SUEWS_STR_DR_i = "DR_i";
+//	public static String SUEWS_STR_Ch_i = "Ch_i";
+//	public static String SUEWS_STR_ST_i = "ST_i";
+//	public static String SUEWS_STR_ROsoil_i = "ROsoil_i";
+//	public static String SUEWS_STR_RO_i = "RO_i";
+//	public static String SUEWS_STR_ROpipe = "ROpipe";
+//	public static String SUEWS_STR_ROpav = "ROpav";
+//	public static String SUEWS_STR_ROveg = "ROveg";
+//	public static String SUEWS_STR_ROwater = "26";
+//	public static String SUEWS_STR_RA = "27";
+//	public static String SUEWS_STR_RS = "28";
+//	public static String SUEWS_STR_ustar = "29";
+//	public static String SUEWS_STR_L_mod = "30";
+//	public static String SUEWS_STR_SoilSt_pav = "31";
+//	public static String SUEWS_STR_SoilSt_blg = "32";
+//	public static String SUEWS_STR_SoilSt_con = "33";
+//	public static String SUEWS_STR_SoilSt_dec = "34";
+//	public static String SUEWS_STR_SoilSt_Irrgr = "35";
+//	public static String SUEWS_STR_SoilSt_Gr = "36";
+//	public static String SUEWS_STR_St_pav = "37";
+//	public static String SUEWS_STR_St_blg = "38";
+//	public static String SUEWS_STR_St_con = "39";
+//	public static String SUEWS_STR_St_dec = "40";
+//	public static String SUEWS_STR_St_Irrgr = "41";
+//	public static String SUEWS_STR_St_Gr = "42";
+//	public static String SUEWS_STR_St_water = "43";
+//	public static String SUEWS_STR_Fcld = "44";
+//	public static String SUEWS_STR_SoilState = "45";
+//	public static String SUEWS_STR_smd = "46";
+//	public static String SUEWS_STR_LAI = "47";
+//	public static String SUEWS_STR_Fw = "48";
+//	public static String SUEWS_STR_addWater = "49";
+//	public static String SUEWS_STR_FormattedDate = "50";	
 
 	public static String SUEWS_availableEnergy = "51";
 	public static String SUEWS_dailyEnergyBalance = "52";
@@ -151,7 +176,7 @@ public class SuewsPrestonComparisonGraphs
 		//String timeField = "dectime";
 		String variable = "kdown";
 		String suewsTimeField = SUEWS_FormattedDate;
-		String prestonTimeField = PRESTON_FormattedDate;
+		String prestonTimeField = PrestonDataFile.PRESTON_FormattedDate;
 		String suewsVariableNumber = "3";
 		String prestonVariableNumber = "7";
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
@@ -161,7 +186,7 @@ public class SuewsPrestonComparisonGraphs
 
 		variable = "Tsurf";
 		suewsVariableNumber = SUEWS_Tsurf;
-		prestonVariableNumber =  PRESTON_Temp ;
+		prestonVariableNumber =  PrestonDataFile.PRESTON_Temp ;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 
 //		public static String SUEWS_availableEnergy = "availableEnergy";
@@ -191,13 +216,26 @@ public class SuewsPrestonComparisonGraphs
 
 		suewsPrestonComparisonGraphs.plotDataMultiples(suewsDataFile, energyVariableArray, energyVariableNumberArray, SUEWS_FormattedDate, "energyBalance");
 
-
-
+		
+		ArrayList<String> prestonEnergyVariableNumberArray = new ArrayList<String>();
+		prestonEnergyVariableNumberArray.add(PrestonDataFile.PRESTON_AVAILABLE_ENERGY);
+		prestonEnergyVariableNumberArray.add(PrestonDataFile.PRESTON_DAILY_ENERGY_BALANCE);
+		ArrayList<String> suewsEnergyVariableNumberArray = new ArrayList<String>();
+		suewsEnergyVariableNumberArray.add(SUEWS_availableEnergy);
+		suewsEnergyVariableNumberArray.add(SUEWS_dailyEnergyBalance);
+		
+		
+		suewsPrestonComparisonGraphs.plotDataMultiples(suewsDataFile, energyVariableArray, prestonDataFile, 
+				suewsEnergyVariableNumberArray, prestonEnergyVariableNumberArray, 
+											suewsTimeField, prestonTimeField, "EnergyBalanceComp");
+		
+		//TODO Preston energy balance
+System.exit(1);
 
 		variable = "QH";
 		suewsVariableNumber =  SUEWS_QH;
 		//suewsVariableNumber =  SUEWS_h_mod;
-		prestonVariableNumber = PRESTON_QH;
+		prestonVariableNumber = PrestonDataFile.PRESTON_QH;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 		variableArray.add(variable);
 		suewsVariableNumberArray.add(suewsVariableNumber);
@@ -206,7 +244,7 @@ public class SuewsPrestonComparisonGraphs
 		variable = "QE";
 		suewsVariableNumber = SUEWS_QE;
 		//suewsVariableNumber = SUEWS_e_mod;
-		prestonVariableNumber = PRESTON_QE;
+		prestonVariableNumber = PrestonDataFile.PRESTON_QE;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 		variableArray.add(variable);
 		suewsVariableNumberArray.add(suewsVariableNumber);
@@ -214,7 +252,7 @@ public class SuewsPrestonComparisonGraphs
 
 		variable = "QG";
 		suewsVariableNumber = SUEWS_qs;
-		prestonVariableNumber = PRESTON_QG;
+		prestonVariableNumber = PrestonDataFile.PRESTON_QG;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 		variableArray.add(variable);
 		suewsVariableNumberArray.add(suewsVariableNumber);
@@ -222,7 +260,7 @@ public class SuewsPrestonComparisonGraphs
 
 		variable = "kup";
 		suewsVariableNumber = SUEWS_kup;
-		prestonVariableNumber = PRESTON_Kup;
+		prestonVariableNumber = PrestonDataFile.PRESTON_Kup;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 		variableArray.add(variable);
 		suewsVariableNumberArray.add(suewsVariableNumber);
@@ -230,7 +268,7 @@ public class SuewsPrestonComparisonGraphs
 
 		variable = "lup";
 		suewsVariableNumber = SUEWS_lup;
-		prestonVariableNumber = PRESTON_Lup;
+		prestonVariableNumber = PrestonDataFile.PRESTON_Lup;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 		variableArray.add(variable);
 		suewsVariableNumberArray.add(suewsVariableNumber);
@@ -238,7 +276,7 @@ public class SuewsPrestonComparisonGraphs
 
 		variable = "ldown";
 		suewsVariableNumber = SUEWS_ldown;
-		prestonVariableNumber = PRESTON_Ldown;
+		prestonVariableNumber = PrestonDataFile.PRESTON_Ldown;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 		variableArray.add(variable);
 		suewsVariableNumberArray.add(suewsVariableNumber);
@@ -246,7 +284,7 @@ public class SuewsPrestonComparisonGraphs
 
 		variable = "net";
 		suewsVariableNumber = SUEWS_qn;
-		prestonVariableNumber = PRESTON_NET;
+		prestonVariableNumber = PrestonDataFile.PRESTON_NET;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 		variableArray.add(variable);
 		suewsVariableNumberArray.add(suewsVariableNumber);
@@ -254,7 +292,7 @@ public class SuewsPrestonComparisonGraphs
 
 		variable = "Anthrop";
 		suewsVariableNumber = SUEWS_QF;
-		prestonVariableNumber = PRESTON_Anthrop;
+		prestonVariableNumber = PrestonDataFile.PRESTON_Anthrop;
 		suewsPrestonComparisonGraphs.plotData(suewsDataFile, variable, prestonDataFile, suewsVariableNumber, prestonVariableNumber, suewsTimeField, prestonTimeField);
 
 		suewsPrestonComparisonGraphs.plotDataMultiples(suewsDataFile, variableArray, prestonDataFile, suewsVariableNumberArray, prestonVariableNumberArray, suewsTimeField, prestonTimeField, "EnergyBalance");
@@ -319,8 +357,8 @@ public class SuewsPrestonComparisonGraphs
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_Irrgr);
 		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_Ts_Gr);
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_Gr);
-		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_Ts_wtr);
-		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_wtr);
+		//variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_Ts_wtr);
+		//suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_Ts_wtr);
 		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_NARP_REFORMAT_FormattedDate, "NARP_T");
 
 		variableArray2.clear();
@@ -337,8 +375,8 @@ public class SuewsPrestonComparisonGraphs
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_Irrgr);
 		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_qn_Gr);
 		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_Gr);
-		variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_qn_wtr);
-		suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_wtr);
+		//variableArray2.add(SUEWSDataFile.SUEWS_NARP_STR_qn_wtr);
+		//suewsVariableNumberArray2.add(SUEWSDataFile.SUEWS_NARP_qn_wtr);
 		suewsPrestonComparisonGraphs.plotDataMultiples(sUEWSDataFile, variableArray2, suewsVariableNumberArray2, SUEWSDataFile.SUEWS_NARP_REFORMAT_FormattedDate, "NARP_Q");
 
 // ----------------------------------
@@ -421,17 +459,29 @@ public class SuewsPrestonComparisonGraphs
 		aPlot.setOutput(Terminal.PNG, outputFile, " " + GRAPH_SIZE + "  enhanced font Vera 14 ");
 		aPlot.unsetLogscale();
 		aPlot.setYTics("nomirror");
-		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 pi 20");
-		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 pi 20");
-		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 pi 20");
-		aPlot.addExtra("set style line 4 linecolor rgbcolor \"#988f03\" lw 2 pt 4 ps 1 pi 20");
-		aPlot.addExtra("set style line 5 linecolor rgbcolor \"#be7400\" lw 2 pt 5 ps 1 pi 20");
-		aPlot.addExtra("set style line 6 linecolor rgbcolor \"#00AA00\" lw 2 pt 6 ps 1 pi 20");
-		aPlot.addExtra("set style line 7 linecolor rgbcolor \"#00b7be\" lw 2 pt 7 ps 1 pi 20");
-		aPlot.addExtra("set style line 8 linecolor rgbcolor \"#808080\" lw 2 pt 8 ps 1 pi 20");
-		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 pi 20");
-		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 pi 20");
-		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 pi 20");
+//		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 pi 20");
+//		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 pi 20");
+//		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 pi 20");
+//		aPlot.addExtra("set style line 4 linecolor rgbcolor \"#988f03\" lw 2 pt 4 ps 1 pi 20");
+//		aPlot.addExtra("set style line 5 linecolor rgbcolor \"#be7400\" lw 2 pt 5 ps 1 pi 20");
+//		aPlot.addExtra("set style line 6 linecolor rgbcolor \"#00AA00\" lw 2 pt 6 ps 1 pi 20");
+//		aPlot.addExtra("set style line 7 linecolor rgbcolor \"#00b7be\" lw 2 pt 7 ps 1 pi 20");
+//		aPlot.addExtra("set style line 8 linecolor rgbcolor \"#808080\" lw 2 pt 8 ps 1 pi 20");
+//		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 pi 20");
+//		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 pi 20");
+//		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 pi 20");
+		
+		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 ");
+		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 ");
+		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 ");
+		aPlot.addExtra("set style line 4 linecolor rgbcolor \"#988f03\" lw 2 pt 4 ps 1 ");
+		aPlot.addExtra("set style line 5 linecolor rgbcolor \"#be7400\" lw 2 pt 5 ps 1 ");
+		aPlot.addExtra("set style line 6 linecolor rgbcolor \"#00AA00\" lw 2 pt 6 ps 1 ");
+		aPlot.addExtra("set style line 7 linecolor rgbcolor \"#00b7be\" lw 2 pt 7 ps 1 ");
+		aPlot.addExtra("set style line 8 linecolor rgbcolor \"#808080\" lw 2 pt 8 ps 1 ");
+		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 ");
+		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 ");
+		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 ");
 
 		aPlot.addExtra("set tmargin 1");
 		aPlot.addExtra("set bmargin 2");
@@ -494,17 +544,29 @@ public class SuewsPrestonComparisonGraphs
 		aPlot.setOutput(Terminal.PNG, outputFile, " " + GRAPH_SIZE + "  enhanced font Vera 14 ");
 		aPlot.unsetLogscale();
 		aPlot.setYTics("nomirror");
-		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 pi 20");
-		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 pi 20");
-		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 pi 20");
-		aPlot.addExtra("set style line 4 linecolor rgbcolor \"#988f03\" lw 2 pt 4 ps 1 pi 20");
-		aPlot.addExtra("set style line 5 linecolor rgbcolor \"#be7400\" lw 2 pt 5 ps 1 pi 20");
-		aPlot.addExtra("set style line 6 linecolor rgbcolor \"#00AA00\" lw 2 pt 6 ps 1 pi 20");
-		aPlot.addExtra("set style line 7 linecolor rgbcolor \"#00b7be\" lw 2 pt 7 ps 1 pi 20");
-		aPlot.addExtra("set style line 8 linecolor rgbcolor \"#808080\" lw 2 pt 8 ps 1 pi 20");
-		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 pi 20");
-		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 pi 20");
-		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 pi 20");
+//		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 pi 20");
+//		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 pi 20");
+//		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 pi 20");
+//		aPlot.addExtra("set style line 4 linecolor rgbcolor \"#988f03\" lw 2 pt 4 ps 1 pi 20");
+//		aPlot.addExtra("set style line 5 linecolor rgbcolor \"#be7400\" lw 2 pt 5 ps 1 pi 20");
+//		aPlot.addExtra("set style line 6 linecolor rgbcolor \"#00AA00\" lw 2 pt 6 ps 1 pi 20");
+//		aPlot.addExtra("set style line 7 linecolor rgbcolor \"#00b7be\" lw 2 pt 7 ps 1 pi 20");
+//		aPlot.addExtra("set style line 8 linecolor rgbcolor \"#808080\" lw 2 pt 8 ps 1 pi 20");
+//		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 pi 20");
+//		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 pi 20");
+//		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 pi 20");
+		
+		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 ");
+		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 ");
+		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 ");
+		aPlot.addExtra("set style line 4 linecolor rgbcolor \"#988f03\" lw 2 pt 4 ps 1 ");
+		aPlot.addExtra("set style line 5 linecolor rgbcolor \"#be7400\" lw 2 pt 5 ps 1 ");
+		aPlot.addExtra("set style line 6 linecolor rgbcolor \"#00AA00\" lw 2 pt 6 ps 1 ");
+		aPlot.addExtra("set style line 7 linecolor rgbcolor \"#00b7be\" lw 2 pt 7 ps 1 ");
+		aPlot.addExtra("set style line 8 linecolor rgbcolor \"#808080\" lw 2 pt 8 ps 1 ");
+		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 ");
+		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 ");
+		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 ");
 
 		aPlot.addExtra("set tmargin 1");
 		aPlot.addExtra("set bmargin 2");
@@ -568,17 +630,29 @@ public class SuewsPrestonComparisonGraphs
 		aPlot.setOutput(Terminal.PNG, outputFile, " " + GRAPH_SIZE + "  enhanced font Vera 14 ");
 		aPlot.unsetLogscale();
 		aPlot.setYTics("nomirror");
-		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 pi 20");
-		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 pi 20");
-		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 pi 20");
-		aPlot.addExtra("set style line 4 linecolor rgbcolor \"#988f03\" lw 2 pt 4 ps 1 pi 20");
-		aPlot.addExtra("set style line 5 linecolor rgbcolor \"#be7400\" lw 2 pt 5 ps 1 pi 20");
-		aPlot.addExtra("set style line 6 linecolor rgbcolor \"#00AA00\" lw 2 pt 6 ps 1 pi 20");
-		aPlot.addExtra("set style line 7 linecolor rgbcolor \"#00b7be\" lw 2 pt 7 ps 1 pi 20");
-		aPlot.addExtra("set style line 8 linecolor rgbcolor \"#808080\" lw 2 pt 8 ps 1 pi 20");
-		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 pi 20");
-		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 pi 20");
-		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 pi 20");
+//		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 pi 20");
+//		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 pi 20");
+//		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 pi 20");
+//		aPlot.addExtra("set style line 4 linecolor rgbcolor \"#988f03\" lw 2 pt 4 ps 1 pi 20");
+//		aPlot.addExtra("set style line 5 linecolor rgbcolor \"#be7400\" lw 2 pt 5 ps 1 pi 20");
+//		aPlot.addExtra("set style line 6 linecolor rgbcolor \"#00AA00\" lw 2 pt 6 ps 1 pi 20");
+//		aPlot.addExtra("set style line 7 linecolor rgbcolor \"#00b7be\" lw 2 pt 7 ps 1 pi 20");
+//		aPlot.addExtra("set style line 8 linecolor rgbcolor \"#808080\" lw 2 pt 8 ps 1 pi 20");
+//		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 pi 20");
+//		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 pi 20");
+//		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 pi 20");
+		
+		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 ");
+		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 ");
+		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 ");
+		aPlot.addExtra("set style line 4 linecolor rgbcolor \"#988f03\" lw 2 pt 4 ps 1 ");
+		aPlot.addExtra("set style line 5 linecolor rgbcolor \"#be7400\" lw 2 pt 5 ps 1 ");
+		aPlot.addExtra("set style line 6 linecolor rgbcolor \"#00AA00\" lw 2 pt 6 ps 1 ");
+		aPlot.addExtra("set style line 7 linecolor rgbcolor \"#00b7be\" lw 2 pt 7 ps 1 ");
+		aPlot.addExtra("set style line 8 linecolor rgbcolor \"#808080\" lw 2 pt 8 ps 1 ");
+		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 ");
+		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 ");
+		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 ");
 
 		aPlot.addExtra("set tmargin 1");
 		aPlot.addExtra("set bmargin 2");

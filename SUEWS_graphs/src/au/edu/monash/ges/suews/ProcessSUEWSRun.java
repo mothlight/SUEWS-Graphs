@@ -209,6 +209,7 @@ public class ProcessSUEWSRun {
 					QG = theData.get(variable).get(i);
 				}
 
+
 				if (count == variables.size())
 				{
 					String formattedDate = sUEWSDataFile.getYear() + "-" + dayOfYear + "-" + time;
@@ -217,7 +218,7 @@ public class ProcessSUEWSRun {
 
 				if (count == variables.size())
 				{
-					ArrayList<Double> energyBalanceValues = common.energyBalance(kdown, kup, ldown, lup, QG, QH, QE);
+					ArrayList<Double> energyBalanceValues = common.energyBalance(kdown, kup, ldown, lup, QG, QH, QE, null);
 					availableEnergy = energyBalanceValues.get(0);
 					dailyEnergyBalance = energyBalanceValues.get(1);
 					Rn_G_H_LE = energyBalanceValues.get(2);
