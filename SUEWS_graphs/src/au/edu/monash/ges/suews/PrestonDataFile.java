@@ -15,9 +15,9 @@ public class PrestonDataFile
 	ENVICommon common = new ENVICommon();
 
 	public final static String FORMATTED_DATE = "FormattedDate";
-	public final static String AVAILABLE_ENERGY = "AvailableEnergy";
-	public final static String RN_G_H_LE = "Rn_G_H_LE";
-	public final static String DAILY_ENERGY_BALANCE = "DailyEnergyBalance";
+//	public final static String AVAILABLE_ENERGY = "AvailableEnergy";
+//	public final static String RN_G_H_LE = "Rn_G_H_LE";
+//	public final static String DAILY_ENERGY_BALANCE = "DailyEnergyBalance";
 
 	public static String PRESTON_Year = "1";
 	public static String PRESTON_Day_of_year = "2";
@@ -46,11 +46,19 @@ public class PrestonDataFile
 	public static String PRESTON_tau = "25";
 	public static String PRESTON_soil_moisture = "26";
 	public static String PRESTON_deep_soil_temp = "27";
-	public static String PRESTON_FormattedDate = "28";
 
-	public static String PRESTON_AVAILABLE_ENERGY = "29";
-	public static String PRESTON_DAILY_ENERGY_BALANCE = "30";
-	public static String PRESTON_RN_G_H_LE = "31";
+
+	public static String PRESTON_rh_ = "28";
+	public static String PRESTON_Calc_RH = "29";
+	public static String PRESTON_Recalc_Ea = "30";
+	public static String PRESTON_Net_Radiation = "31";
+	public static String PRESTON_EnergyBalance = "32";
+
+	public static String PRESTON_FormattedDate = "33";
+
+//	public static String PRESTON_AVAILABLE_ENERGY = "29";
+//	public static String PRESTON_DAILY_ENERGY_BALANCE = "30";
+//	public static String PRESTON_RN_G_H_LE = "31";
 
 
 	public static String PRESTON_STR_Year = "Year";
@@ -80,7 +88,20 @@ public class PrestonDataFile
 	public static String PRESTON_STR_tau = "tau";
 	public static String PRESTON_STR_soil_moisture = "soil_moisture";
 	public static String PRESTON_STR_deep_soil_temp = "deep_soil_temp";
+
+	public static String PRESTON_STR_rh_ = "rh%";
+	public static String PRESTON_STR_Calc_RH = "Calc_RH";
+	public static String PRESTON_STR_Recalc_Ea = "Recalc_Ea";
+	public static String PRESTON_STR_Net_Radiation = "Net_Radiation";
+	public static String PRESTON_STR_EnergyBalance = "EnergyBalance";
+
+
 	public static String PRESTON_STR_FormattedDate = "FormattedDate";
+
+
+
+
+
 
 //	public TUF3DDataFile()
 //	{
@@ -168,17 +189,17 @@ public class PrestonDataFile
 				//not in the data files, added during processing
 				this.variables.add(FORMATTED_DATE);
 
-				this.variables.add(AVAILABLE_ENERGY);
-				this.variables.add(DAILY_ENERGY_BALANCE);
-				this.variables.add(RN_G_H_LE);
+//				this.variables.add(AVAILABLE_ENERGY);
+//				this.variables.add(DAILY_ENERGY_BALANCE);
+//				this.variables.add(RN_G_H_LE);
 			}
 
 			int readCount = 0;
 			while (dis.available()>0)
 			{
 
-				String net = null, QG = null, QH = null, QE = null, temp = null, kup= null, kdown = null, lup = null, ldown = null;
-				Double availableEnergy = 0.0, dailyEnergyBalance = 0.0, Rn_G_H_LE = 0.0;
+//				String net = null, QG = null, QH = null, QE = null, temp = null, kup= null, kdown = null, lup = null, ldown = null;
+//				Double availableEnergy = 0.0, dailyEnergyBalance = 0.0, Rn_G_H_LE = 0.0;
 
 				int count = 0;
 				String year;
@@ -239,79 +260,79 @@ public class PrestonDataFile
 					}
 
 
-					if (variableName.equals(PRESTON_STR_NET))
-					{
-						net = variableValue;
-					}
-					else if (variableName.equals(PRESTON_STR_QH))
-					{
-						QH = variableValue;
-					}
-					else if (variableName.equals(PRESTON_STR_QE))
-					{
-						QE = variableValue;
-					}
-					else if (variableName.equals(PRESTON_STR_QG))
-					{
-						QG = variableValue;
-					}
-					else if (variableName.equals(PRESTON_STR_Temp))
-					{
-						temp = variableValue;
-					}
-					else if (variableName.equals(PRESTON_STR_Kup))
-					{
-						kup = variableValue;
-					}
-					else if (variableName.equals(PRESTON_STR_Kdown))
-					{
-						kdown = variableValue;
-					}
-					else if (variableName.equals(PRESTON_STR_Lup))
-					{
-						lup = variableValue;
-					}
-					else if (variableName.equals(PRESTON_STR_Ldown))
-					{
-						ldown = variableValue;
-					}
+//					if (variableName.equals(PRESTON_STR_NET))
+//					{
+//						net = variableValue;
+//					}
+//					else if (variableName.equals(PRESTON_STR_QH))
+//					{
+//						QH = variableValue;
+//					}
+//					else if (variableName.equals(PRESTON_STR_QE))
+//					{
+//						QE = variableValue;
+//					}
+//					else if (variableName.equals(PRESTON_STR_QG))
+//					{
+//						QG = variableValue;
+//					}
+//					else if (variableName.equals(PRESTON_STR_Temp))
+//					{
+//						temp = variableValue;
+//					}
+//					else if (variableName.equals(PRESTON_STR_Kup))
+//					{
+//						kup = variableValue;
+//					}
+//					else if (variableName.equals(PRESTON_STR_Kdown))
+//					{
+//						kdown = variableValue;
+//					}
+//					else if (variableName.equals(PRESTON_STR_Lup))
+//					{
+//						lup = variableValue;
+//					}
+//					else if (variableName.equals(PRESTON_STR_Ldown))
+//					{
+//						ldown = variableValue;
+//					}
 
-					//if (count == variables.size())
-					if (net != null && QG != null && QH != null && QE != null && temp != null)
-					{
-						ArrayList<Double> energyBalanceValues = common.energyBalance(kdown, kup, ldown, lup, QG, QH, QE, temp);
-						availableEnergy = energyBalanceValues.get(0);
-						dailyEnergyBalance = energyBalanceValues.get(1);
-						Rn_G_H_LE = energyBalanceValues.get(2);
-
-						ArrayList<String> formattedDateDataSet = this.data.get(AVAILABLE_ENERGY);
-						if (formattedDateDataSet == null)
-						{
-							formattedDateDataSet = new ArrayList<String>();
-						}
-						formattedDateDataSet.add(availableEnergy.toString());
-						this.data.put(AVAILABLE_ENERGY, formattedDateDataSet);
-
-						formattedDateDataSet = this.data.get(DAILY_ENERGY_BALANCE);
-						if (formattedDateDataSet == null)
-						{
-							formattedDateDataSet = new ArrayList<String>();
-						}
-						formattedDateDataSet.add(dailyEnergyBalance.toString());
-						this.data.put(DAILY_ENERGY_BALANCE, formattedDateDataSet);
-
-						formattedDateDataSet = this.data.get(RN_G_H_LE);
-						if (formattedDateDataSet == null)
-						{
-							formattedDateDataSet = new ArrayList<String>();
-						}
-						formattedDateDataSet.add(Rn_G_H_LE.toString());
-						this.data.put(RN_G_H_LE, formattedDateDataSet);
-
-//						outputStr.append(availableEnergy + " ");
-//						outputStr.append(dailyEnergyBalance + " ");
-//						outputStr.append(Rn_G_H_LE + " ");
-					}
+//					//if (count == variables.size())
+//					if (net != null && QG != null && QH != null && QE != null && temp != null)
+//					{
+//						ArrayList<Double> energyBalanceValues = common.energyBalance(kdown, kup, ldown, lup, QG, QH, QE, temp);
+//						availableEnergy = energyBalanceValues.get(0);
+//						dailyEnergyBalance = energyBalanceValues.get(1);
+//						Rn_G_H_LE = energyBalanceValues.get(2);
+//
+//						ArrayList<String> formattedDateDataSet = this.data.get(AVAILABLE_ENERGY);
+//						if (formattedDateDataSet == null)
+//						{
+//							formattedDateDataSet = new ArrayList<String>();
+//						}
+//						formattedDateDataSet.add(availableEnergy.toString());
+//						this.data.put(AVAILABLE_ENERGY, formattedDateDataSet);
+//
+//						formattedDateDataSet = this.data.get(DAILY_ENERGY_BALANCE);
+//						if (formattedDateDataSet == null)
+//						{
+//							formattedDateDataSet = new ArrayList<String>();
+//						}
+//						formattedDateDataSet.add(dailyEnergyBalance.toString());
+//						this.data.put(DAILY_ENERGY_BALANCE, formattedDateDataSet);
+//
+//						formattedDateDataSet = this.data.get(RN_G_H_LE);
+//						if (formattedDateDataSet == null)
+//						{
+//							formattedDateDataSet = new ArrayList<String>();
+//						}
+//						formattedDateDataSet.add(Rn_G_H_LE.toString());
+//						this.data.put(RN_G_H_LE, formattedDateDataSet);
+//
+////						outputStr.append(availableEnergy + " ");
+////						outputStr.append(dailyEnergyBalance + " ");
+////						outputStr.append(Rn_G_H_LE + " ");
+//					}
 
 
 					count ++;

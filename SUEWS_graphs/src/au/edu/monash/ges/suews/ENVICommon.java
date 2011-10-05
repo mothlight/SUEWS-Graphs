@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.TreeMap;
 
@@ -108,7 +109,31 @@ public class ENVICommon
 		}
 
 	}
-	
+
+	public int getDayOfMonthFromDayOfYear(int year, int dayOfYear)
+	{
+
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+	    calendar.set(Calendar.YEAR, year);
+	    int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+	    //System.out.println("Day of year " + dayOfYear + " = " + calendar.getTime());
+	    return dayOfMonth;
+	}
+
+	public int getMonthFromDayOfYear(int year, int dayOfYear)
+	{
+
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+	    calendar.set(Calendar.YEAR, year);
+	    int month = calendar.get(Calendar.MONTH) + 1;
+
+	    //System.out.println("Day of year " + dayOfYear + " = " + calendar.getTime());
+	    return month;
+	}
+
 	public ArrayList<Double> energyBalance(String net, String QG, String QH, String QE, boolean fake)
 	{
 		ArrayList<Double> returnValues = new ArrayList<Double>();
@@ -123,9 +148,9 @@ public class ENVICommon
 		try
 		{
 			double netRadiation = new Double(net).doubleValue();
-			double soilHeatFlux = new Double(QG).doubleValue();			
+			double soilHeatFlux = new Double(QG).doubleValue();
 			double sensibleHeatFlux = new Double(QH).doubleValue();
-			double latentHeatFlux = new Double(QE).doubleValue();			
+			double latentHeatFlux = new Double(QE).doubleValue();
 		}
 		catch(NumberFormatException e)
 		{
@@ -136,7 +161,7 @@ public class ENVICommon
 			return returnValues;
 
 		}
-		
+
 		double netRadiation = new Double(net).doubleValue();
 		double soilHeatFlux = new Double(QG).doubleValue();
 		double availableEnergy = netRadiation - soilHeatFlux;
@@ -157,7 +182,7 @@ public class ENVICommon
 	{
 		ArrayList<Double> returnValues = new ArrayList<Double>();
 		double surfaceAlbedo = 0.15;
-		
+
 		//first try and see if you have to calculate kup and lup
 		if (kup != null && lup != null && kup.equals("?") && lup.equals("?") && temp != null)
 		{
@@ -176,14 +201,14 @@ public class ENVICommon
 				return returnValues;
 
 			}
-			
+
 			double lwIn = new Double(ldown).doubleValue();
 			double swIn = new Double(kdown).doubleValue();
 			double tSurfaceK = new Double(temp).doubleValue() + 273;
-			
+
 			double swOut = (surfaceAlbedo) * (swIn);
 			double lwOut = 0.0000000567 * Math.pow(tSurfaceK, 4);
-			
+
 
 			double netRadiation = (swIn - swOut) + (lwIn - lwOut);
 			double soilHeatFlux = new Double(QG).doubleValue();
@@ -192,15 +217,15 @@ public class ENVICommon
 			double latentHeatFlux = new Double(QE).doubleValue();
 			double dailyEnergyBalance = netRadiation - soilHeatFlux - sensibleHeatFlux - latentHeatFlux;
 			double Rn_G_H_LE = netRadiation - soilHeatFlux - sensibleHeatFlux - latentHeatFlux;
-			
+
 			returnValues.add(availableEnergy);
 			returnValues.add(dailyEnergyBalance);
 			returnValues.add(Rn_G_H_LE);
 
 			return returnValues;
 		}
-		
-		//ok, then calculate using kup,down and lup,down	
+
+		//ok, then calculate using kup,down and lup,down
 		if (kdown == null || kup == null || ldown== null || lup== null || QG== null || QH== null || QE== null)
 		{
 			returnValues.add(0.0);
@@ -208,16 +233,16 @@ public class ENVICommon
 			returnValues.add(0.0);
 			return returnValues;
 		}
-		
+
 		try
 		{
 			double swIn = new Double(kdown).doubleValue();
 			double swOut = new Double(kup).doubleValue();
 			double lwIn = new Double(ldown).doubleValue();
-			double lwOut = new Double(lup).doubleValue();			
-			double soilHeatFlux = new Double(QG).doubleValue();			
+			double lwOut = new Double(lup).doubleValue();
+			double soilHeatFlux = new Double(QG).doubleValue();
 			double sensibleHeatFlux = new Double(QH).doubleValue();
-			double latentHeatFlux = new Double(QE).doubleValue();			
+			double latentHeatFlux = new Double(QE).doubleValue();
 		}
 		catch(NumberFormatException e)
 		{
@@ -525,62 +550,62 @@ public class ENVICommon
 		return rh;
 
 	}
-	
+
 	public double CalculateVaporPressure(double t_hmp, double rh_hmp)
 	{
-		
-		double A_0 = 6.107800;            
-		double A_1 = 4.436519e-1;         
-		double A_2 = 1.428946e-2;        
-		double A_3 = 2.650648e-4;       
-		double A_4 = 3.031240e-6;      
-		double A_5 = 2.034081e-8;   
+
+		double A_0 = 6.107800;
+		double A_1 = 4.436519e-1;
+		double A_2 = 1.428946e-2;
+		double A_3 = 2.650648e-4;
+		double A_4 = 3.031240e-6;
+		double A_5 = 2.034081e-8;
 		double A_6 = 6.136821e-11;
-		
+
 		rh_hmp = rh_hmp*0.01;
 
 //		// 'Find the HMP45C vapor pressure, in kPa, using a sixth order polynomial (Lowe, 1976).
 //		double e_sat = 0.1*(A_0+t_hmp*(A_1+t_hmp*(A_2+t_hmp*(A_3+t_hmp*(A_4+t_hmp*(A_5+t_hmp*A_6))))));
-		
+
 		double e_sat = CalculateVaporPressurekPa(t_hmp);
-		   
+
 		double e = e_sat*rh_hmp;
-		
+
 		//hmp in this case just refers to the instrument taking the temperature (t_hmp) and humidity (rh_hmp) measurements
-		
+
 		return e;
 	}
-	
+
 	public double CalculateRHFromVapor(double t_hmp, double e)
 	{
 		double e_sat = CalculateVaporPressurekPa(t_hmp);
-		
+
 		double rh_hmp = e/e_sat ;
-		
+
 		//double e = e_sat*rh_hmp;
-		
+
 		return rh_hmp * 100;
 	}
-	
+
 	public double CalculateRHFromVapor2(double t_hmp, double e)
 	{
-		return e/(0.1*(6.107800+t_hmp*(4.436519e-1+t_hmp*(1.428946e-2+t_hmp*(2.650648e-4+t_hmp*(3.031240e-6+t_hmp*(2.034081e-8+t_hmp*6.136821e-11)))))))*100;		
+		return e/(0.1*(6.107800+t_hmp*(4.436519e-1+t_hmp*(1.428946e-2+t_hmp*(2.650648e-4+t_hmp*(3.031240e-6+t_hmp*(2.034081e-8+t_hmp*6.136821e-11)))))))*100;
 	}
-	
-	
+
+
 	public double CalculateVaporPressurekPa(double t_hmp)
 	{
-		double A_0 = 6.107800;            
-		double A_1 = 4.436519e-1;         
-		double A_2 = 1.428946e-2;        
-		double A_3 = 2.650648e-4;       
-		double A_4 = 3.031240e-6;      
-		double A_5 = 2.034081e-8;   
+		double A_0 = 6.107800;
+		double A_1 = 4.436519e-1;
+		double A_2 = 1.428946e-2;
+		double A_3 = 2.650648e-4;
+		double A_4 = 3.031240e-6;
+		double A_5 = 2.034081e-8;
 		double A_6 = 6.136821e-11;
-		
+
 		// 'Find the HMP45C vapor pressure, in kPa, using a sixth order polynomial (Lowe, 1976).
 		double e_sat = 0.1*(A_0+t_hmp*(A_1+t_hmp*(A_2+t_hmp*(A_3+t_hmp*(A_4+t_hmp*(A_5+t_hmp*A_6))))));
-		
+
 		return e_sat;
 	}
 

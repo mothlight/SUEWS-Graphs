@@ -84,7 +84,7 @@ public class SuewsPrestonComparisonGraphs
 	public static String SUEWS_Fw = "48";
 	public static String SUEWS_addWater = "49";
 	public static String SUEWS_FormattedDate = "50";
-	
+
 //	public static String SUEWS_STR_id_it = "id_it";
 //	//public static String SUEWS_it = "2";
 //	public static String SUEWS_STR_dectime = "dectime";
@@ -135,7 +135,7 @@ public class SuewsPrestonComparisonGraphs
 //	public static String SUEWS_STR_LAI = "47";
 //	public static String SUEWS_STR_Fw = "48";
 //	public static String SUEWS_STR_addWater = "49";
-//	public static String SUEWS_STR_FormattedDate = "50";	
+//	public static String SUEWS_STR_FormattedDate = "50";
 
 	public static String SUEWS_availableEnergy = "51";
 	public static String SUEWS_dailyEnergyBalance = "52";
@@ -216,21 +216,20 @@ public class SuewsPrestonComparisonGraphs
 
 		suewsPrestonComparisonGraphs.plotDataMultiples(suewsDataFile, energyVariableArray, energyVariableNumberArray, SUEWS_FormattedDate, "energyBalance");
 
-		
+
 		ArrayList<String> prestonEnergyVariableNumberArray = new ArrayList<String>();
-		prestonEnergyVariableNumberArray.add(PrestonDataFile.PRESTON_AVAILABLE_ENERGY);
-		prestonEnergyVariableNumberArray.add(PrestonDataFile.PRESTON_DAILY_ENERGY_BALANCE);
+		prestonEnergyVariableNumberArray.add(PrestonDataFile.PRESTON_EnergyBalance);
 		ArrayList<String> suewsEnergyVariableNumberArray = new ArrayList<String>();
-		suewsEnergyVariableNumberArray.add(SUEWS_availableEnergy);
 		suewsEnergyVariableNumberArray.add(SUEWS_dailyEnergyBalance);
-		
-		
-		suewsPrestonComparisonGraphs.plotDataMultiples(suewsDataFile, energyVariableArray, prestonDataFile, 
-				suewsEnergyVariableNumberArray, prestonEnergyVariableNumberArray, 
+
+		ArrayList<String> energyVariableArray2 = new ArrayList<String>();
+		energyVariableArray2.add(SUEWSDataFile.SUEWS_dailyEnergyBalance);
+
+
+		suewsPrestonComparisonGraphs.plotDataMultiples(suewsDataFile, energyVariableArray2, prestonDataFile,
+				suewsEnergyVariableNumberArray, prestonEnergyVariableNumberArray,
 											suewsTimeField, prestonTimeField, "EnergyBalanceComp");
-		
-		//TODO Preston energy balance
-System.exit(1);
+
 
 		variable = "QH";
 		suewsVariableNumber =  SUEWS_QH;
@@ -470,7 +469,7 @@ System.exit(1);
 //		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 pi 20");
 //		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 pi 20");
 //		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 pi 20");
-		
+
 		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 ");
 		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 ");
 		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 ");
@@ -555,7 +554,7 @@ System.exit(1);
 //		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 pi 20");
 //		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 pi 20");
 //		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 pi 20");
-		
+
 		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 ");
 		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 ");
 		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 ");
@@ -641,7 +640,7 @@ System.exit(1);
 //		aPlot.addExtra("set style line 9 linecolor rgbcolor \"#d26584\" lw 2 pt 9 ps 1 pi 20");
 //		aPlot.addExtra("set style line 10 linecolor rgbcolor \"#000000\" lw 2 pt 10 ps 1 pi 20");
 //		aPlot.addExtra("set style line 11 linecolor rgbcolor \"#AA0000\" lw 2 pt 11 ps 1 pi 20");
-		
+
 		aPlot.addExtra("set style line 1 linecolor rgbcolor \"#0000AA\" lw 2 pt 1 ps 1 ");
 		aPlot.addExtra("set style line 2 linecolor rgbcolor \"#990000\" lw 2 pt 2 ps 1 ");
 		aPlot.addExtra("set style line 3 linecolor rgbcolor \"#52015b\" lw 2 pt 3 ps 1 ");
