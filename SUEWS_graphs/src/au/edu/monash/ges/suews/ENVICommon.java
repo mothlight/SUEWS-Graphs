@@ -109,6 +109,19 @@ public class ENVICommon
 		}
 
 	}
+	
+	public String getHourFromFraction(String fraction)
+	{
+		double fractionDouble = new Double(fraction).doubleValue();
+		double hour = fractionDouble * 24;
+		long roundHour = Math.round(hour);
+
+//		long hourLong = (long) (hour % 1);
+		
+		return new Long(roundHour).toString();
+		
+
+	}
 
 	public int getDayOfMonthFromDayOfYear(int year, int dayOfYear)
 	{
@@ -130,6 +143,8 @@ public class ENVICommon
 	    calendar.set(Calendar.YEAR, year);
 	    int month = calendar.get(Calendar.MONTH) + 1;
 
+	    //System.out.println("dayOfYear=" + dayOfYear + " month=" + month);
+	    
 	    //System.out.println("Day of year " + dayOfYear + " = " + calendar.getTime());
 	    return month;
 	}
@@ -285,6 +300,36 @@ public class ENVICommon
 
 		// Rn-G-H-LE
 
+	}
+	
+	public String convertTimesToTimeDecimal(String time)
+	{	
+		//1330 to 13.5
+		String hour = time.substring(0, 2);
+		String minute = time.substring(2, 4);
+		if (minute.equals("00"))
+		{
+			minute = "";
+		}
+		else
+		{
+			minute = ".5";
+		}
+		
+		return hour + minute;
+	}
+	
+	public String convertTimeToTimecode(String timecode)
+	{
+		// 20040011230 to 1.5416666667
+		//String year = timecode.substring(0, 4);
+		String day = timecode.substring(4, 7);
+		String time = timecode.substring(7, 11);
+		
+		String convertTime = convertTimesToTimeDecimal(time);
+		double convertTimeDouble = new Double(convertTime).doubleValue();
+		double timecodeFraction = convertTimeDouble / 24;
+		return day + timecodeFraction;
 	}
 
 	public String padLeft(String str, int size, char padChar)

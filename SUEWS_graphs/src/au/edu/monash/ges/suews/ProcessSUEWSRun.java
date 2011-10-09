@@ -163,7 +163,15 @@ public class ProcessSUEWSRun {
 				}
 				else
 				{
-					outputStr.append(theData.get(variable).get(i) + " ");
+					//System.out.println(variable + " " + i);
+					try
+					{
+						outputStr.append(theData.get(variable).get(i) + " ");
+					}
+					catch (IndexOutOfBoundsException e )
+					{
+						outputStr.append("? ");
+					}
 					count++;
 				}
 

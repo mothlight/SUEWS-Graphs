@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
@@ -61,6 +62,8 @@ public class PrestonDataFile
 //	public static String PRESTON_RN_G_H_LE = "31";
 
 
+	public static String PRESTON_STR_FAKE = "FAKE";
+	
 	public static String PRESTON_STR_Year = "Year";
 	public static String PRESTON_STR_Day_of_year = "Day_of_year";
 	public static String PRESTON_STR_time = "time";
@@ -149,10 +152,146 @@ public class PrestonDataFile
 
 		PrestonDataFile prestonDataFile = new PrestonDataFile(path, filename, false);
 		TreeMap<String, ArrayList<String>> theData = prestonDataFile.getData();
+//		Set<String> keySet = theData.keySet();
+//		for (String key : keySet)
+//		{
+//			System.out.println(key);
+//		}
 		//System.out.println(theData.toString());
 
 		//System.out.println(theData.get(DAILY_ENERGY_BALANCE).toString());
+		path = Messages.getString("PrestonDataFile.DATA_PATH");		
+		filename = "SuewsMetForcingData.txt";
+		prestonDataFile.outputSUEWSForcingFile(prestonDataFile, path, filename);
+	}
+	
+	public void outputSUEWSForcingFile(PrestonDataFile prestonDataFile, String path, String filename)
+	{
+		// output
+		// % Day of year	time	timecode	NET	QH	QE	QG	Anthrop.	wind spd	%Hum	Temp	pressure	Precip.	Kdown	snowcov	Ldown	obscloud	extwater	soilmodef	LAI
 
+		//input 
+		// Year	Day of year	time	timecode	month	week	Kdown	Kup	Ldown	Lup	NET	QH	QE	QG	Flux validity	CO2flux_final	CO2 flux validity	Temp	e_a	wind spd	wind dir.	pressure	Precip.	Anthrop.	tau	soil moisture	deep soil temp	rh%	Calc_RH	Recalc_Ea	Net_Radiation	EnergyBalance																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																
+
+		TreeMap<String, ArrayList<String>> theData = prestonDataFile.getData();
+		
+		ArrayList<String> suewsVariables = new ArrayList<String>();
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_Day_of_year);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_time);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_timecode);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_NET);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_QH);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_QE);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_QG);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_Anthrop);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_wind_spd);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING__Hum);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_Temp);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_pressure);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_Precip);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_Kdown);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_snowcov);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_Ldown);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_obscloud);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_extwater);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_soilmodef);
+		suewsVariables.add(SUEWSDataFile.SUEWS_FORCING_LAI);
+		
+		ArrayList<String> prestonVariables = new ArrayList<String>();
+		prestonVariables.add(PRESTON_STR_Day_of_year);		
+		prestonVariables.add(PRESTON_STR_time);
+		prestonVariables.add(PRESTON_STR_timecode);
+		prestonVariables.add(PRESTON_STR_NET);
+		prestonVariables.add(PRESTON_STR_QH);
+		prestonVariables.add(PRESTON_STR_QE);
+		prestonVariables.add(PRESTON_STR_QG);
+		prestonVariables.add(PRESTON_STR_Anthrop + ".");
+		prestonVariables.add(PRESTON_STR_wind_spd);
+		prestonVariables.add(PRESTON_STR_Calc_RH);		
+		prestonVariables.add(PRESTON_STR_Temp);
+		prestonVariables.add(PRESTON_STR_pressure);
+		prestonVariables.add(PRESTON_STR_Precip + ".");		
+		prestonVariables.add(PRESTON_STR_Kdown);
+		prestonVariables.add(PRESTON_STR_FAKE);		
+		prestonVariables.add(PRESTON_STR_Ldown);
+		prestonVariables.add(PRESTON_STR_FAKE);
+		prestonVariables.add(PRESTON_STR_FAKE);
+		prestonVariables.add(PRESTON_STR_FAKE);
+		prestonVariables.add(PRESTON_STR_FAKE);
+		
+		StringBuffer outputStr = new StringBuffer("% ");
+		for (String variable : suewsVariables)
+		{
+			outputStr.append(variable + " ");
+		}
+		outputStr.append('\n');
+
+		//first find 2004 data
+		int count = 0;
+		ArrayList<String> yearDataColumn = theData.get(PRESTON_STR_timecode);		
+		for (int i=0;i<yearDataColumn.size();i++)
+		{
+			String item = yearDataColumn.get(count);
+			if (item.startsWith("2003"))
+			{
+					count ++;
+					continue;
+			}
+		}
+		
+		for (int i=count;i<yearDataColumn.size();i++)
+		{
+			for (int j=0;j<suewsVariables.size();j++)
+			{	
+				String item = "-999";
+					
+				String prestonVar = prestonVariables.get(j);				
+				if (prestonVar.equals(PRESTON_STR_FAKE))
+				{
+					//leave it -999
+				}
+				else
+				{
+					ArrayList<String> dataColumn = theData.get(prestonVar);	
+					//System.out.println(prestonVar);
+//					if (dataColumn.size() < i)
+//					{
+//						item = "-999";
+//					}
+//					else
+//					{
+						item = dataColumn.get(i);
+//					}
+	
+					//if time, convert 1330 to 13.5
+					if (prestonVar.equals(PRESTON_STR_time))
+					{
+						// pad 0 to 0000, 30 to 0030 and 330 to 0300
+						
+						//0 to 00, 30 to 30, 330 to 330, 1330 to 1330 
+						item = common.padLeft(item, 2, '0');						
+						//30 to 0030, 330 to 0330, 1330 to 1330
+						item = common.padLeft(item, 4, '0');						
+						//now 1330 to 13.5
+						item = common.convertTimesToTimeDecimal(item);						
+					}
+					//if timecode, = day of year + hour/24
+					if (prestonVar.equals(PRESTON_STR_timecode))	
+					{	
+						item = common.convertTimeToTimecode(item);
+					}
+						
+				}
+				outputStr.append(item + " ");
+
+			}
+			outputStr.append('\n');
+		}
+		//System.out.println(outputStr.toString());
+		common.writeFile(outputStr.toString(), path+filename);
+		
+		
+		
 	}
 
 	public void readDataFile(String path, String filename, boolean skip30s)

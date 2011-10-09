@@ -12,13 +12,36 @@ import java.util.TreeMap;
 
 public class SUEWSDataFile
 {
+	ENVICommon common = new ENVICommon();
 
 //	public TUF3DDataFile()
 //	{
 //		super();
 //		// TODO Auto-generated constructor stub
 //	}
-
+	
+	// 										
+	public static String SUEWS_FORCING_Day_of_year = "Day of year";
+	public static String SUEWS_FORCING_time = "time";
+	public static String SUEWS_FORCING_timecode = "timecode";
+	public static String SUEWS_FORCING_NET = "NET";
+	public static String SUEWS_FORCING_QH = "QH";
+	public static String SUEWS_FORCING_QE = "QE";
+	public static String SUEWS_FORCING_QG = "QG";
+	public static String SUEWS_FORCING_Anthrop = "Anthrop.";
+	public static String SUEWS_FORCING_wind_spd = "wind spd";
+	public static String SUEWS_FORCING__Hum = "%Hum";
+	public static String SUEWS_FORCING_Temp = "Temp";
+	public static String SUEWS_FORCING_pressure = "pressure";
+	public static String SUEWS_FORCING_Precip = "Precip.";
+	public static String SUEWS_FORCING_Kdown = "Kdown";
+	public static String SUEWS_FORCING_snowcov = "snowcov";
+	public static String SUEWS_FORCING_Ldown = "Ldown";
+	public static String SUEWS_FORCING_obscloud = "obscloud";
+	public static String SUEWS_FORCING_extwater = "extwater";
+	public static String SUEWS_FORCING_soilmodef = "soilmodef";
+	public static String SUEWS_FORCING_LAI = "LAI";
+	
 	public static String SUEWS_id = "id";
 	public static String SUEWS_it = "it";
 	public static String SUEWS_kdown = "kdown";
@@ -242,7 +265,25 @@ public class SUEWSDataFile
 		plotFields.add("5");
 		plotFieldLabels.add("ldown");
 		plotFields.add("6");
-		plotFieldLabels.add("lup");
+		plotFieldLabels.add("lup");		
+		
+		for (int i=1;i<10;i++)
+		{
+			sUEWSMonthlyAverages.setXRANGE_BEG("2004-0" +
+					i+
+					"-15");
+			sUEWSMonthlyAverages.setXRANGE_END("2004-0" +
+					i +
+					"-16");
+	
+			sUEWSMonthlyAverages.plotData(Messages.getString("SuewsPrestonComparisonGraphs.graph_dir"),
+					Messages.getString("SuewsPrestonComparisonGraphs.MONTHLY_AVERAGE_DAT_FILE"),
+					"1", "K" + sUEWSMonthlyAverages.getXRANGE_BEG(), plotFields, plotFieldLabels);
+			
+		}
+		
+		plotFields.clear();
+		plotFieldLabels.clear();
 		plotFields.add("12");
 		plotFieldLabels.add("QF");
 		plotFields.add("13");
@@ -257,17 +298,44 @@ public class SUEWSDataFile
 		plotFieldLabels.add("hMod");
 		plotFields.add("10");
 		plotFieldLabels.add("eMod");
-		sUEWSMonthlyAverages.plotData(Messages.getString("SuewsPrestonComparisonGraphs.graph_dir"),
-				Messages.getString("SuewsPrestonComparisonGraphs.MONTHLY_AVERAGE_DAT_FILE"),
-				"1", "Q", plotFields, plotFieldLabels);
+		for (int i=1;i<10;i++)
+		{
+			sUEWSMonthlyAverages.setXRANGE_BEG("2004-0" +
+					i+
+					"-15");
+			sUEWSMonthlyAverages.setXRANGE_END("2004-0" +
+					i +
+					"-16");
+	
+			sUEWSMonthlyAverages.plotData(Messages.getString("SuewsPrestonComparisonGraphs.graph_dir"),
+					Messages.getString("SuewsPrestonComparisonGraphs.MONTHLY_AVERAGE_DAT_FILE"),
+					"1", "Q" + sUEWSMonthlyAverages.getXRANGE_BEG(), plotFields, plotFieldLabels);
+			
+		}
+		
+
 
 		plotFields.clear();
 		plotFields.add("7");
 		plotFieldLabels.clear();
 		plotFieldLabels.add("Tsurf");
-		sUEWSMonthlyAverages.plotData(Messages.getString("SuewsPrestonComparisonGraphs.graph_dir"),
-				Messages.getString("SuewsPrestonComparisonGraphs.MONTHLY_AVERAGE_DAT_FILE"),
-				"1", "T", plotFields, plotFieldLabels);
+		
+		for (int i=1;i<10;i++)
+		{
+			sUEWSMonthlyAverages.setXRANGE_BEG("2004-0" +
+					i+
+					"-15");
+			sUEWSMonthlyAverages.setXRANGE_END("2004-0" +
+					i +
+					"-16");
+	
+			sUEWSMonthlyAverages.plotData(Messages.getString("SuewsPrestonComparisonGraphs.graph_dir"),
+					Messages.getString("SuewsPrestonComparisonGraphs.MONTHLY_AVERAGE_DAT_FILE"),
+					"1", "T" + sUEWSMonthlyAverages.getXRANGE_BEG(), plotFields, plotFieldLabels);
+			
+		}
+		
+
 
 	}
 
@@ -333,12 +401,60 @@ public class SUEWSDataFile
 					//System.out.println(dataStr);
 					//System.exit(1);
 				}
-
-				//StringTokenizer st = new StringTokenizer(dataStr);
+				
 				String[] splitString = dataStr.split("\\s+");
+
+				//special case, seems as first two columns run into 3rd
+				String idStr = null,itStr = null;
+				if (initialLinesToSkip == LINES_TO_SKIP_60 && splitString.length != 50)			
+				{					
+					String idItStr = dataStr.substring(6, 15).trim();
+					System.out.println("|"+idItStr+"|");
+					String[] idItStrSplitString = idItStr.split("\\.");
+//					idStr = idItStrSplitString[0].trim();
+//					if (idStr.endsWith("0"))
+//					{
+//						idStr = idStr.substring(0,idStr.length()-1);
+//					}
+					idStr = dataStr.substring(0, 5).trim();
+					
+					itStr = idItStrSplitString[1].trim();
+					itStr = common.getHourFromFraction("." + itStr);
+					dataStr = dataStr.substring(9, dataStr.length());
+					
+					//System.out.println(idStr + "|" + itStr + "|" + dataStr);
+					System.out.println(idStr + "|" + itStr );
+					
+					ArrayList<String> dataSetId = this.data.get(SUEWSDataFile.SUEWS_id);
+					if (dataSetId == null)
+					{
+						dataSetId = new ArrayList<String>();
+					}
+					dataSetId.add(idStr);
+					this.data.put(SUEWSDataFile.SUEWS_id, dataSetId);
+					count ++;
+					
+					ArrayList<String> dataSetIt = this.data.get(SUEWSDataFile.SUEWS_it);
+					if (dataSetIt == null)
+					{
+						dataSetIt = new ArrayList<String>();
+					}
+					dataSetIt.add(itStr);
+					this.data.put(SUEWSDataFile.SUEWS_it, dataSetIt);					
+					count ++;					
+				}
+				
+				
+				//System.out.println("splitString.length=" + splitString.length);
 				//while (st.hasMoreTokens())
-				for (String variableValue : splitString)
+				for (String dataItemFromRow : splitString)
 				{
+					// addWater variable seems to be a mess
+					if (count ==50)
+					{
+						continue;
+					}
+					//System.out.println(count);
 					String variableName = this.variables.get(count);
 					//System.out.println("variableName=" + variableName);
 					ArrayList<String> dataSet = this.data.get(variableName);
@@ -348,14 +464,14 @@ public class SUEWSDataFile
 					}
 
 					//String variableValue = st.nextToken().trim();
-					variableValue = variableValue.trim();
+					dataItemFromRow = dataItemFromRow.trim();
 					//System.out.println("variableValue=" + variableValue);
 					if (variableName.equals(SUEWS_DAILY_FILE_STR_counter))
 					{
-						variableValue = "1200";
+						dataItemFromRow = "1200";
 					}
 
-					dataSet.add(variableValue);
+					dataSet.add(dataItemFromRow);
 					this.data.put(variableName, dataSet);
 
 					count ++;
@@ -375,111 +491,6 @@ public class SUEWSDataFile
 			e.printStackTrace();
 		}
 	}
-
-//	public void readDataFileForMonthlyAverages(String path, String filename, boolean skipEveryOtherLine, int initialLinesToSkip)
-//	{
-//		String dataFile = path + File.separator + filename;
-//
-//		File file = new File(dataFile);
-//		FileInputStream fis = null;
-//		BufferedInputStream bis = null;
-//		DataInputStream dis = null;
-//
-//		try
-//		{
-//			fis = new FileInputStream(file);
-//
-//			bis = new BufferedInputStream(fis);
-//			dis = new DataInputStream(bis);
-//
-//			if (dis.available()>0)
-//			{
-//				for (int i=0;i<initialLinesToSkip;i++)
-//				{
-//					//use up lines
-//					dis.readLine();
-//					//dis.readLine(); dis.readLine(); dis.readLine();
-//
-//				}
-//				String variableStr = dis.readLine();
-//				variableStr = variableStr.replaceFirst("%", "");
-//				//StringTokenizer st = new StringTokenizer(variableStr);
-//				String[] splitString = variableStr.split("\\s+");
-//				//while (st.hasMoreTokens())
-//				for (String aVariable : splitString)
-//				{
-//					//String aVariable = st.nextToken().trim();
-//					//System.out.println("Variable=" + aVariable);
-//					this.variables.add(aVariable);
-//				}
-//			}
-//
-//			int readCount = 0;
-//			while (dis.available()>0)
-//			{
-//				int count = 0;
-//				String dataStr = dis.readLine();
-//
-//				if (skipEveryOtherLine)
-//				{
-//					//if count is even, skip this line
-//					if (readCount % 2 == 0)
-//					{}
-//					else
-//					{
-//						readCount ++;
-//						continue;
-//					}
-//				}
-//				if (dataStr != null)
-//				{
-//					//System.out.println(dataStr);
-//					dataStr = dataStr.trim();
-//					//System.out.println(dataStr);
-//					//System.exit(1);
-//				}
-//
-//				//StringTokenizer st = new StringTokenizer(dataStr);
-//				String[] splitString = dataStr.split("\\s+");
-//				//while (st.hasMoreTokens())
-//				for (String variableValue : splitString)
-//				{
-//					String variableName = this.variables.get(count);
-//					//System.out.println("variableName=" + variableName);
-//					ArrayList<String> dataSet = this.data.get(variableName);
-//					if (dataSet == null)
-//					{
-//						dataSet = new ArrayList<String>();
-//					}
-//
-//					//String variableValue = st.nextToken().trim();
-//					variableValue = variableValue.trim();
-//					//System.out.println("variableValue=" + variableValue);
-//					if (variableName.equals(SUEWS_DAILY_FILE_STR_counter))
-//					{
-//						variableValue = "1200";
-//					}
-//
-//					dataSet.add(variableValue);
-//					this.data.put(variableName, dataSet);
-//
-//					count ++;
-//				}
-//				readCount ++;
-//
-//			}
-//
-//			// dispose all the resources after using them.
-//			fis.close();
-//			bis.close();
-//			dis.close();
-//
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	public String getPath()
 	{

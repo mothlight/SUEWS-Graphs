@@ -15,8 +15,24 @@ import org.jgnuplot.Terminal;
 public class SUEWSMonthlyAverages
 {
 
-	public String XRANGE_BEG = "2004-01-15";
-	public String XRANGE_END = "2004-01-16";
+	public String getXRANGE_BEG() {
+		return XRANGE_BEG;
+	}
+
+	public void setXRANGE_BEG(String xRANGEBEG) {
+		XRANGE_BEG = xRANGEBEG;
+	}
+
+	public String getXRANGE_END() {
+		return XRANGE_END;
+	}
+
+	public void setXRANGE_END(String xRANGEEND) {
+		XRANGE_END = xRANGEEND;
+	}
+
+	public String XRANGE_BEG = "2004-03-15";
+	public String XRANGE_END = "2004-03-16";
 	//public static String GRAPH_SIZE = "1024,600";
 	public static String GRAPH_SIZE = "1536,900";
 
@@ -49,17 +65,8 @@ public class SUEWSMonthlyAverages
 		{
 			ArrayList<String> variableData = suewsData.get(variable);
 			numberOfData = variableData.size();
+			
 			break;
-//			if (variable.equals(SUEWSDataFile.SUEWS_id))
-//			{
-//				keyDay = variable;
-//				foundDay = true;
-//			}
-//			else if (variable.equals(SUEWSDataFile.SUEWS_it))
-//			{
-//				keyTime = variable;
-//			}
-
 		}
 
 
@@ -83,7 +90,8 @@ public class SUEWSMonthlyAverages
 //					keyTime = common.padRight(keyTime, 4, '0');
 
 					foundTime = true;
-					// variable_2008_12_1400 year_month_hour
+					//System.out.println("keyDay=" + keyDay);
+					// variable_2008_12_1400 year_month_hour					
 					int dayOfYear = new Integer(keyDay).intValue();
 					int dayOfMonth = common.getDayOfMonthFromDayOfYear(year, dayOfYear);
 					int month = common.getMonthFromDayOfYear(year, dayOfYear);
@@ -93,13 +101,22 @@ public class SUEWSMonthlyAverages
 				else
 				{
 					key = variable + "_" + year + "_" + keyMonth + "_" + keyTime;
-					String variableItem = variableData.get(i);
+					String variableItem = "?";
+					try 
+					{
+						variableItem = variableData.get(i);
+					} 
+					catch (IndexOutOfBoundsException e) 
+					{
+						//System.out.println("Exception with " + i + " " + variable);
+					}
 					ArrayList<String> tempDataItem = getDataForVariableAndTime(key);
 					if (tempDataItem == null)
 					{
 						tempDataItem = new ArrayList<String>();
 					}
 					tempDataItem.add(variableItem);
+					//System.out.println("Setting key=" + key);
 					setDataForVariableAndTime(key, tempDataItem);
 				}
 
@@ -148,10 +165,10 @@ public class SUEWSMonthlyAverages
 
 				if (!getKeySetForData().contains(testKey))
 				{
-					//System.out.println("Didn't find " + testKey);
+					System.out.println("Didn't find " + testKey);
 					continue;
 				}
-				//System.out.println("Found " + testKey);
+				System.out.println("Found " + testKey);
 
 				//outputStr.append(date + " ");
 				int counter = 0;
