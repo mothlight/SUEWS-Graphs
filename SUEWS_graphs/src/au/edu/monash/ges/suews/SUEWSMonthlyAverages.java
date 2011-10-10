@@ -63,9 +63,10 @@ public class SUEWSMonthlyAverages
 
 		for (String variable : variables)
 		{
+			System.out.println(variable);
 			ArrayList<String> variableData = suewsData.get(variable);
 			numberOfData = variableData.size();
-			
+
 			break;
 		}
 
@@ -91,7 +92,7 @@ public class SUEWSMonthlyAverages
 
 					foundTime = true;
 					//System.out.println("keyDay=" + keyDay);
-					// variable_2008_12_1400 year_month_hour					
+					// variable_2008_12_1400 year_month_hour
 					int dayOfYear = new Integer(keyDay).intValue();
 					int dayOfMonth = common.getDayOfMonthFromDayOfYear(year, dayOfYear);
 					int month = common.getMonthFromDayOfYear(year, dayOfYear);
@@ -102,11 +103,11 @@ public class SUEWSMonthlyAverages
 				{
 					key = variable + "_" + year + "_" + keyMonth + "_" + keyTime;
 					String variableItem = "?";
-					try 
+					try
 					{
 						variableItem = variableData.get(i);
-					} 
-					catch (IndexOutOfBoundsException e) 
+					}
+					catch (IndexOutOfBoundsException e)
 					{
 						//System.out.println("Exception with " + i + " " + variable);
 					}
