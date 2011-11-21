@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -147,6 +148,94 @@ public class ENVICommon
 	    
 	    //System.out.println("Day of year " + dayOfYear + " = " + calendar.getTime());
 	    return month;
+	}
+	
+	//20040011500 to 2004
+	public int getYearFromTimecode(String timecode)
+	{
+		int year = 0;
+		
+		String yearStr = timecode.substring(0, 4);
+		try
+		{
+			year = new Integer(yearStr).intValue();	
+		}
+		catch (NumberFormatException e)
+		{
+			year = 0;
+		}		
+		
+		return year;
+	}
+	
+	//20040011500 to month
+	public int getMonthFromTimecode(String timecode)
+	{
+		int year = getYearFromTimecode(timecode);
+		int month = 0;
+		int dayOfYear = 0;
+		
+		String dayOfYearStr = timecode.substring(4, 7);
+		try
+		{
+			dayOfYear = new Integer(dayOfYearStr).intValue();	
+		}
+		catch (NumberFormatException e)
+		{
+			month = 0;
+		}	
+		month = getMonthFromDayOfYear(year, dayOfYear);
+		
+		return month;
+	}	
+	
+	//20040011500 to day
+	public int getDayOfMonthFromTimecode(String timecode)
+	{
+		int year = getYearFromTimecode(timecode);
+		int dayOfMonth = 0;
+		int dayOfYear = 0;
+		
+		String dayOfYearStr = timecode.substring(4, 7);
+		try
+		{
+			dayOfYear = new Integer(dayOfYearStr).intValue();	
+		}
+		catch (NumberFormatException e)
+		{
+			dayOfMonth = 0;
+		}	
+		dayOfMonth = getDayOfMonthFromDayOfYear(year, dayOfYear);
+		
+		return dayOfMonth;
+	}	
+	
+	//20040011500 to 15
+	public int getHourFromTimecode(String timecode)
+	{		
+		int time;		
+		String timeStr = timecode.substring(7, 9);
+		try
+		{
+			time = new Integer(timeStr).intValue();	
+		}
+		catch (NumberFormatException e)
+		{
+			time = 0;
+		}			
+		return time;
+	}
+	
+	double roundTwoDecimals(double d) 
+	{
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
+	}
+	
+	double roundToDecimals(double d, int c) 
+	{
+		int temp=(int)((d*Math.pow(10,c)));
+		return (((double)temp)/Math.pow(10,c));
 	}
 
 	public ArrayList<Double> energyBalance(String net, String QG, String QH, String QE, boolean fake)

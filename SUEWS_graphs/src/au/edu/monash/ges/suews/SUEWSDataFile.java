@@ -505,7 +505,7 @@ public class SUEWSDataFile
 		returnStr[0]= idStr;
 		returnStr[1]= itStr;
 		return returnStr;
-	}
+	}	
 
 	public String getPath()
 	{
