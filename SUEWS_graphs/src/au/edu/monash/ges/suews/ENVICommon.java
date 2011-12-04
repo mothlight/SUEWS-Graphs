@@ -764,6 +764,27 @@ public class ENVICommon
 
 		return conn;
 	}
+	
+	public Connection getSuewsMySqlConnection()
+	{
+
+		String USERNAME = "suews";
+		String PASSWORD = "suews";
+		String URL = "jdbc:mysql://localhost/suews";
+
+		Connection conn = null;
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return conn;
+	}	
 
 	public Connection getSqliteConnection()
 	{
