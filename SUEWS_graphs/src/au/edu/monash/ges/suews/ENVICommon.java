@@ -2,10 +2,12 @@ package au.edu.monash.ges.suews;
 
 
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,6 +23,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.TreeMap;
 
+import org.apache.commons.io.FileUtils;
 import org.im4java.core.CompositeCmd;
 import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
@@ -458,6 +461,100 @@ public class ENVICommon
 //	{
 //	     return String.format("%1$-" + n + "s", s);
 //	}
+	
+	public void copyFileOnFilesystem(String sourceStr, String destinationStr)
+	{
+		// The source file name to be copied.
+        File source = new File("january.doc");
+        
+        // The target file name to which the source file will be copied.
+        File target = new File("january-backup.doc");
+        
+        // A temporary folder where we are gonna copy the source file to.
+        // Here we use the temporary folder of the OS, which can be obtained
+        // using java.io.tmpdir property.
+        File targetDir = new File(System.getProperty("java.io.tmpdir"));
+        
+        try
+        {
+            // Using FileUtils.copyFile() method to copy a file.
+            System.out.println("Copying " + source + " file to " + target);
+            FileUtils.copyFile(source, target);
+            
+            // To copy a file to a specified folder we can use the
+            // FileUtils.copyFileToDirectory() method.
+            System.out.println("Copying " + source + " file to " + targetDir);
+            FileUtils.copyFileToDirectory(source, targetDir);
+        } catch (IOException e)
+        {
+            // Errors will be reported here if any error occures during copying
+            // the file
+            e.printStackTrace();
+        }
+	}
+	
+	public void createSymlink(String source, String target)
+	{
+		Runtime rt=Runtime.getRuntime();
+		Process result=null;
+		String exe=new String("ln"+" -s "+source+" "+target);
+		try
+		{
+			result=rt.exec(exe);
+		} catch (IOException e)
+		{			
+			e.printStackTrace();
+		}
+	}
+	
+	public void runWineExe(String runDirectory)
+	{
+		String filename = "run.sh";
+		String scriptStr = "cd " + runDirectory + '\n' + "wine " + "SUEWS_V1_1.exe" + "\n";
+		writeFile(scriptStr, runDirectory + filename);
+		
+		
+		Runtime rt=Runtime.getRuntime();		
+		Process result=null;
+		//String exe=new String("wine " + exeStr);
+		//String[] exe={new String("/bin/sh " + exeStr + "exe.sh"),exeStr};
+		String exe=new String("/bin/sh " + runDirectory + "run.sh");
+		try
+		{
+			
+			result=rt.exec(exe);
+			result.waitFor();
+			
+			String s;
+			BufferedReader stdInput = new BufferedReader(new 
+		             InputStreamReader(result.getInputStream()));
+
+		    BufferedReader stdError = new BufferedReader(new 
+		             InputStreamReader(result.getErrorStream()));
+
+		        // read the output from the command
+		    System.out.println("Here is the standard output of the command:\n");
+		    while ((s = stdInput.readLine()) != null) 
+		    {
+		            System.out.println(s);
+		    }
+
+		    // read any errors from the attempted command
+		    System.out.println("Here is the standard error of the command (if any):\n");
+		    while ((s = stdError.readLine()) != null) 
+		    {
+		            System.out.println(s);
+		    }
+			
+			
+			
+			
+			//System.out.println(result.getOutputStream());
+		} catch (Exception e)
+		{			
+			e.printStackTrace();
+		}
+	}	
 
 
 
@@ -778,6 +875,28 @@ public class ENVICommon
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return conn;
+	}
+	
+	public Connection getPrestonSqliteConnection()
+	{
+		Connection conn = null;
+		// SQLite.Database db = null;
+		try
+		{
+			Class.forName("SQLite.JDBCDriver").newInstance();
+			conn = DriverManager
+					.getConnection("jdbc:sqlite:/" +
+							Messages.getString("ProcessSUEWSRun.HOME") +
+							Messages.getString("PrestonWeatherData.PRESTON_SQLITE") );
+			// java.lang.reflect.Method m = conn.getClass().getMethod(
+			// "getSQLiteDatabase", null);
+			// db = (SQLite.Database) m.invoke(conn, null);
 		} catch (Exception e)
 		{
 			e.printStackTrace();

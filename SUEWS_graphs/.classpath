@@ -2,9 +2,18 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/sqlite"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaGD"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/im4java"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jgnuplot"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ImageJ"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/POI"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jdbc-mysql"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-io"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jri">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/home/nice/R/i386-redhat-linux-gnu-library/2.14/rJava/jri"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
