@@ -507,6 +507,57 @@ public class ENVICommon
 		}
 	}
 	
+	public void runR(String runDirectory, String rScript)
+	{
+		String rFilename = "run.r";
+		String scriptFilename = "run.sh";
+		String scriptStr = "cd " + runDirectory + '\n' + "/usr/bin/R CMD BATCH " + rFilename + "\n";
+		writeFile(scriptStr, runDirectory + scriptFilename);
+		writeFile(rScript, runDirectory + rFilename);
+		
+		
+		Runtime rt=Runtime.getRuntime();		
+		Process result=null;
+		//String exe=new String("wine " + exeStr);
+		//String[] exe={new String("/bin/sh " + exeStr + "exe.sh"),exeStr};
+		String exe=new String("/bin/sh " + runDirectory + scriptFilename);
+		try
+		{
+			
+			result=rt.exec(exe);
+			result.waitFor();
+			
+			String s;
+			BufferedReader stdInput = new BufferedReader(new 
+		             InputStreamReader(result.getInputStream()));
+
+		    BufferedReader stdError = new BufferedReader(new 
+		             InputStreamReader(result.getErrorStream()));
+
+		        // read the output from the command
+		    System.out.println("Here is the standard output of the command:\n");
+		    while ((s = stdInput.readLine()) != null) 
+		    {
+		            System.out.println(s);
+		    }
+
+		    // read any errors from the attempted command
+		    System.out.println("Here is the standard error of the command (if any):\n");
+		    while ((s = stdError.readLine()) != null) 
+		    {
+		            System.out.println(s);
+		    }
+			
+			
+			
+			
+			//System.out.println(result.getOutputStream());
+		} catch (Exception e)
+		{			
+			e.printStackTrace();
+		}
+	}	
+	
 	public void runWineExe(String runDirectory)
 	{
 		String filename = "run.sh";
@@ -883,12 +934,34 @@ public class ENVICommon
 		return conn;
 	}
 	
+	public Connection getPrestonSqlite3Connection()
+	{
+		Connection conn = null;
+		// SQLite.Database db = null;
+		try
+		{			
+			Class.forName("org.sqlite.JDBC").newInstance();
+			conn = DriverManager
+					.getConnection("jdbc:sqlite:/" +
+							Messages.getString("ProcessSUEWSRun.HOME") +
+							Messages.getString("PrestonWeatherData.PRESTON_SQLITE") );
+			// java.lang.reflect.Method m = conn.getClass().getMethod(
+			// "getSQLiteDatabase", null);
+			// db = (SQLite.Database) m.invoke(conn, null);
+		} catch (Exception e)
+		{
+			e.printStackTrace();			
+		}
+
+		return conn;
+	}		
+	
 	public Connection getPrestonSqliteConnection()
 	{
 		Connection conn = null;
 		// SQLite.Database db = null;
 		try
-		{
+		{			
 			Class.forName("SQLite.JDBCDriver").newInstance();
 			conn = DriverManager
 					.getConnection("jdbc:sqlite:/" +
@@ -899,7 +972,9 @@ public class ENVICommon
 			// db = (SQLite.Database) m.invoke(conn, null);
 		} catch (Exception e)
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Falling back to other sqlite driver");
+			conn = getPrestonSqlite3Connection();
 		}
 
 		return conn;

@@ -37,11 +37,14 @@ public class RunSuewsAndProcess
 		int startingYear = 2004;
 		generateConfig.setStartingYear(startingYear);	
 		
-		String sourceDir = "/home/nice/Climate_Research/SUEWS_V2011b_example/";
+		//String sourceDir = "/home/nice/Climate_Research/SUEWS_V2011b_example/";
+		
+		String sourceDir = Messages.getString("ProcessSUEWSRun.HOME") + Messages.getString("SUEWS_EXE_DIR");
+		
 		// /home/nice/Climate_Research/SUEWS_V2011b_example/SUEWS_V1_1.exe
 		// /home/nice/Climate_Research/SUEWS_V2011b_example/salflibc.dll
-		String sourceExe = "SUEWS_V1_1.exe";
-		String sourceDll = "salflibc.dll";
+		String sourceExe = Messages.getString("SUEWS_EXE");
+		String sourceDll = Messages.getString("SUEWS_DLL");
 		
 		String source = sourceDir + sourceExe;
 		String target = runDirectory + sourceExe;		
@@ -51,8 +54,7 @@ public class RunSuewsAndProcess
 		target = runDirectory + sourceDll;		
 		common.createSymlink(source, target);
 		
-//		generateConfig.processConfig();
-//		
+//		generateConfig.processConfig();		
 //		common.runWineExe(runDirectory);
 		
 		
@@ -95,14 +97,30 @@ public class RunSuewsAndProcess
 				Messages.getString("PrestonDataFile.2004_DATA_FILE"), false);		
 
 		PrestonMonthlyAverages averages = new PrestonMonthlyAverages(prestonDataFile);
-		averages.outputDataFile(graphDirectory, Messages.getString("SuewsPrestonComparisonGraphs.PrestonMonthlyAve"));
+		averages.outputDataFiles(graphDirectory, Messages.getString("SuewsPrestonComparisonGraphs.PrestonMonthlyAve"));
 		
 		PrestonWeatherData weatherData = new PrestonWeatherData();
 		ArrayList<TreeMap<String, String>> variables = weatherData.getPrestonData(-1);
 		String prestonPlotDataFilename = "PRESTON CITIES 13092011_2.txt.gnuplot.dat";
 		weatherData.outputPlotData(variables, graphDirectory, prestonPlotDataFilename);
 		
+		RGraphs rGraphs = new RGraphs();		
+		rGraphs.runPreston1(graphDirectory);
 		
+		ArrayList<String> months =weatherData.getMonthAndYearsOfData();
+		for (String month:months)
+		{
+			StringBuffer st = new StringBuffer();
+			String item = "Kdown";
+			TreeMap<String, Double> averageData = weatherData.getMonthlyAverageForDataItem(month, item);
+			ArrayList<String> times = weatherData.getDistinctTimesForData();
+			for (String time: times)
+			{
+				Double aveForTime = averageData.get(time);
+				st.append(time + " " + aveForTime + '\n');
+			}
+			common.writeFile(st.toString(), graphDirectory + "PrestonMonthlyAve_" + month + ".dat");
+		}
 		
 		
 	}

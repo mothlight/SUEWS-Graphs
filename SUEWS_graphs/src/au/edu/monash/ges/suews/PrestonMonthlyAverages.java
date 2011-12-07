@@ -194,12 +194,13 @@ public class PrestonMonthlyAverages
 				//outputStr.append(date + " ");
 				int counter = 0;
 				for (String variable : theVariables)
-				{
+				{				
 					if (counter == 0)
 					{
 						String monthStr = common.padLeft(new Integer(month).toString(), 2, '0');
 						String hourStr = common.padLeft(new Integer(hour).toString(), 2, '0');
-						String dateStr = year + "-" + monthStr + "-15" + "-" + hourStr ;
+						//String dateStr = year + "-" + monthStr + "-15" + "-" + hourStr ;
+						String dateStr = year + "-" + monthStr + "-" + hourStr ;
 						outputStr.append(dateStr + " ");
 					}
 					if (counter == 0 || counter == 1)
@@ -250,6 +251,109 @@ public class PrestonMonthlyAverages
 //		System.out.println(outputStr.toString());
 
 	}
+	
+	public void outputDataFiles(String path, String filename)
+	{
+		StringBuffer outputStr = new StringBuffer("# ");
+
+		ArrayList<String> theVariables = getVariables();
+		//System.out.println (variables.toString());
+		int count = 0;
+		for (String variable : theVariables)
+		{
+			if (count == 0)
+			{
+				outputStr.append("Time" + " ");
+			}
+			if (count == 0 || count == 1)
+			{
+				count++;
+				continue;
+			}
+			outputStr.append(variable + " ");
+			count++;
+		}
+		outputStr.append('\n');
+
+		//year will be year
+		//iterate through 0-23 hours and 1-12 months and pull out each data file
+
+		for (int month=1;month<13;month++)
+		{
+			for (int hour=0;hour<24;hour++)
+			{
+				// 2004/1/1 or /year/month/hour
+				String date = year + "/" + month + "/" + month;
+				String testKey = variables.get(4) + "_" + year + "_" + month + "_" + hour;
+				//System.out.println("Look for " + testKey);
+
+				if (!getKeySetForData().contains(testKey))
+				{
+					System.out.println("Didn't find " + testKey);
+					continue;
+				}
+				System.out.println("Found " + testKey);
+
+				//outputStr.append(date + " ");
+				int counter = 0;
+				for (String variable : theVariables)
+				{				
+					if (counter == 0)
+					{
+						String monthStr = common.padLeft(new Integer(month).toString(), 2, '0');
+						String hourStr = common.padLeft(new Integer(hour).toString(), 2, '0');
+						//String dateStr = year + "-" + monthStr + "-15" + "-" + hourStr ;
+						String dateStr = year + "-" + monthStr + "-" + hourStr ;
+						outputStr.append(dateStr + " ");
+					}
+					if (counter == 0 || counter == 1)
+					{
+						counter++;
+						continue;
+					}
+
+					String key = variable + "_" + year + "_" + month + "_" + hour;
+					double average = getAverageForVariableAndTime(key);					
+					outputStr.append(common.roundToDecimals(average, ROUND_DIGITS) + " ");
+
+					counter++;
+				}
+				outputStr.append('\n');
+			}
+		}
+
+//		TreeMap<String, ArrayList<String>> theData = prestonDataFile.getData();
+//		ArrayList<String> timeArray = theData.get("tau");
+//		for (int i = 0;i<timeArray.size()-1;i++)
+//		{
+//			count = 0;
+//			for (String variable : variables)
+//			{
+//				ArrayList<String> dataArray = theData.get(variable);
+//				if (dataArray == null)
+//				{
+//					//System.out.println("theData.get(variable)="+ variable);
+//					String variableValue = "?";
+//					outputStr.append(variableValue + " ");
+//				}
+//				else
+//				{
+//					//System.out.println(dataArray.toString());
+//					//System.out.println(variable + "=" + variable);
+//					String variableValue = dataArray.get(i);
+//					//System.out.println(variable + "=" + variableValue);
+//					outputStr.append(variableValue + " ");
+//				}
+//					count++;
+//			}
+//			outputStr.append('\n');
+//		}
+
+		String dataFileName = path + filename;
+		common.writeFile(outputStr.toString(), dataFileName);
+//		System.out.println(outputStr.toString());
+
+	}	
 
 	public void plotData(String dataFilePath, String dataFileName, String timeField, String variable,
 			ArrayList<String> plotFields, ArrayList<String> plotFieldLabel)

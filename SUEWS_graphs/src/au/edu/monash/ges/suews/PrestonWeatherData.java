@@ -71,6 +71,97 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 
 	}
 	
+	public ArrayList<String> getMonthAndYearsOfData()
+	{
+		ArrayList<String> months = new ArrayList<String>();
+		String query = "select distinct month from Preston_data ";
+		Connection conn = common.getPrestonSqliteConnection();
+		try
+		{
+			Statement stat = conn.createStatement();
+
+			ResultSet rs = stat.executeQuery(query);
+			while (rs.next())
+			{
+				String month = rs.getString(1);
+				months.add(month);
+			}
+		
+		rs.close();
+		conn.close();
+
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return months;
+	}
+	
+	public ArrayList<String> getDistinctTimesForData()
+	{
+		Connection conn = common.getPrestonSqliteConnection();
+		ArrayList<String> times = new ArrayList<String>();
+		String timeQuery = "select distinct time from Preston_data ";	
+		try
+		{
+			Statement stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery(timeQuery);
+			while (rs.next())
+			{
+				String timeStr = rs.getString(1);
+				times.add(timeStr);
+			}
+			rs.close();
+			conn.close();
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return times;
+	}
+	
+	public TreeMap<String, Double> getMonthlyAverageForDataItem(String month, String item)
+	{
+		Connection conn = common.getPrestonSqliteConnection();
+		TreeMap<String,Double> data = new TreeMap<String, Double>();
+		// select Kdown from Preston_data where month='200401' and time = '130'
+					
+		try
+		{
+			Statement stat = conn.createStatement();
+			ResultSet rs = null;
+			ArrayList<String> times = getDistinctTimesForData();
+			
+			for (String time : times)
+			{
+				String query = "select " + item + " from Preston_data where month='" + month + "' and time = '" + time + "'";
+				rs = stat.executeQuery(query);
+				int count = 0;
+				double runningTotal = 0;
+				while(rs.next())
+				{
+					String value = rs.getString(1);
+					count ++;
+					Double valueDouble = new Double(value).doubleValue();
+					runningTotal += valueDouble;					
+				}
+				double average = runningTotal / count;
+				data.put(time, common.roundTwoDecimals(average));				
+			}		
+		rs.close();
+		conn.close();
+
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return data;
+		
+	}
+	
 	public ArrayList<TreeMap<String,String>> getPrestonData(int searchYear)
 	{	
 		
@@ -254,6 +345,7 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 			st.append(fluxValidity + " ");
 			st.append(co2FluxFinal + " ");
 			st.append(co2FluxValidity + " ");
+			st.append(temp + " ");
 			st.append(eA + " ");
 			st.append(windSpd + " ");
 			st.append(windDir + " ");
