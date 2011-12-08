@@ -1,6 +1,10 @@
 package au.edu.monash.ges.suews;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -35,6 +39,9 @@ public class SUEWSMonthlyAverages
 	public String XRANGE_END = "2004-03-16";
 	//public static String GRAPH_SIZE = "1024,600";
 	public static String GRAPH_SIZE = "1536,900";
+	//private SUEWSDataFile suewsDataFile;
+
+
 
 	ENVICommon common = new ENVICommon();
 	private int year;
@@ -45,7 +52,7 @@ public class SUEWSMonthlyAverages
 
 	public SUEWSMonthlyAverages(SUEWSDataFile suewsDataFile)
 	{
-
+		//setSuewsDataFile(suewsDataFile);
 		setVariables(suewsDataFile.getVariables());
 		TreeMap<String, ArrayList<String>> suewsData = suewsDataFile.getData();
 		year = new Integer(common.padLeft(suewsDataFile.getYear(), 3, '0')).intValue();
@@ -127,6 +134,37 @@ public class SUEWSMonthlyAverages
 
 		}
 
+	}
+	
+	public TreeMap<String, Double> getMonthlyAverageForDataItem(int month, int yearStr, String item)
+	{
+		TreeMap<String, Double> data = new TreeMap<String, Double>();
+		for (int time=0;time<24;time++)
+		{
+			String key = item + "_" + yearStr + "_" + month + "_" + time;
+			ArrayList<String> tempDataItem = getDataForVariableAndTime(key);
+			if (tempDataItem == null)
+			{
+				return data;
+			}
+			
+			//ArrayList<String> monthlyHourlyData = sUEWSMonthlyAverages.getDataForVariableAndTime("kdown_2004_4_14");
+			
+			int count = 0;
+			double runningTotal = 0;
+			for (String value : tempDataItem)
+			{				
+				count ++;
+				Double valueDouble = new Double(value).doubleValue();
+				runningTotal += valueDouble;					
+			}
+			double average = runningTotal / count;
+			String timeStr = new Integer(time).toString();			
+			data.put(common.padLeft(timeStr, 2, '0'), common.roundTwoDecimals(average));				
+		}
+		
+		return data;
+		
 	}
 
 	public void outputDataFile(String path, String filename)
@@ -333,6 +371,23 @@ public class SUEWSMonthlyAverages
 	{
 		return monthlyAverageData.get(key);
 	}
+	
+	public ArrayList<String> getKeysForMonthlyData()
+	{
+		ArrayList<String> keys = new ArrayList<String>();
+		
+		Set keySet = monthlyAverageData.keySet();
+		
+		Iterator keySetItr = keySet.iterator();
+		while (keySetItr.hasNext())
+		//for (String key : keySet)
+		{
+			String key = (String)keySetItr.next();
+			keys.add(key);
+		}
+		
+		return keys;
+	}
 
 	public double getAverageForVariableAndTime(String key)
 	{
@@ -378,5 +433,15 @@ public class SUEWSMonthlyAverages
 
 
 	}
+	
+//	public SUEWSDataFile getSuewsDataFile()
+//	{
+//		return suewsDataFile;
+//	}
+//
+//	public void setSuewsDataFile(SUEWSDataFile suewsDataFile)
+//	{
+//		this.suewsDataFile = suewsDataFile;
+//	}
 
 }
