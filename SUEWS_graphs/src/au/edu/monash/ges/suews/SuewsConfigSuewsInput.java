@@ -12,6 +12,7 @@ public class SuewsConfigSuewsInput
 	private String fileText;
 	private int year;
 	private String runPrefix;
+	SuewsConfigValues suewsConfigValues = new SuewsConfigValues();
 
 	public SuewsConfigSuewsInput(String runDirectory, int year, String runPrefix)
 	{
@@ -101,7 +102,9 @@ public class SuewsConfigSuewsInput
 		st.append("WaterState=20000" + '\n');
 		st.append("WaterStorCap=30000 !max storage cap." + '\n');
 		st.append("write5min=1" + '\n');
-		st.append("WU_choice=1" + '\n');
+		st.append("WU_choice=" +
+				suewsConfigValues.getSuewsConfigSuewsInputWUChoice()
+				+ '\n');
 		st.append("/" + '\n');		
 			
 		return st.toString();

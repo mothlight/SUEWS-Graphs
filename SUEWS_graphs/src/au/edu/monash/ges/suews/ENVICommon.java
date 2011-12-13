@@ -245,6 +245,54 @@ public class ENVICommon
 		
 
 	}
+	
+	public int getWeekOfYearFromDayAndMonth(String yearStr, String dayStr, String monthStr)
+	{
+		int month = new Integer(monthStr).intValue() - 1;
+		int day = new Integer(dayStr).intValue();
+		int year = new Integer(yearStr).intValue();	
+
+	    return getWeekOfYearFromDayAndMonth(year, day, month);
+	}	
+	
+	public int getWeekOfYearFromDayAndMonth(int year, int day, int month)
+	{
+
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.set(Calendar.MONTH, month);
+	    calendar.set(Calendar.DAY_OF_MONTH, day);	    
+	    //calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+	    calendar.set(Calendar.YEAR, year);	    
+	    
+	    int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+
+	    //System.out.println("Day of year " + dayOfYear + " = " + calendar.getTime());
+	    return weekOfYear;
+	}		
+	
+	public int getDayOfYearFromDayAndMonth(String yearStr, String dayStr, String monthStr)
+	{
+		int month = new Integer(monthStr).intValue() - 1;
+		int day = new Integer(dayStr).intValue();
+		int year = new Integer(yearStr).intValue();	
+
+	    return getDayOfYearFromDayAndMonth(year, day, month);
+	}		
+	
+	public int getDayOfYearFromDayAndMonth(int year, int day, int month)
+	{
+
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.set(Calendar.MONTH, month);
+	    calendar.set(Calendar.DAY_OF_MONTH, day);	    
+	    //calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+	    calendar.set(Calendar.YEAR, year);	    
+	    
+	    int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+
+	    //System.out.println("Day of year " + dayOfYear + " = " + calendar.getTime());
+	    return dayOfYear;
+	}	
 
 	public int getDayOfMonthFromDayOfYear(int year, int dayOfYear)
 	{

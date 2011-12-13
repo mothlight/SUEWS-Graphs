@@ -20,6 +20,8 @@ public class SuewsConfigValues
 	private Double gisConfigDecPercentage;
 	private Double gisConfigGrassPercentage;
 	private Double gisConfigIrrGrassPercentage;
+	private String prestonWeatherDataDataTable;
+	private String suewsConfigSuewsInputWUChoice;
 
 	public SuewsConfigValues()
 	{
@@ -29,12 +31,18 @@ public class SuewsConfigValues
 
 	public void setConfigValues()
 	{
+		//setSuewsConfigSuewsInputWUChoice("1");
+		setSuewsConfigSuewsInputWUChoice("0");
+		
+		
 		prestonExternalWaterHourlyWeighings = new TreeMap<String, Double>();
 		prestonExternalWaterHourlyWeighings.put("01", .25);
 		prestonExternalWaterHourlyWeighings.put("02", .25);
 		prestonExternalWaterHourlyWeighings.put("03", .25);
 		prestonExternalWaterHourlyWeighings.put("22", .25);
-		setPrestonExternalWaterMultiplier(100.0);
+		setPrestonExternalWaterMultiplier(1.0);
+		//setPrestonWeatherDataDataTable("Preston_data");
+		setPrestonWeatherDataDataTable("Mawson_Lakes_data");
 		
 		setGisConfigBuildingPercentage(0.4500);
 		setGisConfigPavedPercentage(0.1800);
@@ -46,10 +54,12 @@ public class SuewsConfigValues
 		
 		setPrestonExternalWaterHourlyWeighings(prestonExternalWaterHourlyWeighings);
 		setNumGridConnections(1);
-		setRunPrefix("Pr3714");
+		//setRunPrefix("Pr3714");
+		setRunPrefix("Ml3714");
 		setRunDirectory("/tmp/SUEWS_" + runPrefix + "/");
 		setNumYears(1);
-		setStartingYear(2004);
+		//setStartingYear(2004);
+		setStartingYear(2011);
 	}
 	
 
@@ -193,6 +203,27 @@ public class SuewsConfigValues
 			double prestonExternalWaterMultiplier)
 	{
 		this.prestonExternalWaterMultiplier = prestonExternalWaterMultiplier;
+	}
+
+	public String getPrestonWeatherDataDataTable()
+	{
+		return prestonWeatherDataDataTable;
+	}
+
+	public void setPrestonWeatherDataDataTable(String prestonWeatherDataDataTable)
+	{
+		this.prestonWeatherDataDataTable = prestonWeatherDataDataTable;
+	}
+
+	public String getSuewsConfigSuewsInputWUChoice()
+	{
+		return suewsConfigSuewsInputWUChoice;
+	}
+
+	public void setSuewsConfigSuewsInputWUChoice(
+			String suewsConfigSuewsInputWUChoice)
+	{
+		this.suewsConfigSuewsInputWUChoice = suewsConfigSuewsInputWUChoice;
 	}
 
 }

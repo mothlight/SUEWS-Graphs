@@ -48,6 +48,8 @@ public class PrestonWeatherData {
 	ENVICommon common = new ENVICommon();
 	SuewsConfigValues suewsConfigValues = new SuewsConfigValues();
 	
+	private String dataTable = "Preston_data";
+	
 	
 	
 
@@ -60,7 +62,8 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 	public PrestonWeatherData()
 	{
 		super();
-		// TODO Auto-generated constructor stub
+		setDataTable(suewsConfigValues.getPrestonWeatherDataDataTable());
+		
 	}
 
 	/**
@@ -76,7 +79,9 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 	public ArrayList<String> getMonthAndYearsOfData()
 	{
 		ArrayList<String> months = new ArrayList<String>();
-		String query = "select distinct month from Preston_data ";
+		String query = "select distinct month from " +
+				getDataTable() +
+				" ";
 		Connection conn = common.getPrestonSqliteConnection();
 		try
 		{
@@ -104,7 +109,9 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 	{
 		Connection conn = common.getPrestonSqliteConnection();
 		ArrayList<String> times = new ArrayList<String>();
-		String timeQuery = "select distinct time from Preston_data ";	
+		String timeQuery = "select distinct time from " +
+				getDataTable() +
+				" ";	
 		try
 		{
 			Statement stat = conn.createStatement();
@@ -138,7 +145,9 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 			
 			for (String time : times)
 			{
-				String query = "select " + item + " from Preston_data where month='" + month + "' and time = '" + time + "'";
+				String query = "select " + item + " from " +
+						getDataTable() +
+						" where month='" + month + "' and time = '" + time + "'";
 				rs = stat.executeQuery(query);
 				int count = 0;
 				double runningTotal = 0;
@@ -222,7 +231,7 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 		// order by Timecode
 		
 		//String table = "`suews`.`Preston_data`";
-		String table = "Preston_Data";
+		String table = getDataTable();
 		//TreeMap<String, Integer> variables = new TreeMap<String, Integer>();
 		ArrayList<TreeMap<String, String>> variables = new ArrayList<TreeMap<String, String>>();
 		
@@ -423,7 +432,9 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 			//Connection conn = common.getSuewsMySqlConnection();
 			Connection conn = common.getPrestonSqliteConnection();
 		
-			String updateStr = " update `suews`.`Preston_data` set " 
+			String updateStr = " update `suews`.`" +
+					getDataTable() +
+					"` set " 
 							+ RH 
 							+ " = " 
 							+ rh 
@@ -440,5 +451,16 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 			e.printStackTrace();
 		}
 	}
+
+	public String getDataTable()
+	{
+		return dataTable;
+	}
+
+	public void setDataTable(String dataTable)
+	{
+		this.dataTable = dataTable;
+	}
+	
 
 }
