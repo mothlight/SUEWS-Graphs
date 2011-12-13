@@ -124,6 +124,8 @@ public class SuewsConfigWeatherData
 			String precip = oneItem.get(PrestonWeatherData.PRECIP);
 			String kdown = oneItem.get(PrestonWeatherData.KDOWN);
 			String ldown = oneItem.get(PrestonWeatherData.LDOWN);
+			String extWater = oneItem.get(PrestonWeatherData.EXT_WATER);			
+			//String extWater = "258.18";
 			
 			st.append("" +
 					dayOfYear +
@@ -160,7 +162,7 @@ public class SuewsConfigWeatherData
 					" " +
 					"-999" + //obscloud
 					" " +
-					"258.18" + //extwater
+					extWater + //extwater
 					" " +
 					"-999" + //soilmodef
 					" " +

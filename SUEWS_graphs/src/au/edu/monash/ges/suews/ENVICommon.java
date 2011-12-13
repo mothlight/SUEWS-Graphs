@@ -74,6 +74,8 @@ public class ENVICommon
 	public static final String RECEPTOR_Y = "y";
 	public static final String RECEPTOR_FILENAME = "filename";
 	public static final String RECEPTOR_PATH = "path";
+	
+	public static int DEFAULT_ROUNDING_PRECISION = 2;
 
 	/*
 	 *

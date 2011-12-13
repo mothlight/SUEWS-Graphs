@@ -43,6 +43,7 @@ public class PrestonWeatherData {
 	public static String SOIL_MOISTURE = "Soil_moisture";
 	public static String DEEP_SOIL_TEMP = "Deep_soil_temp";
 	public static String RH = "RH";
+	public static String EXT_WATER = "extwater";
 	
 	ENVICommon common = new ENVICommon();
 	
@@ -163,7 +164,16 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 	}
 	
 	public ArrayList<TreeMap<String,String>> getPrestonData(int searchYear)
-	{	
+	{
+		TreeMap <String, Double> hourlyWeighings = new TreeMap<String, Double>();
+		hourlyWeighings.put("1", .25);
+		hourlyWeighings.put("2", .25);
+		hourlyWeighings.put("3", .25);
+		hourlyWeighings.put("4", .25);
+		
+		YVWUsage yVWUsage = new YVWUsage();
+		String waterYear = new Integer(searchYear).toString().substring(2);
+		ArrayList<TreeMap<String, Double>> yVWData = yVWUsage.calculateYearWaterExternal(waterYear);
 		
 		//select Year,Day_of_year,Time,Timecode,Month,Week,Kdown,Kup,Ldown,Lup,NET,QH,QE,QG,Flux_validity,CO2_flux_final,CO2_flux_validity,Temp,e_a,Wind_spd,Wind_dir,Pressure,Precip,Anthrop,tau,Soil_moisture,Deep_soil_temp,RH from Preston_Data 
 		// where Year = 2004
@@ -260,6 +270,9 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 				String deepSoilTemp = rs.getString(DEEP_SOIL_TEMP);
 				oneItem.put(DEEP_SOIL_TEMP, deepSoilTemp);
 				String rh = rs.getString(RH);
+				
+				
+				
 				oneItem.put(RH, rh);
 //				if (rh == null)
 //				{			
