@@ -57,26 +57,28 @@ public class RunSuewsAndProcess
 		generateConfig.processConfig();		
 		common.runWineExe(runDirectory);
 		
+		processOutput(runDirectory, startingYear);		
+	}
+	
+	public void processOutput(String runDirectory, int startingYear)
+	{
+		String graphDirectory = runDirectory + "graphs/";
+		common.createDirectory(graphDirectory);
 		
 		String path = runDirectory + "Output";		
 		String filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE");
 
 		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, SUEWSDataFile.LINES_TO_SKIP_60);
-		TreeMap<String, ArrayList<String>> theData = sUEWSDataFile.getData();
+		//TreeMap<String, ArrayList<String>> theData = sUEWSDataFile.getData();
 
-		Set<String> keys = theData.keySet();
-		for (String key : keys)
-		{
-			System.out.println(key);
-		}
+//		Set<String> keys = theData.keySet();
+//		for (String key : keys)
+//		{
+//			System.out.println(key);
+//		}
 
-		SUEWSMonthlyAverages sUEWSMonthlyAverages = new SUEWSMonthlyAverages(sUEWSDataFile);
+		
 		//String graphDirectory = Messages.getString("SuewsPrestonComparisonGraphs.graph_dir");
-		String graphDirectory = runDirectory + "graphs/";
-		common.createDirectory(graphDirectory);
-
-		sUEWSMonthlyAverages.outputDataFile(graphDirectory,
-				Messages.getString("SuewsPrestonComparisonGraphs.MONTHLY_AVERAGE_DAT_FILE"));
 
 		//String suewsPath = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DATA_PATH");
 		String suewsFilename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE");
@@ -99,64 +101,32 @@ public class RunSuewsAndProcess
 		PrestonMonthlyAverages averages = new PrestonMonthlyAverages(prestonDataFile);
 		averages.outputDataFiles(graphDirectory, Messages.getString("SuewsPrestonComparisonGraphs.PrestonMonthlyAve"));
 		
-		PrestonWeatherData weatherData = new PrestonWeatherData();
-		ArrayList<TreeMap<String, String>> variables = weatherData.getPrestonData(-1);
-		String prestonPlotDataFilename = "PRESTON CITIES 13092011_2.txt.gnuplot.dat";
-		weatherData.outputPlotData(variables, graphDirectory, prestonPlotDataFilename);
+
 		
 		RGraphs rGraphs = new RGraphs();		
 		rGraphs.runPreston1(graphDirectory);
 		
 		//generate Preston monthly average data files
-		ArrayList<String> months =weatherData.getMonthAndYearsOfData();
-		for (String month:months)
-		{
-			StringBuffer st = new StringBuffer();
-			String item = PrestonWeatherData.KDOWN;
-			TreeMap<String, Double> kDownAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
-			item =  PrestonWeatherData.KUP;
-			TreeMap<String, Double> kUpAverageData = weatherData.getMonthlyAverageForDataItem(month, item);			
-			item =  PrestonWeatherData.LDOWN;
-			TreeMap<String, Double> lDownAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
-			item =  PrestonWeatherData.LUP;
-			TreeMap<String, Double> lUpAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
-			item = PrestonWeatherData.ANTHROP;
-			TreeMap<String, Double> qfAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
-			item = PrestonWeatherData.QH;
-			TreeMap<String, Double> qhAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
-			item = PrestonWeatherData.QE;
-			TreeMap<String, Double> qeAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
-			item = PrestonWeatherData.QG;
-			TreeMap<String, Double> qgAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
-			
-			ArrayList<String> times = weatherData.getDistinctTimesForData();
-			for (String time: times)
-			{
-				st.append(time +" ");
-						
-				Double KDownAveForTime = kDownAverageData.get(time);
-				st.append(KDownAveForTime + " "  );
-				Double KUpAveForTime = kUpAverageData.get(time);
-				st.append(KUpAveForTime + " " );
-				Double lDownAveForTime = lDownAverageData.get(time);
-				st.append(lDownAveForTime + " " );
-				Double lUpAveForTime = lUpAverageData.get(time);
-				st.append(lUpAveForTime + " " );
-				Double qfAveForTime = qfAverageData.get(time);
-				st.append(qfAveForTime + " " );
-				Double qhAveForTime = qhAverageData.get(time);
-				st.append(qhAveForTime + " " );
-				Double qeAveForTime = qeAverageData.get(time);
-				st.append(qeAveForTime + " " );
-				Double qgAveForTime = qgAverageData.get(time);
-				st.append(qgAveForTime + " " );
-				
-				st.append('\n');
-			}
-			common.writeFile(st.toString(), graphDirectory + "PrestonMonthlyAve_" + month + ".dat");
-		}
+		generatePrestonAverageFiles(graphDirectory);
+		
 		
 		//generate SUEWS monthly average data files
+		generateSuewsAverageFiles(graphDirectory, startingYear, sUEWSDataFile);
+		
+		rGraphs.runPreston2(graphDirectory);
+		
+		for (int i=1;i<13;i++)
+		{
+			rGraphs.runPreston3(graphDirectory, i);
+		}
+	}
+	
+	public void generateSuewsAverageFiles(String graphDirectory, int startingYear, SUEWSDataFile sUEWSDataFile)
+	{
+		SUEWSMonthlyAverages sUEWSMonthlyAverages = new SUEWSMonthlyAverages(sUEWSDataFile);
+		sUEWSMonthlyAverages.outputDataFile(graphDirectory,
+				Messages.getString("SuewsPrestonComparisonGraphs.MONTHLY_AVERAGE_DAT_FILE"));
+		
 		for (int month =1;month<13;month++)
 		{
 			//[Ch/i, Ch/i, DR/i, E/i, Fcld, Fw, Ie/i, LAI, L_mod, P/i, QE, QF, QH, RA, RO/i, ROpav, ROpipe, ROsoil/i, ROveg, ROwater, RS, ST/i, 
@@ -213,16 +183,74 @@ public class RunSuewsAndProcess
 			
 			common.writeFile(st.toString(), graphDirectory + "SUEWSMonthlyAve_" + month + ".dat");
 			
-		}	
-		
-		rGraphs.runPreston2(graphDirectory);
-		
-		for (int i=1;i<13;i++)
-		{
-			rGraphs.runPreston3(graphDirectory, i);
 		}
-				
+	
+	}
+	
+	public void generatePrestonAverageFiles(String graphDirectory)
+	{
+		String prestonDataAveDataDir = Messages.getString("ProcessSUEWSRun.HOME") + Messages.getString("PrestonDataFile.AVE_DATA_PATH2");
 		
+		PrestonWeatherData weatherData = new PrestonWeatherData();
+		//ArrayList<TreeMap<String, String>> variables = weatherData.getPrestonData(-1);
+		
+		String prestonPlotDataFilename = Messages.getString("ProcessSUEWSRun.prestonPlotDataFilename");
+		//weatherData.outputPlotData(variables, graphDirectory, prestonPlotDataFilename);	
+		String source = prestonDataAveDataDir + prestonPlotDataFilename;
+		String target = graphDirectory + prestonPlotDataFilename;		
+		common.createSymlink(source, target);
+				
+		ArrayList<String> months =weatherData.getMonthAndYearsOfData();
+		for (String month:months)
+		{
+//			StringBuffer st = new StringBuffer();
+//			String item = PrestonWeatherData.KDOWN;
+//			TreeMap<String, Double> kDownAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
+//			item =  PrestonWeatherData.KUP;
+//			TreeMap<String, Double> kUpAverageData = weatherData.getMonthlyAverageForDataItem(month, item);			
+//			item =  PrestonWeatherData.LDOWN;
+//			TreeMap<String, Double> lDownAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
+//			item =  PrestonWeatherData.LUP;
+//			TreeMap<String, Double> lUpAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
+//			item = PrestonWeatherData.ANTHROP;
+//			TreeMap<String, Double> qfAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
+//			item = PrestonWeatherData.QH;
+//			TreeMap<String, Double> qhAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
+//			item = PrestonWeatherData.QE;
+//			TreeMap<String, Double> qeAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
+//			item = PrestonWeatherData.QG;
+//			TreeMap<String, Double> qgAverageData = weatherData.getMonthlyAverageForDataItem(month, item);
+//			
+//			ArrayList<String> times = weatherData.getDistinctTimesForData();
+//			for (String time: times)
+//			{
+//				st.append(time +" ");
+//						
+//				Double KDownAveForTime = kDownAverageData.get(time);
+//				st.append(KDownAveForTime + " "  );
+//				Double KUpAveForTime = kUpAverageData.get(time);
+//				st.append(KUpAveForTime + " " );
+//				Double lDownAveForTime = lDownAverageData.get(time);
+//				st.append(lDownAveForTime + " " );
+//				Double lUpAveForTime = lUpAverageData.get(time);
+//				st.append(lUpAveForTime + " " );
+//				Double qfAveForTime = qfAverageData.get(time);
+//				st.append(qfAveForTime + " " );
+//				Double qhAveForTime = qhAverageData.get(time);
+//				st.append(qhAveForTime + " " );
+//				Double qeAveForTime = qeAverageData.get(time);
+//				st.append(qeAveForTime + " " );
+//				Double qgAveForTime = qgAverageData.get(time);
+//				st.append(qgAveForTime + " " );
+//				
+//				st.append('\n');
+//			}
+			//common.writeFile(st.toString(), graphDirectory + "PrestonMonthlyAve_" + month + ".dat");
+			
+			source = prestonDataAveDataDir + "PrestonMonthlyAve_" + month + ".dat";
+			target = graphDirectory + "PrestonMonthlyAve_" + month + ".dat";		
+			common.createSymlink(source, target);
+		}
 	}
 
 }
