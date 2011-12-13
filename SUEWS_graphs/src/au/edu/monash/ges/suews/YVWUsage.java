@@ -80,10 +80,27 @@ public class YVWUsage
 		
 		return returnValues;		
 	}
+	
+	public static Double weightDailyUsageBySingleHour(TreeMap <String, Double> hourlyWeighings, double dailyWaterAmount, String hour)
+	{
+		// hourlyWeighings.put("1", .25);
+		Double hourlyPercentage = hourlyWeighings.get(hour);
+		if (hourlyPercentage == null)
+		{
+			return 0.0;
+		}
+		Double water = (dailyWaterAmount * hourlyPercentage) ;
+		
+		return water;		
+	}	
 
 	
 	public ArrayList<TreeMap<String, Double>> calculateYearWaterExternal(String year)
 	{
+		if (year.equals("-1"))
+		{
+			return null;
+		}
 		ArrayList<TreeMap<String, Double>> data = new ArrayList<TreeMap<String, Double>>();
 		int winterQuarter = 3;
 		double winterUsage = getMLAverageForQuarter(year, winterQuarter);
@@ -125,7 +142,7 @@ public class YVWUsage
 		  for (int day=1;day<=31;day++)
 		  {
 			  //String key = day + "-" + month + "-" + year;
-			  String key = getKeyForDate(year, month, day);
+			  String key = common.getYVWKeyForDate(year, month, day);
 			  Integer ml = quarterData.get(key);
 			  if (ml != null)
 			  {
@@ -144,11 +161,7 @@ public class YVWUsage
 		return weightedWaterUsage;
 	}
 	
-	public String getKeyForDate(String year, String month, int day)
-	{
-		String key = day + "-" + month + "-" + year;
-		return key;
-	}
+
 	
 	public TreeMap<String, Double> getZeroWaterUsageQuarter(String year, int quarter)
 	{
@@ -159,7 +172,7 @@ public class YVWUsage
 		{			
 		  for (int day=1;day<=31;day++)
 		  {
-			  String key = getKeyForDate(year, month, day);			  
+			  String key = common.getYVWKeyForDate(year, month, day);			  
 			  weightedWaterUsage.put(key, 0.0);
 		  }
 		}			
@@ -210,7 +223,7 @@ public class YVWUsage
 		  for (int day=1;day<=31;day++)
 		  {
 			  //String key = day + "-" + month + "-" + year;
-			  String key = getKeyForDate(year, month, day);
+			  String key = common.getYVWKeyForDate(year, month, day);
 			  Integer ml = data.get(key);
 			  if (ml != null)
 			  {

@@ -132,7 +132,7 @@ public class SuewsConfigWeatherData
 					" " +
 					timeCombined +
 					" " +
-					dectimeDouble +
+					common.roundToDecimals(dectimeDouble, common.DEFAULT_ROUNDING_PRECISION) +
 					" " +
 					net +
 					" " +

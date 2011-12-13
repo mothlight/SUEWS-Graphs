@@ -116,6 +116,123 @@ public class ENVICommon
 
 	}
 	
+	public int getYVWQuarterForMonth(int month)
+	{
+		int quarter = 0;
+		
+		switch (month) {
+		  case 1:
+			  quarter = 0;
+		    break;
+		  case 2:	
+			 quarter = 0;
+		    break;
+		  case 3:		   
+			  quarter = 0;
+		    break;
+		  case 4:		   
+			  quarter = 1;
+		    break;
+		  case 5:		   
+			  quarter = 1;
+		    break;
+		  case 6:		   
+			  quarter = 1;
+		    break;
+		  case 7:		   
+			  quarter = 2;
+		    break;
+		  case 8:		   
+			  quarter = 2;
+		    break;
+		  case 9:		   
+			  quarter = 2;
+		    break;
+		  case 10:		   
+			  quarter = 3;
+		    break;
+		  case 11:		   
+			  quarter = 3;
+		    break;
+		  case 12:		   
+			  quarter = 3;
+		    break;		    
+		  
+		  default: 
+		  
+		}
+		
+		return quarter;
+	}
+	
+	public String getYVWKeyForDate(String year, String month, int day)
+	{
+		String key = day + "-" + month + "-" + year;
+		return key;
+	}
+	
+	public String getMonthForMonthInt(int month)
+	{
+		String monthStr = "";
+		switch (month) {
+		  case 1:
+			  monthStr = "Jan";
+		    break;
+		  case 2:	
+			  monthStr = "Feb";
+		    break;
+		  case 3:		   
+			  monthStr = "Mar";
+		    break;
+		  case 4:		   
+			  monthStr = "Apr";
+		    break;
+		  case 5:		   
+			  monthStr = "May";
+		    break;
+		  case 6:		   
+			  monthStr = "Jun";
+		    break;
+		  case 7:		   
+			  monthStr = "Jul";
+		    break;
+		  case 8:		   
+			  monthStr = "Aug";
+		    break;		    
+		  case 9:		   
+			  monthStr = "Sep";
+		    break;
+		  case 10:		   
+			  monthStr = "Oct";
+		    break;
+		  case 11:		   
+			  monthStr = "Nov";
+		    break;
+		  case 12:		   
+			  monthStr = "Dec";
+		    break;		    
+		    
+		  default: 
+		  
+		}
+		
+		return monthStr;
+	}
+	
+	public String getYVWKeyForDate(int year, int month, int day)
+	{
+		
+		String monthStr = getMonthForMonthInt(month);
+		String yearStr = new Integer(year).toString();
+		if (yearStr.length() == 4)
+		{
+			yearStr = yearStr.substring(2);
+		}
+		
+		String key = day + "-" + monthStr + "-" + yearStr;
+		return key;
+	}	
+	
 	public String getHourFromFraction(String fraction)
 	{
 		double fractionDouble = new Double(fraction).doubleValue();

@@ -163,13 +163,50 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 		
 	}
 	
+	public String getWaterUsageForHour(String timecode, ArrayList<TreeMap<String, Double>> yVWData, TreeMap<String, Double> hourlyWeighings)
+	{
+		String waterUsage = "0.0";
+		
+		//20042241330
+		String year = timecode.substring(0, 4);
+		int yearInt = new Integer(year).intValue();
+		String day = timecode.substring(4, 7);
+		int dayOfYearInt = new Integer(day).intValue();
+		String hourMinute = timecode.substring(7, 11);
+		if (hourMinute .endsWith("30"))
+		{
+			return waterUsage;
+		}
+		String hour = hourMinute.substring(0,2);
+		
+		int dayOfMonth = common.getDayOfMonthFromDayOfYear(yearInt, dayOfYearInt);	
+		int month = common.getMonthFromDayOfYear(yearInt, dayOfYearInt);
+		String key = common.getYVWKeyForDate(yearInt, month, dayOfMonth);
+		int quarter = common.getYVWQuarterForMonth(month);
+		
+		TreeMap<String, Double> quarterlyData = yVWData.get(quarter);
+		Double dailyWater = quarterlyData.get(key);
+		
+		if (dailyWater == null)
+		{
+			return "0.0";
+		}
+		Double hourWaterAmount = YVWUsage.weightDailyUsageBySingleHour(hourlyWeighings, dailyWater, hour);
+		
+		Double roundedHourWaterAmount = common.roundToDecimals( hourWaterAmount , common.DEFAULT_ROUNDING_PRECISION);
+		waterUsage = roundedHourWaterAmount.toString();		
+				
+		return waterUsage;				
+	}
+	
+	
 	public ArrayList<TreeMap<String,String>> getPrestonData(int searchYear)
 	{
 		TreeMap <String, Double> hourlyWeighings = new TreeMap<String, Double>();
-		hourlyWeighings.put("1", .25);
-		hourlyWeighings.put("2", .25);
-		hourlyWeighings.put("3", .25);
-		hourlyWeighings.put("4", .25);
+		hourlyWeighings.put("01", .25);
+		hourlyWeighings.put("02", .25);
+		hourlyWeighings.put("03", .25);
+		hourlyWeighings.put("22", .25);
 		
 		YVWUsage yVWUsage = new YVWUsage();
 		String waterYear = new Integer(searchYear).toString().substring(2);
@@ -271,25 +308,23 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 				oneItem.put(DEEP_SOIL_TEMP, deepSoilTemp);
 				String rh = rs.getString(RH);
 				
-				
+				String extWaterUsage = "0.0";
+				if (searchYear == -1)
+				{
+					
+				}
+				else
+				{
+					extWaterUsage = getWaterUsageForHour(timecode, yVWData, hourlyWeighings); 
+				}
+						
+				oneItem.put(EXT_WATER, extWaterUsage);
+//System.out.println("external Water for " + timecode + "=" + extWaterUsage);
 				
 				oneItem.put(RH, rh);
-//				if (rh == null)
-//				{			
-//					double rhDouble = common.roundTwoDecimals(common.CalculateRHFromVapor2(tempDouble, eADouble));
-//					rh = new Double(rhDouble).toString();
-//					updateRH(timecode, rhDouble);
-//				}			
-				
-//				System.out.println(year + " " + dayOfYear + " " + time + " " + timecode + "," +
-//						month + "," + week + "," + kdown + ","+ kup + ","+ ldown + "," + lup + "," + net + ","+ qh + "," +
-//						qe + "," + qg + "," + fluxValidity + ","+ co2FluxFinal + " ," + co2FluxValidity + "," + temp + "," + eA + ","+ windSpd + "," +			
-//						windDir + "," + pressure + "," + precip + "," + anthro + "," + tau + "," + soilMoisture + "," +
-//						deepSoilTemp + "," + rh );
+
 				
 				variables.add(oneItem);
-				//System.out.println(oneItem);
-				//System.exit(1);
 			}
 			rs.close();
 			conn.close();
@@ -299,7 +334,6 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 			e.printStackTrace();
 		}
 		
-		//System.out.println(variables.toString());
 		return variables;
 	}
 	
