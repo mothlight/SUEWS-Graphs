@@ -8,6 +8,7 @@ public class RunSuewsAndProcess
 {
 	
 	ENVICommon common = new ENVICommon();
+	SuewsConfigValues suewsConfigValues = new SuewsConfigValues();
 
 	/**
 	 * @param args
@@ -23,18 +24,16 @@ public class RunSuewsAndProcess
 	{
 		GenerateSuewsConfig generateConfig = new GenerateSuewsConfig();
 		
-		int numGridConnections = 1;
+		int numGridConnections = suewsConfigValues.getNumGridConnections();
 		generateConfig.setNumGridConnections(numGridConnections);
-		String runPrefix = "Pr3714";
+		String runPrefix = suewsConfigValues.getRunPrefix();
 		generateConfig.setRunPrefix(runPrefix);
-		String runDirectory = "/tmp/SUEWS_" +
-				runPrefix +
-				"/";
+		String runDirectory = suewsConfigValues.getRunDirectory();
 		common.createDirectory(runDirectory);
 		generateConfig.setRunDirectory(runDirectory);
-		int numYears = 1;
+		int numYears = suewsConfigValues.getNumYears();
 		generateConfig.setNumYears(numYears);
-		int startingYear = 2004;
+		int startingYear = suewsConfigValues.getStartingYear();
 		generateConfig.setStartingYear(startingYear);	
 		
 		//String sourceDir = "/home/nice/Climate_Research/SUEWS_V2011b_example/";

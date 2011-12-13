@@ -46,6 +46,7 @@ public class PrestonWeatherData {
 	public static String EXT_WATER = "extwater";
 	
 	ENVICommon common = new ENVICommon();
+	SuewsConfigValues suewsConfigValues = new SuewsConfigValues();
 	
 	
 	
@@ -192,8 +193,9 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 			return "0.0";
 		}
 		Double hourWaterAmount = YVWUsage.weightDailyUsageBySingleHour(hourlyWeighings, dailyWater, hour);
+		hourWaterAmount = hourWaterAmount * suewsConfigValues.getPrestonExternalWaterMultiplier();
 		
-		Double roundedHourWaterAmount = common.roundToDecimals( hourWaterAmount , common.DEFAULT_ROUNDING_PRECISION);
+		Double roundedHourWaterAmount = common.roundToDecimals(hourWaterAmount, ENVICommon.DEFAULT_ROUNDING_PRECISION);
 		waterUsage = roundedHourWaterAmount.toString();		
 				
 		return waterUsage;				
@@ -202,11 +204,14 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 	
 	public ArrayList<TreeMap<String,String>> getPrestonData(int searchYear)
 	{
-		TreeMap <String, Double> hourlyWeighings = new TreeMap<String, Double>();
-		hourlyWeighings.put("01", .25);
-		hourlyWeighings.put("02", .25);
-		hourlyWeighings.put("03", .25);
-		hourlyWeighings.put("22", .25);
+//		TreeMap <String, Double> hourlyWeighings = new TreeMap<String, Double>();
+//		hourlyWeighings.put("01", .25);
+//		hourlyWeighings.put("02", .25);
+//		hourlyWeighings.put("03", .25);
+//		hourlyWeighings.put("22", .25);
+		
+		SuewsConfigValues suewsConfigValues = new SuewsConfigValues();
+		TreeMap <String, Double> hourlyWeighings = suewsConfigValues.getPrestonExternalWaterHourlyWeighings();
 		
 		YVWUsage yVWUsage = new YVWUsage();
 		String waterYear = new Integer(searchYear).toString().substring(2);
@@ -315,7 +320,7 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 				}
 				else
 				{
-					extWaterUsage = getWaterUsageForHour(timecode, yVWData, hourlyWeighings); 
+					extWaterUsage = getWaterUsageForHour(timecode, yVWData, hourlyWeighings);					 
 				}
 						
 				oneItem.put(EXT_WATER, extWaterUsage);

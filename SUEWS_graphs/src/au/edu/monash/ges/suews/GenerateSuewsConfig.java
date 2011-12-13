@@ -8,6 +8,7 @@ import javax.print.DocFlavor.INPUT_STREAM;
 public class GenerateSuewsConfig
 {
 	ENVICommon common = new ENVICommon();
+	SuewsConfigValues suewsConfigValues = new SuewsConfigValues();
 	final String INPUT_DIRECTORY = "Input";
 	final String OUTPUT_DIRECTORY = "Output";
 	private String outputDirectory;
@@ -26,16 +27,16 @@ public class GenerateSuewsConfig
 	 */
 	public static void main(String[] args)
 	{
-		GenerateSuewsConfig generateConfig = new GenerateSuewsConfig();
+//		GenerateSuewsConfig generateConfig = new GenerateSuewsConfig();
 		
-		int numGridConnections = 1;
-		String runPrefix = "Pr3714";
-		String runDirectory = "/tmp/SUEWS_tmp/";
-		int numYears = 1;
-		int startingYear = 2004;
-		
-		
-		generateConfig.processConfig();
+//		int numGridConnections = 1;
+//		String runPrefix = "Pr3714";
+//		String runDirectory = "/tmp/SUEWS_tmp/";
+//		int numYears = 1;
+//		int startingYear = 2004;
+//		
+//		
+//		generateConfig.processConfig();
 	}
 	
 	public void processConfig()
@@ -66,13 +67,14 @@ public class GenerateSuewsConfig
 			canopyMoistureConfig.writeConfigFile(INPUT_DIRECTORY);
 			
 			SuewsConfigGIS gisConfig = new SuewsConfigGIS(runDirectory, configYear, runPrefix);
-			gisConfig.setBuildingPercentage(0.4500);
-			gisConfig.setPavedPercentage(0.1800);
-			gisConfig.setUnmanPercentage(0.0100);
-			gisConfig.setConPercentage(0.115);
-			gisConfig.setDecPercentage(0.115);
-			gisConfig.setGrassPercentage(0.075);
-			gisConfig.setIrrGrassPercentage(0.075);
+			
+			gisConfig.setBuildingPercentage(suewsConfigValues.getGisConfigBuildingPercentage());
+			gisConfig.setPavedPercentage(suewsConfigValues.getGisConfigPavedPercentage());
+			gisConfig.setUnmanPercentage(suewsConfigValues.getGisConfigUnmanPercentage());
+			gisConfig.setConPercentage(suewsConfigValues.getGisConfigConPercentage());
+			gisConfig.setDecPercentage(suewsConfigValues.getGisConfigDecPercentage());
+			gisConfig.setGrassPercentage(suewsConfigValues.getGisConfigGrassPercentage());
+			gisConfig.setIrrGrassPercentage(suewsConfigValues.getGisConfigIrrGrassPercentage());
 			gisConfig.generateFile();
 			gisConfig.writeConfigFile(INPUT_DIRECTORY);
 			
