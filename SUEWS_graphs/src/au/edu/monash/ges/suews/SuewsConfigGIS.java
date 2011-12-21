@@ -20,6 +20,18 @@ public class SuewsConfigGIS
 	private double decPercentage;
 	private double grassPercentage;
 	private double irrGrassPercentage;
+	
+	private int id;
+	private int it;
+	private int qual;
+	private double water;
+	private double cany3d;
+	private double ROOF3D;
+	private double z0m;
+	private double zd;
+	private double planF;
+	private double planTr;
+	
 
 	public SuewsConfigGIS(String runDirectory, int year, String runPrefix)
 	{
@@ -41,7 +53,13 @@ public class SuewsConfigGIS
 		StringBuffer st = new StringBuffer();
 
 		st.append("id  it  qual   build     Paved   unman  con   dec     grass    IrrGrass  water  cany3d  ROOF3D  z0m      zd     planF   planTr  " + '\n');
-		st.append("3    3    1    " +
+		st.append("" +
+				getId() +
+				"    " +
+				getIt() +
+				"    " +
+				getQual() +
+				"    " +
 				getBuildingPercentage() +
 				"    " +
 				getPavedPercentage() +
@@ -55,7 +73,21 @@ public class SuewsConfigGIS
 				getGrassPercentage() +
 				"    " +
 				getIrrGrassPercentage() +
-				"    0    -999    -999    -999    -999    -999    -999" + '\n');
+				"    " +
+				getWater() +
+				"    " +
+				getCany3d() +
+				"    " +
+				getROOF3D() +
+				"    " +
+				getZ0m() +
+				"    " +
+				getZd() +
+				"    " +
+				getPlanF() +
+				"    " +
+				getPlanTr() +
+				"" + '\n');
 
 	
 		return st.toString();
@@ -191,6 +223,86 @@ public class SuewsConfigGIS
 	public void setIrrGrassPercentage(double irrGrassPercentage)
 	{
 		this.irrGrassPercentage = irrGrassPercentage;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getIt() {
+		return it;
+	}
+
+	public void setIt(int it) {
+		this.it = it;
+	}
+
+	public int getQual() {
+		return qual;
+	}
+
+	public void setQual(int qual) {
+		this.qual = qual;
+	}
+
+	public double getWater() {
+		return water;
+	}
+
+	public void setWater(double water) {
+		this.water = water;
+	}
+
+	public double getCany3d() {
+		return cany3d;
+	}
+
+	public void setCany3d(double cany3d) {
+		this.cany3d = cany3d;
+	}
+
+	public double getROOF3D() {
+		return ROOF3D;
+	}
+
+	public void setROOF3D(double rOOF3D) {
+		ROOF3D = rOOF3D;
+	}
+
+	public double getZ0m() {
+		return z0m;
+	}
+
+	public void setZ0m(double z0m) {
+		this.z0m = z0m;
+	}
+
+	public double getZd() {
+		return zd;
+	}
+
+	public void setZd(double zd) {
+		this.zd = zd;
+	}
+
+	public double getPlanF() {
+		return planF;
+	}
+
+	public void setPlanF(double planF) {
+		this.planF = planF;
+	}
+
+	public double getPlanTr() {
+		return planTr;
+	}
+
+	public void setPlanTr(double planTr) {
+		this.planTr = planTr;
 	}	
 
 }

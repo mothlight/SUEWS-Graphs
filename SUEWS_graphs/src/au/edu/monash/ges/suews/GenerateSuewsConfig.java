@@ -64,9 +64,59 @@ public class GenerateSuewsConfig
 			headerInputConfig.writeConfigFile();
 			
 			SuewsConfigCanopyMoisture canopyMoistureConfig = new SuewsConfigCanopyMoisture(runDirectory, configYear, runPrefix);
+			canopyMoistureConfig.setPavedtoRunOff(suewsConfigValues.getCanopyConfigPavedtoRunOff());
+			canopyMoistureConfig.setPavedtoConif(suewsConfigValues.getCanopyConfigPavedtoConif());
+			canopyMoistureConfig.setPavedtoDecid(suewsConfigValues.getCanopyConfigPavedtoDecid());
+			canopyMoistureConfig.setPavedtoIrrGrass(suewsConfigValues.getCanopyConfigPavedtoIrrGrass());
+			canopyMoistureConfig.setPavedtoUnirrGrass(suewsConfigValues.getCanopyConfigPavedtoUnirrGrass());
+			canopyMoistureConfig.setPavedtoWater(suewsConfigValues.getCanopyConfigPavedtoWater());
+			canopyMoistureConfig.setBuildtoRunOff(suewsConfigValues.getCanopyConfigBuildtoRunOff());
+			canopyMoistureConfig.setBuildtoPaved(suewsConfigValues.getCanopyConfigBuildtoPaved());
+			canopyMoistureConfig.setBuildtoConif(suewsConfigValues.getCanopyConfigBuildtoConif());
+			canopyMoistureConfig.setBuildtoDecid(suewsConfigValues.getCanopyConfigBuildtoDecid());
+			canopyMoistureConfig.setBuildtoIrrGrass(suewsConfigValues.getCanopyConfigBuildtoIrrGrass());
+			canopyMoistureConfig.setBuildtoUnIrrGrass(suewsConfigValues.getCanopyConfigBuildtoUnIrrGrass());
+			canopyMoistureConfig.setBuildtoWater(suewsConfigValues.getCanopyConfigBuildtoWater());
+			canopyMoistureConfig.setConiftoSoil(suewsConfigValues.getCanopyConfigConiftoSoil());
+			canopyMoistureConfig.setConiftoPaved(suewsConfigValues.getCanopyConfigConiftoPaved());
+			canopyMoistureConfig.setConiftoDecid(suewsConfigValues.getCanopyConfigConiftoDecid());
+			canopyMoistureConfig.setConiftoIrrGrass(suewsConfigValues.getCanopyConfigConiftoIrrGrass());
+			canopyMoistureConfig.setConiftoUnirrGrass(suewsConfigValues.getCanopyConfigConiftoUnirrGrass());
+			canopyMoistureConfig.setConiftoWater(suewsConfigValues.getCanopyConfigConiftoWater());
+			canopyMoistureConfig.setDecidtoSoil(suewsConfigValues.getCanopyConfigDecidtoSoil());
+			canopyMoistureConfig.setDecidtoPaved(suewsConfigValues.getCanopyConfigDecidtoPaved());
+			canopyMoistureConfig.setDecidtoConif(suewsConfigValues.getCanopyConfigDecidtoConif());
+			canopyMoistureConfig.setDecidtoIrrGrass(suewsConfigValues.getCanopyConfigDecidtoIrrGrass());
+			canopyMoistureConfig.setDecidtoUnirrGrass(suewsConfigValues.getCanopyConfigDecidtoUnirrGrass());
+			canopyMoistureConfig.setDecidtoWater(suewsConfigValues.getCanopyConfigDecidtoWater());
+			canopyMoistureConfig.setIrrGrasstoSoil(suewsConfigValues.getCanopyConfigIrrGrasstoSoil());
+			canopyMoistureConfig.setIrrGrasstoPaved(suewsConfigValues.getCanopyConfigIrrGrasstoPaved());
+			canopyMoistureConfig.setIrrGrasstoConif(suewsConfigValues.getCanopyConfigIrrGrasstoConif());
+			canopyMoistureConfig.setIrrGrasstoDecid(suewsConfigValues.getCanopyConfigIrrGrasstoDecid());
+			canopyMoistureConfig.setIrrGrasstoUnirrGrass(suewsConfigValues.getCanopyConfigIrrGrasstoUnirrGrass());
+			canopyMoistureConfig.setIrrGrasstoWater(suewsConfigValues.getCanopyConfigIrrGrasstoWater());
+			canopyMoistureConfig.setUnirrGrasstoSoil(suewsConfigValues.getCanopyConfigUnirrGrasstoSoil());
+			canopyMoistureConfig.setUnirrGrasstoPaved(suewsConfigValues.getCanopyConfigUnirrGrasstoPaved());
+			canopyMoistureConfig.setUnirrGrasstoConif(suewsConfigValues.getCanopyConfigUnirrGrasstoConif());
+			canopyMoistureConfig.setUnirrGrasstoDecid(suewsConfigValues.getCanopyConfigUnirrGrasstoDecid());
+			canopyMoistureConfig.setUnirrGrasstoIrrGrass(suewsConfigValues.getCanopyConfigUnirrGrasstoIrrGrass());
+			canopyMoistureConfig.setUnirrGrasstoWater(suewsConfigValues.getCanopyConfigUnirrGrasstoWater());
+			
 			canopyMoistureConfig.writeConfigFile(INPUT_DIRECTORY);
 			
 			SuewsConfigGIS gisConfig = new SuewsConfigGIS(runDirectory, configYear, runPrefix);
+
+			gisConfig.setId(suewsConfigValues.getGisConfigId());
+			gisConfig.setIt(suewsConfigValues.getGisConfigIt());
+			gisConfig.setQual(suewsConfigValues.getGisConfigQual());
+			
+			gisConfig.setWater(suewsConfigValues.getGisConfigWater());
+			gisConfig.setCany3d(suewsConfigValues.getGisConfigCany3d());
+			gisConfig.setROOF3D(suewsConfigValues.getGisConfigROOF3D());
+			gisConfig.setZ0m(suewsConfigValues.getGisConfigz0m());
+			gisConfig.setZd(suewsConfigValues.getGisConfigzd());
+			gisConfig.setPlanF(suewsConfigValues.getGisConfigPlanF());
+			gisConfig.setPlanTr(suewsConfigValues.getGisConfigPlanTr());
 			
 			gisConfig.setBuildingPercentage(suewsConfigValues.getGisConfigBuildingPercentage());
 			gisConfig.setPavedPercentage(suewsConfigValues.getGisConfigPavedPercentage());
