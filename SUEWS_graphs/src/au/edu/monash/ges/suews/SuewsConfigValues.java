@@ -22,6 +22,9 @@ public class SuewsConfigValues
 	private Double gisConfigIrrGrassPercentage;
 	private String prestonWeatherDataDataTable;
 	private String suewsConfigSuewsInputWUChoice;
+	public final String PRESTON_RUN="Preston";
+	public final String MAWSON_RUN="Mawson";
+	private String run;
 
 	public SuewsConfigValues()
 	{
@@ -29,37 +32,71 @@ public class SuewsConfigValues
 		setConfigValues();
 	}
 
-	public void setConfigValues()
+	public void setConfigValues()	
 	{
-		//setSuewsConfigSuewsInputWUChoice("1");
-		setSuewsConfigSuewsInputWUChoice("0");
+		setRun(MAWSON_RUN);
+				
+		if (run.equals(PRESTON_RUN))
+		{
+			setSuewsConfigSuewsInputWUChoice("1");
+			setPrestonWeatherDataDataTable("Preston_data");
+			prestonExternalWaterHourlyWeighings = new TreeMap<String, Double>();
+			prestonExternalWaterHourlyWeighings.put("01", .25);
+			prestonExternalWaterHourlyWeighings.put("02", .25);
+			prestonExternalWaterHourlyWeighings.put("03", .25);
+			prestonExternalWaterHourlyWeighings.put("22", .25);
+			setPrestonExternalWaterMultiplier(1.0);
+			
+			setGisConfigBuildingPercentage(0.4500);
+			setGisConfigPavedPercentage(0.1800);
+			setGisConfigUnmanPercentage(0.0100);
+			setGisConfigConPercentage(0.115);
+			setGisConfigDecPercentage(0.115);
+			setGisConfigGrassPercentage(0.075);
+			setGisConfigIrrGrassPercentage(0.075);
+			
+			setPrestonExternalWaterHourlyWeighings(prestonExternalWaterHourlyWeighings);
+			setNumGridConnections(1);
+			setRunPrefix("Pr3714");			
+			setRunDirectory("/tmp/SUEWS_" + runPrefix + "/");
+			setNumYears(1);
+			setStartingYear(2004);
+		}
+		
+		if (run.equals(MAWSON_RUN))
+		{			
+			setSuewsConfigSuewsInputWUChoice("0");
+			
+			setPrestonWeatherDataDataTable("Mawson_Lakes_data");
+			//setPrestonWeatherDataDataTable("Preston_data");
+			prestonExternalWaterHourlyWeighings = new TreeMap<String, Double>();
+			prestonExternalWaterHourlyWeighings.put("01", .25);
+			prestonExternalWaterHourlyWeighings.put("02", .25);
+			prestonExternalWaterHourlyWeighings.put("03", .25);
+			prestonExternalWaterHourlyWeighings.put("22", .25);
+			setPrestonExternalWaterHourlyWeighings(prestonExternalWaterHourlyWeighings);
+			setPrestonExternalWaterMultiplier(1.0);
+			
+			setGisConfigBuildingPercentage(0.4500);
+			setGisConfigPavedPercentage(0.1800);
+			setGisConfigUnmanPercentage(0.0100);
+			setGisConfigConPercentage(0.115);
+			setGisConfigDecPercentage(0.115);
+			setGisConfigGrassPercentage(0.075);
+			setGisConfigIrrGrassPercentage(0.075);
+						
+			setNumGridConnections(1);
+			setRunPrefix("Ml3714");
+			setRunDirectory("/tmp/SUEWS_" + runPrefix + "/");
+			setNumYears(1);
+			setStartingYear(2011);
+			//setStartingYear(2004);
+		}
 		
 		
-		prestonExternalWaterHourlyWeighings = new TreeMap<String, Double>();
-		prestonExternalWaterHourlyWeighings.put("01", .25);
-		prestonExternalWaterHourlyWeighings.put("02", .25);
-		prestonExternalWaterHourlyWeighings.put("03", .25);
-		prestonExternalWaterHourlyWeighings.put("22", .25);
-		setPrestonExternalWaterMultiplier(1.0);
-		//setPrestonWeatherDataDataTable("Preston_data");
-		setPrestonWeatherDataDataTable("Mawson_Lakes_data");
 		
-		setGisConfigBuildingPercentage(0.4500);
-		setGisConfigPavedPercentage(0.1800);
-		setGisConfigUnmanPercentage(0.0100);
-		setGisConfigConPercentage(0.115);
-		setGisConfigDecPercentage(0.115);
-		setGisConfigGrassPercentage(0.075);
-		setGisConfigIrrGrassPercentage(0.075);
+
 		
-		setPrestonExternalWaterHourlyWeighings(prestonExternalWaterHourlyWeighings);
-		setNumGridConnections(1);
-		//setRunPrefix("Pr3714");
-		setRunPrefix("Ml3714");
-		setRunDirectory("/tmp/SUEWS_" + runPrefix + "/");
-		setNumYears(1);
-		//setStartingYear(2004);
-		setStartingYear(2011);
 	}
 	
 
@@ -224,6 +261,16 @@ public class SuewsConfigValues
 			String suewsConfigSuewsInputWUChoice)
 	{
 		this.suewsConfigSuewsInputWUChoice = suewsConfigSuewsInputWUChoice;
+	}
+
+	public String getRun()
+	{
+		return run;
+	}
+
+	public void setRun(String run)
+	{
+		this.run = run;
 	}
 
 }

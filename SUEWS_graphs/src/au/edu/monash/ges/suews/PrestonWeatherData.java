@@ -353,6 +353,7 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 	
 	public void outputPlotData(ArrayList<TreeMap<String, String>> data, String path, String filename)
 	{
+//		boolean midnightFound = false;
 		// # Year Day_of_year time timecode month week Kdown Kup Ldown Lup NET QH QE QG Flux_validity CO2flux_final CO2_flux_validity Temp e_a wind_spd wind_dir. pressure Precip. Anthrop. tau soil_moisture deep_soil_temp FormattedDate 
 		StringBuffer st = new StringBuffer("# Year Day_of_year time timecode month week Kdown Kup Ldown Lup NET QH QE QG Flux_validity CO2flux_final CO2_flux_validity Temp e_a wind_spd wind_dir. pressure Precip. Anthrop. tau soil_moisture deep_soil_temp FormattedDate RH" + '\n');
 		
@@ -388,6 +389,19 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 			String deepSoilTemp = oneItem.get(DEEP_SOIL_TEMP );			
 			String rh = oneItem.get(RH );
 			String formattedDate = year + "-" + dayOfYear + "-" + time;
+			
+//			//apparently SUEWS crashes if a simulation starts not at midnight
+//			if (!midnightFound)
+//			{
+//				if (time.equals("0"))
+//				{
+//					midnightFound = true;					
+//				}
+//				else
+//				{
+//					continue;
+//				}
+//			}
 			
 			st.append(year + " ");
 			st.append(dayOfYear + " ");

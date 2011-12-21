@@ -34,7 +34,8 @@ public class SuewsConfigWeatherData
 	}
 	
 	private String generateConfigFileText(String runPrefix, int year)
-	{		
+	{	
+		boolean wholeHourFound = false;
 		StringBuffer st = new StringBuffer();
 		
 		
@@ -126,6 +127,20 @@ public class SuewsConfigWeatherData
 			String ldown = oneItem.get(PrestonWeatherData.LDOWN);
 			String extWater = oneItem.get(PrestonWeatherData.EXT_WATER);			
 			//String extWater = "258.18";
+			
+			//apparently SUEWS crashes if a simulation starts not at midnight
+			//actually, it crashes if the first line has a time which is a fraction of an hour. Needs to start with whole number.
+			if (!wholeHourFound)
+			{
+				if (timeCombined.contains("."))
+				{
+					continue;					
+				}
+				else
+				{
+					wholeHourFound = true;					
+				}
+			}
 			
 			st.append("" +
 					dayOfYear +

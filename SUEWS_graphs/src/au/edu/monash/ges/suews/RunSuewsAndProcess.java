@@ -56,16 +56,72 @@ public class RunSuewsAndProcess
 		generateConfig.processConfig();		
 		common.runWineExe(runDirectory);
 		
-		processOutput(runDirectory, startingYear);		
+		if (suewsConfigValues.getRun().equals(suewsConfigValues.PRESTON_RUN))
+		{
+			processPrestonRunOutput(runDirectory, startingYear);
+		}
+		if (suewsConfigValues.getRun().equals(suewsConfigValues.MAWSON_RUN))
+		{
+			processMawsonRunOutput(runDirectory, startingYear);
+		}
+				
 	}
 	
-	public void processOutput(String runDirectory, int startingYear)
+	public void processMawsonRunOutput(String runDirectory, int startingYear)
 	{
 		String graphDirectory = runDirectory + "graphs/";
 		common.createDirectory(graphDirectory);
 		
 		String path = runDirectory + "Output";		
-		String filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE");
+		String suewsDataFilePrefix = suewsConfigValues.getRunPrefix() + "_" + suewsConfigValues.getStartingYear();
+		String filename = suewsDataFilePrefix + Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE2");
+
+		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, SUEWSDataFile.LINES_TO_SKIP_60);
+
+		String suewsFilename = suewsDataFilePrefix + Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE2");
+
+		ProcessSUEWSRun processSUEWSRun = new ProcessSUEWSRun();
+		SUEWSDataFile suewsDataFile = new SUEWSDataFile(path, suewsFilename, SuewsPrestonComparisonGraphs.SKIP_LINES_TRUE, SUEWSDataFile.LINES_TO_SKIP_60);
+		suewsDataFile.setPath(graphDirectory);
+		processSUEWSRun.generateReformattedDataFile(suewsDataFile);
+
+		sUEWSDataFile.setPath(graphDirectory);
+		processSUEWSRun.generateReformattedDataFile(sUEWSDataFile);
+		
+		RGraphs rGraphs = new RGraphs();		
+//		rGraphs.runPreston1(graphDirectory);
+		
+		//generate SUEWS monthly average data files
+		generateSuewsAverageFiles(graphDirectory, startingYear, sUEWSDataFile);
+		
+		
+		runDirectory = "/tmp/SUEWS_Pr3714/graphs/";
+		String datafile = "Ml3714_2011_60.txt.gnuplot.dat";
+		String imageFile = "Ml3714_2011_60.png";
+		String title = "Plot for fluxes-Monthly Averages-March 2004";
+		
+		ArrayList<String> plotItems = new ArrayList<String>();
+		plotItems.add(PrestonWeatherData.KDOWN);
+		plotItems.add(PrestonWeatherData.KUP);
+		plotItems.add(PrestonWeatherData.LDOWN);
+		plotItems.add(PrestonWeatherData.LUP);
+		plotItems.add(PrestonWeatherData.ANTHROP);
+		plotItems.add(PrestonWeatherData.QH);
+		plotItems.add(PrestonWeatherData.QE);
+		plotItems.add(PrestonWeatherData.QG);
+		
+		rGraphs.runGenericSuewsChart(graphDirectory, datafile, imageFile, plotItems, title, 53);
+		
+	}	
+	
+	public void processPrestonRunOutput(String runDirectory, int startingYear)
+	{
+		String graphDirectory = runDirectory + "graphs/";
+		common.createDirectory(graphDirectory);
+		
+		String path = runDirectory + "Output";		
+		String suewsDataFilePrefix = suewsConfigValues.getRunPrefix() + "_" + suewsConfigValues.getStartingYear();
+		String filename = suewsDataFilePrefix + Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE2");
 
 		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, SUEWSDataFile.LINES_TO_SKIP_60);
 		//TreeMap<String, ArrayList<String>> theData = sUEWSDataFile.getData();
@@ -80,7 +136,8 @@ public class RunSuewsAndProcess
 		//String graphDirectory = Messages.getString("SuewsPrestonComparisonGraphs.graph_dir");
 
 		//String suewsPath = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DATA_PATH");
-		String suewsFilename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE");
+		
+		String suewsFilename = suewsDataFilePrefix + Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE2");
 
 		ProcessSUEWSRun processSUEWSRun = new ProcessSUEWSRun();
 		SUEWSDataFile suewsDataFile = new SUEWSDataFile(path, suewsFilename, SuewsPrestonComparisonGraphs.SKIP_LINES_TRUE, SUEWSDataFile.LINES_TO_SKIP_60);
@@ -154,9 +211,14 @@ public class RunSuewsAndProcess
 			
 			for (int time = 0;time<24;time++)
 			{
-				//st.append(time +" ");
+				
 				String timeStr = new Integer(time).toString();
 				timeStr = common.padLeft(timeStr, 2, '0');
+				
+				if (kUpAverageData.get(timeStr) == null)
+				{
+					continue;
+				}
 				
 				st.append(common.padRight(timeStr, 4, '0') +" ");
 						
@@ -179,8 +241,10 @@ public class RunSuewsAndProcess
 				
 				st.append('\n');
 			}
-			
-			common.writeFile(st.toString(), graphDirectory + "SUEWSMonthlyAve_" + month + ".dat");
+			if (st.length() > 2)
+			{
+				common.writeFile(st.toString(), graphDirectory + "SUEWSMonthlyAve_" + month + ".dat");
+			}
 			
 		}
 	
