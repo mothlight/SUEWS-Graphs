@@ -12,6 +12,14 @@ public class SuewsConfigSahp
 	private String fileText;
 	private int year;
 	private String runPrefix;
+	
+	private String[] configSahpAHDIUPRF;
+	private String[] configSahpAHDIUPRF1;
+	private String[] configSahpAHDIUPRF2;
+	private String configSahpAH_MIN;
+	private String configSahpAH_SLOPE;
+	private String configSahpT_CRITIC;
+	
 
 	public SuewsConfigSahp(String runDirectory, int year, String runPrefix)
 	{
@@ -32,6 +40,32 @@ public class SuewsConfigSahp
 	{		
 		StringBuffer st = new StringBuffer();
 		
+		String aHDIUPRFEnabled = "#";
+		//check  If AnthropHeatChoice = 1, comment AHDIUPRF away
+		// if (!AnthropHeatChoice == 1)
+		// {
+		//	 aHDIUPRFEnabled = "";
+		// }
+		// 
+		
+		StringBuffer aHDIUPRFStr = new StringBuffer("");
+		for (String aHDIUPRF : configSahpAHDIUPRF)
+		{
+			aHDIUPRFStr.append(aHDIUPRF + " ");
+		}
+		
+		StringBuffer aHDIUPRF1Str = new StringBuffer("");
+		for (String aHDIUPRF1 : configSahpAHDIUPRF1)
+		{
+			aHDIUPRF1Str.append(aHDIUPRF1 + " ");
+		}
+		
+		StringBuffer aHDIUPRF2Str = new StringBuffer("");
+		for (String aHDIUPRF2 : configSahpAHDIUPRF2)
+		{
+			aHDIUPRF2Str.append(aHDIUPRF2 + " ");
+		}		
+		
 		st.append("#Anthropogenic heat parameters" + '\n');
 		st.append("#" + '\n');
 		st.append("#Anthropogenic Heating diurnal profile." + '\n');
@@ -39,19 +73,26 @@ public class SuewsConfigSahp
 		st.append("#   Hourly values ( 24 of them ), starting at 01 hours Local Time." + '\n');
 		st.append("#If AnthropHeatChoice = 1 comment  AHDIUPRF1 and AHDIUPRF2 out. If AnthropHeatChoice = 1, comment AHDIUPRF away" + '\n');
 		st.append("		" + '\n');
-		st.append("#AHDIUPRF: 0.30 0.23 0.15 0.13 0.15 0.45 1.2 1.7 1.55 1.4 1.3 1.3  1.35 1.37 1.45 1.6 1.75  1.7  1.2  1.1 0.95  0.65 0.38 0.33" + '\n');
-		st.append("#AHDIUPRF: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 " + '\n');
-		st.append("AHDIUPRF1: 0.57 0.45 0.43 0.4 0.4 0.45 0.71 1.2 1.44 1.29 1.28 1.31 1.3 1.32 1.35 1.44 1.51 1.41 1.14 0.99 0.86 0.85 0.8 0.7" + '\n');
-		st.append("AHDIUPRF2: 0.65 0.49 0.46 0.47 0.47 0.53 0.7 1.13 1.37 1.37 1.3 1.37 1.33 1.3 1.27 1.36 1.44 1.3 1.1 0.98 0.84 0.9 0.87 0.74" + '\n');
+		//st.append("#AHDIUPRF: 0.30 0.23 0.15 0.13 0.15 0.45 1.2 1.7 1.55 1.4 1.3 1.3  1.35 1.37 1.45 1.6 1.75  1.7  1.2  1.1 0.95  0.65 0.38 0.33" + '\n');
+		st.append(aHDIUPRFEnabled +
+				"AHDIUPRF: " +
+				aHDIUPRFStr + '\n');
+		st.append("AHDIUPRF1: " +
+				aHDIUPRF1Str + '\n');
+		st.append("AHDIUPRF2: " +
+				aHDIUPRF2Str + '\n');
 		st.append("" + '\n');
 		st.append("#" + '\n');
-		st.append("AH_MIN: 15" + '\n');
+		st.append("AH_MIN: " +
+				getConfigSahpAH_MIN() + '\n');
 		st.append("" + '\n');
 		st.append("#" + '\n');
-		st.append("AH_SLOPE: 2.7" + '\n');
+		st.append("AH_SLOPE: " +
+				getConfigSahpAH_SLOPE() + '\n');
 		st.append("" + '\n');
 		st.append("#" + '\n');
-		st.append("T_CRITIC: 7.0" + '\n');
+		st.append("T_CRITIC: " +
+				getConfigSahpT_CRITIC() + '\n');
 			
 		return st.toString();
 	}		
@@ -116,6 +157,66 @@ public class SuewsConfigSahp
 	public void setRunPrefix(String runPrefix)
 	{
 		this.runPrefix = runPrefix;
+	}
+
+	public String[] getConfigSahpAHDIUPRF()
+	{
+		return configSahpAHDIUPRF;
+	}
+
+	public void setConfigSahpAHDIUPRF(String[] configSahpAHDIUPRF)
+	{
+		this.configSahpAHDIUPRF = configSahpAHDIUPRF;
+	}
+
+	public String[] getConfigSahpAHDIUPRF1()
+	{
+		return configSahpAHDIUPRF1;
+	}
+
+	public void setConfigSahpAHDIUPRF1(String[] configSahpAHDIUPRF1)
+	{
+		this.configSahpAHDIUPRF1 = configSahpAHDIUPRF1;
+	}
+
+	public String[] getConfigSahpAHDIUPRF2()
+	{
+		return configSahpAHDIUPRF2;
+	}
+
+	public void setConfigSahpAHDIUPRF2(String[] configSahpAHDIUPRF2)
+	{
+		this.configSahpAHDIUPRF2 = configSahpAHDIUPRF2;
+	}
+
+	public String getConfigSahpAH_MIN()
+	{
+		return configSahpAH_MIN;
+	}
+
+	public void setConfigSahpAH_MIN(String configSahpAH_MIN)
+	{
+		this.configSahpAH_MIN = configSahpAH_MIN;
+	}
+
+	public String getConfigSahpAH_SLOPE()
+	{
+		return configSahpAH_SLOPE;
+	}
+
+	public void setConfigSahpAH_SLOPE(String configSahpAH_SLOPE)
+	{
+		this.configSahpAH_SLOPE = configSahpAH_SLOPE;
+	}
+
+	public String getConfigSahpT_CRITIC()
+	{
+		return configSahpT_CRITIC;
+	}
+
+	public void setConfigSahpT_CRITIC(String configSahpT_CRITIC)
+	{
+		this.configSahpT_CRITIC = configSahpT_CRITIC;
 	}
 	
 
