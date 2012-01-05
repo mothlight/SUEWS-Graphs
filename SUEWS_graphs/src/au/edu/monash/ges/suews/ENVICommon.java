@@ -9,6 +9,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -113,6 +115,42 @@ public class ENVICommon
 		{
 			System.err.println("Error writing to file");
 		}
+
+	}
+	
+	public String getHostnameWorkDirPath()
+	{
+		String path = "";
+		String localHostname = getHostname();
+		if (localHostname.equals("d-ges-08034-c"))
+		{
+			path = Messages.getString("ProcessSUEWSRun.WORK");
+		} 
+		else
+		{
+			path = Messages.getString("ProcessSUEWSRun.HOME");
+		}		
+		return path;
+	}
+	
+	
+	public String getHostname()
+	{
+		String localHostname = "";
+		try 
+		{
+		    InetAddress addr = InetAddress.getLocalHost();
+
+		    // Get IP Address
+		    byte[] ipAddr = addr.getAddress();
+
+		    // Get hostname
+		    localHostname = addr.getHostName();
+		} 
+		catch (UnknownHostException e) 
+		{
+		}
+		return localHostname;
 
 	}
 	
@@ -1110,7 +1148,7 @@ public class ENVICommon
 			Class.forName("org.sqlite.JDBC").newInstance();
 			conn = DriverManager
 					.getConnection("jdbc:sqlite:/" +
-							Messages.getString("ProcessSUEWSRun.HOME") +
+							getHostnameWorkDirPath() +
 							Messages.getString("PrestonWeatherData.PRESTON_SQLITE") );
 			// java.lang.reflect.Method m = conn.getClass().getMethod(
 			// "getSQLiteDatabase", null);
@@ -1132,7 +1170,7 @@ public class ENVICommon
 			Class.forName("SQLite.JDBCDriver").newInstance();
 			conn = DriverManager
 					.getConnection("jdbc:sqlite:/" +
-							Messages.getString("ProcessSUEWSRun.HOME") +
+							getHostnameWorkDirPath() +
 							Messages.getString("PrestonWeatherData.PRESTON_SQLITE") );
 			// java.lang.reflect.Method m = conn.getClass().getMethod(
 			// "getSQLiteDatabase", null);

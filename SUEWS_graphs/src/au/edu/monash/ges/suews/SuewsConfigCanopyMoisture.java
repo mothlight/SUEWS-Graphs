@@ -62,7 +62,7 @@ public class SuewsConfigCanopyMoisture
 		this.runPrefix = runPrefix;		
 		
 		this.filename = generateFilename(runPrefix, year);		
-		setFileText(generateConfigFileText(runPrefix, year));
+		//setFileText(generateConfigFileText(runPrefix, year));
 		
 	}
 	
@@ -149,10 +149,15 @@ public class SuewsConfigCanopyMoisture
 		st.append("/" + '\n');
 	
 		return st.toString();
-	}		
+	}	
+	
+	public void generateFile()
+	{
+		setFileText(generateConfigFileText(runPrefix, year));
+	}
 	
 	public void writeConfigFile(String inputDirectory)
-	{
+	{		
 		common.createDirectory(runDirectory + inputDirectory);
 		common.writeFile(getFileText(), runDirectory + inputDirectory + "/" + this.filename);
 	}

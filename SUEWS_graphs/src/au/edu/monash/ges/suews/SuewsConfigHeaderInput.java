@@ -103,7 +103,7 @@ public class SuewsConfigHeaderInput
 		this.runPrefix = runPrefix;		
 		
 		this.filename = generateFilename(runPrefix, year);		
-		setFileText(generateConfigFileText(runPrefix, year));
+		//setFileText(generateConfigFileText(runPrefix, year));
 		
 	}
 
@@ -204,91 +204,91 @@ public class SuewsConfigHeaderInput
 				year +
 				"'" + '\n');
 		st.append("GDDFull(1)=" +
-				"300" + '\n');
+				getGDDFull1() + '\n');
 		st.append("GDDFull(2)=" +
-				"300" + '\n');
+				getGDDFull2() + '\n');
 		st.append("GDDFull(3)=" +
-				"300" + '\n');
+				getGDDFull3() + '\n');
 		st.append("GDDFull(4)=" +
-				"300" + '\n');
+				getGDDFull4() + '\n');
 		st.append("GISInputType=" +
-				"3" + '\n');
+				getGISInputType() + '\n');
 		st.append("INTERVAL=" +
-				"60" + '\n');
+				getINTERVAL() + '\n');
 		st.append("LAImax(1)=" +
-				"5.1" + '\n');
+				getLAImax1() + '\n');
 		st.append("LAImax(2)=" +
-				"5.5" + '\n');
+				getLAImax2() + '\n');
 		st.append("LAImax(3)=" +
-				"5.9" + '\n');
+				getLAImax3() + '\n');
 		st.append("LAImax(4)=" +
-				"5.9" + '\n');
+				getLAImax4() + '\n');
 		st.append("LAImin(1)=" +
-				"4.0" + '\n');
+				getLAImin1() + '\n');
 		st.append("LAImin(2)=" +
-				"1.0" + '\n');
+				getLAImin2() + '\n');
 		st.append("LAImin(3)=" +
-				"1.6" + '\n');
+				getLAImin3() + '\n');
 		st.append("LAImin(4)=" +
-				"1.6" + '\n');
+				getLAImin4() + '\n');
 		st.append("lat=" +
-				"-37.49" + '\n');
+				getLat() + '\n');
 		st.append("lng=" +
-				"144.53" + '\n');
+				getLng() + '\n');
 		st.append("NARPOutput=" +
-				"1" + '\n');
+				getNARPOutput() + '\n');
 		st.append("NetRadiationChoice=" +
-				"2" + '\n');
+				getNetRadiationChoice() + '\n');
 		st.append("numCapita=" +
-				"2939" + '\n');
+				getNumCapita() + '\n');
 		st.append("ldown_option=" +
-				"1" + '\n');
+				getLdown_option() + '\n');
 		st.append("Qf_A(1)=" +
-				"0.014711" + '\n');
+				getQf_A1() + '\n');
 		st.append("Qf_A(2)=" +
-				"0.014711" + '\n');
+				getQf_A2() + '\n');
 		st.append("Qf_B(1)=" +
-				"0.000444" + '\n');
+				getQf_B1() + '\n');
 		st.append("Qf_B(2)=" +
-				"0.000444" + '\n');
+				getQf_B2() + '\n');
 		st.append("Qf_C(1)=" +
-				"0.000489" + '\n');
+				getQf_C1() + '\n');
 		st.append("Qf_C(2)=" +
-				"0.000489" + '\n');
+				getQf_C2() + '\n');
 		st.append("QSChoice=" +
-				"1" + '\n');
+				getQSChoice() + '\n');
 		st.append("RAINCOVER=" +
-				"1" + '\n');
+				getRAINCOVER() + '\n');
 		st.append("RAINMAXRES=" +
-				"10" + '\n');
+				getRAINMAXRES() + '\n');
 		st.append("SDDFull(1)=" +
-				"-450" + '\n');
+				getSDDFull1() + '\n');
 		st.append("SDDFull(2)=" +
-				"-450" + '\n');
+				getSDDFull2() + '\n');
 		st.append("SDDFull(3)=" +
-				"-450" + '\n');
+				getSDDFull3() + '\n');
 		st.append("SDDFull(4)=" +
-				"-450" + '\n');
+				getSDDFull4() + '\n');
 		st.append("SkipHeaderGIS=" +
-				"1" + '\n');
+				getSkipHeaderGIS() + '\n');
 		st.append("SkipHeaderMet=" +
-				"1" + '\n');
+				getSkipHeaderMet() + '\n');
 		st.append("SuewsStatus=" +
-				"1" + '\n');
+				getSuewsStatus() + '\n');
 		st.append("TIMEZONE=" +
-				"10" + '\n');
+				getTIMEZONE() + '\n');
 		st.append("TRANS_SITE=" +
-				"1" + '\n');
+				getTRANS_SITE() + '\n');
 		st.append("TreeH=" +
-				"14" + '\n');
+				getTreeH() + '\n');
 		st.append("Veg_type=" +
-				"1" + '\n');
+				getVeg_type() + '\n');
 		st.append("year=" +
 				year + '\n');
 		st.append("z=" +
-				"40" + '\n');
+				getZ() + '\n');
 		st.append("z0_method=" +
-				"2" + '\n');
+				getZ0_method() + '\n');
 		st.append("/" + '\n');
 
 		st.append('\n');
@@ -296,8 +296,13 @@ public class SuewsConfigHeaderInput
 		return st.toString();
 	}	
 	
-	public void writeConfigFile()
+	public void generateFile()
 	{
+		setFileText(generateConfigFileText(runPrefix, year));
+	}
+	
+	public void writeConfigFile()
+	{		
 		common.createDirectory(runDirectory);
 		common.writeFile(getFileText(), runDirectory + this.filename);
 	}		

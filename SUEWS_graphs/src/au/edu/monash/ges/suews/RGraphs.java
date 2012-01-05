@@ -646,5 +646,321 @@ public class RGraphs {
 		common.runR(runDirectory, st.toString());
 	}	
 	
+	public void runPrestonSuewsApril2004Compare(String runDirectory, String runPrefix)
+	{
+		int month = 4;
+		String monthName = common.getMonthForMonthInt(month);
+		String title = "Monthly averages comparisons, Preston vs. SUEWS - " +
+				monthName +
+				" 2004";
+		String plotImage = "monthlyAve_" +
+				month +
+				"_" + runPrefix + 
+				".png";
+		
+		String monthStr = new Integer(month).toString();
+		String monthPadded = common.padLeft(monthStr, 2, '0');
+		
+		StringBuffer st = new StringBuffer();
+		
+		String prestonDataFile = "PrestonMonthlyAve_2004" + monthPadded + ".dat";
+		File prestonDataFileFile = new File(runDirectory + prestonDataFile);
+		if (!prestonDataFileFile.exists())
+		{
+			return;
+		}
+		st.append("preston_file <-\"" +
+				prestonDataFile +
+				"\"" +'\n');
+		String suewsDataFile = "SUEWSMonthlyAve_" + month + ".dat";
+		File suewsDataFileFile = new File(runDirectory + suewsDataFile);
+		if (!suewsDataFileFile.exists())
+		{
+			return;
+		}		
+		st.append("suews_file <-\"" +
+				suewsDataFile +
+				"\"" +'\n');
+	
+		st.append("preston_table <- read.table(preston_file,header = FALSE,col.names=c(\"Time\",\"" +
+				PrestonWeatherData.KDOWN +
+				"\",\"" +
+				PrestonWeatherData.KUP +
+				"\",\"" +	
+				PrestonWeatherData.LDOWN +
+				"\",\"" +	
+				PrestonWeatherData.LUP +
+				"\",\"" +	
+				PrestonWeatherData.ANTHROP +
+				"\",\"" +	
+				PrestonWeatherData.QH +
+				"\",\"" +	
+				PrestonWeatherData.QE +
+				"\",\"" +
+				PrestonWeatherData.QG +
+				"\"))" +'\n');
+		
+		st.append("suews_table <- read.table(suews_file,header = FALSE,col.names=c(\"Time\",\"" +
+				PrestonWeatherData.KDOWN +
+				"\",\"" +
+				PrestonWeatherData.KUP +
+				"\",\"" +	
+				PrestonWeatherData.LDOWN +
+				"\",\"" +	
+				PrestonWeatherData.LUP +
+				"\",\"" +	
+				PrestonWeatherData.ANTHROP +
+				"\",\"" +	
+				PrestonWeatherData.QH +
+				"\",\"" +	
+				PrestonWeatherData.QE +
+				"\",\"" +
+				PrestonWeatherData.QG +
+				"\"))" +'\n');		
+
+		//st.append("plot_colors <- rainbow(10)" + '\n');
+		st.append("plot_colors <- c( \"#D92121\",\"#2121D9\", \"#21D921\", \"#FFFF4D\", \"#FF9326\", \"#9999FF\")" + '\n');		
+		
+		st.append("png(\"" +
+				plotImage +
+				"\", width = 1536, height = 900)" +'\n');
+		
+		st.append("y_range <-range(preston_table$QH,preston_table$QE,suews_table$QH,suews_table$QE)" + '\n');
+
+		st.append("plot(preston_table$Time, preston_table$QH, type=\"l\", xlab=\"Time of day\", ylab=\"w/m2\", lwd=1.5, pch=21, lty=1, ylim=y_range, axes=TRUE)" +'\n');
+//		st.append(" lines(preston_table$Time, preston_table$" +
+//				PrestonWeatherData.KDOWN +
+//				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[1])" +'\n');
+//		st.append(" lines(preston_table$Time, preston_table$" +
+//				PrestonWeatherData.KUP +
+//				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])" +'\n');
+//		st.append(" lines(preston_table$Time, preston_table$" +
+//				PrestonWeatherData.LDOWN +
+//				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[3])" +'\n');		
+//		st.append(" lines(preston_table$Time, preston_table$" +
+//				PrestonWeatherData.LUP +
+//				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[4])" +'\n');	
+//		st.append(" lines(preston_table$Time, preston_table$" +
+//				PrestonWeatherData.ANTHROP +
+//				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[5])" +'\n');
+		st.append(" lines(preston_table$Time, preston_table$" +
+				PrestonWeatherData.QH +
+				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[1])" +'\n');	
+		st.append(" lines(preston_table$Time, preston_table$" +
+				PrestonWeatherData.QE +
+				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])" +'\n');
+//		st.append(" lines(preston_table$Time, preston_table$" +
+//				PrestonWeatherData.QG +
+//				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[8])" +'\n');		
+		
+//		st.append(" lines(suews_table$Time, suews_table$" +
+//				PrestonWeatherData.KDOWN +
+//				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[1])" +'\n');
+//		st.append(" lines(suews_table$Time, suews_table$" +
+//				PrestonWeatherData.KUP +
+//				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[2])" +'\n');
+//		st.append(" lines(suews_table$Time, suews_table$" +
+//				PrestonWeatherData.LDOWN +
+//				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[3])" +'\n');		
+//		st.append(" lines(suews_table$Time, suews_table$" +
+//				PrestonWeatherData.LUP +
+//				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[4])" +'\n');	
+//		st.append(" lines(suews_table$Time, suews_table$" +
+//				PrestonWeatherData.ANTHROP +
+//				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[5])" +'\n');
+		st.append(" lines(suews_table$Time, suews_table$" +
+				PrestonWeatherData.QH +
+				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[1])" +'\n');	
+		st.append(" lines(suews_table$Time, suews_table$" +
+				PrestonWeatherData.QE +
+				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[2])" +'\n');
+//		st.append(" lines(suews_table$Time, suews_table$" +
+//				PrestonWeatherData.QG +
+//				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[8])" +'\n');			
+
+//		st.append("atx <- seq(firstdate, lastdate, by=24*60*60)" +'\n');
+//		st.append("axis(1, at=atx, labels=format(atx, \"%b\n%d\"), padj=0.5)" +'\n');
+		st.append("atx <- seq(0,24,6)" + '\n');
+		st.append("axis(1, at=atx, labels=atx, padj=0.5)" + '\n');
+		st.append("axis(side = 2)" +'\n');
+		st.append("box()" +'\n');
+
+		st.append("title(\"" +
+				title +
+				"\", \"\")" +'\n');
+		st.append("legend(\"topright\", legend = c(\"" +
+//				PrestonWeatherData.KDOWN +
+//				"\",\"" +
+//				PrestonWeatherData.KUP +
+//				"\",\"" +	
+//				PrestonWeatherData.LDOWN +
+//				"\",\"" +	
+//				PrestonWeatherData.LUP +
+//				"\",\"" +	
+//				PrestonWeatherData.ANTHROP +
+//				"\",\"" +	
+				PrestonWeatherData.QH +
+				"\",\"" +	
+				PrestonWeatherData.QE +
+				"\"" +
+//				",\"" +				
+//				PrestonWeatherData.QG +
+//				"\"" +
+				"), col = plot_colors[1:2], lty = 1:1)" +'\n');
+		st.append("legend(\"topleft\", legend = c(\"Preston\",\"SUEWS\"), col = plot_colors[1:1], lty = 1:2)" +'\n');
+		st.append("grid()" +'\n');
+		st.append("dev.off()" +'\n');
+		
+		common.runR(runDirectory, st.toString());
+	}	
+	
+	public void runPrestonSuewsApril2004CompareDays(String runDirectory, String runPrefix, int numDays)
+	{
+		int startDay = 92;
+		int endDay = startDay + numDays;
+		int month = 4;
+		String monthName = common.getMonthForMonthInt(month);
+		String title = "Comparisons, Preston vs. SUEWS - " +
+				monthName +
+				" 2004";
+		String plotImage = "Data_" +
+				month +
+				"_" + runPrefix + 
+				".png";
+		
+		String monthStr = new Integer(month).toString();
+		String monthPadded = common.padLeft(monthStr, 2, '0');
+		
+		StringBuffer st = new StringBuffer();
+		
+
+		st.append("Dataset <- read.table(\"" +
+				runDirectory +
+				runPrefix +
+				"_2004_60.txt.gnuplot.dat" +
+				"\", header=FALSE, sep=\"\", na.strings=\"NA\", dec=\".\", strip.white=TRUE)" +'\n');
+		st.append("PrDataset <- read.table(\"" +
+				runDirectory + "../Input/" +
+				runPrefix +
+				"_2004_data.txt" +
+				"\", header=FALSE, sep=\"\", na.strings=\"NA\", dec=\".\", strip.white=TRUE, skip=1)" +'\n');
+		st.append("plot_colors <- c( \"#D92121\",\"#2121D9\", \"#21D921\", \"#FFFF4D\", \"#FF9326\", \"#9999FF\")" +'\n');
+		st.append("png(\"" +
+				plotImage +
+				"\", width = 1536, height = 900)" + '\n');
+		st.append("y_range <-range(Dataset$V13, Dataset$V14, PrDataset$V5, PrDataset$V6)" + '\n');
+		
+		st.append("plot(PrDataset$V3, PrDataset$V5, type=\"l\", xlab=\"Day of year\", ylab=\"w/m2\", lwd=1.5, pch=21, lty=1, ylim=y_range, axes=TRUE , xlim=c(" +
+				startDay +
+				"," +
+				endDay +
+				"))" + '\n');
+		st.append("lines(PrDataset$V3, PrDataset$V5, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[1])" + '\n');
+		st.append("lines(PrDataset$V3, PrDataset$V6, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])" + '\n');
+		st.append("lines(Dataset$V2, Dataset$V13, type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[1])" + '\n');
+		st.append("lines(Dataset$V2, Dataset$V14, type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[2])" + '\n');
+		st.append("atx <- seq(" +
+				startDay +
+				"," +
+				endDay +
+				",1)" + '\n');
+		st.append("axis(1, at=atx, labels=atx, padj=0.5)" + '\n');
+		st.append("axis(side = 2)" + '\n');
+		st.append("box()" + '\n');
+		st.append("title(\"" +
+				title +
+				"\", \"\")" + '\n');
+		st.append("legend(\"topright\", legend = c(\"QH\",\"QE\"), col = plot_colors[1:2], lty = 1:1)" + '\n');
+		st.append("legend(\"topleft\", legend = c(\"Preston\",\"SUEWS\"), col = plot_colors[1:1], lty = 1:2)" + '\n');
+		st.append("grid()" + '\n');
+		st.append("dev.off()" + '\n');
+		st.append("" + '\n');
+		st.append("" + '\n');
+				
+		common.runR(runDirectory, st.toString());
+	}	
+
+	public void runPrestonSuewsApril2004CompareDaysDiff(String runDirectory, String runPrefix, int numDays)
+	{
+		int startDay = 92;
+		int endDay = startDay + numDays;
+		int month = 4;
+		String monthName = common.getMonthForMonthInt(month);
+		String title = "Comparisons, Preston vs. SUEWS, Difference (SUEWS - Preston) - " +
+				monthName +
+				" 2004";
+		String plotImage = "Data_Diff_" +
+				month +
+				"_" + runPrefix + 
+				".png";
+		
+		String monthStr = new Integer(month).toString();
+		String monthPadded = common.padLeft(monthStr, 2, '0');
+		
+		StringBuffer st = new StringBuffer();
+		
+
+		st.append("Dataset <- read.table(\"" +
+				runDirectory +
+				runPrefix +
+				"_2004_60.txt.gnuplot.dat" +
+				"\", header=FALSE, sep=\"\", na.strings=\"NA\", dec=\".\", strip.white=TRUE)" +'\n');
+		st.append("PrDataset <- read.table(\"" +
+				runDirectory + "../Input/" +
+				runPrefix +
+				"_2004_data.txt" +
+				"\", header=FALSE, sep=\"\", na.strings=\"NA\", dec=\".\", strip.white=TRUE, skip=1)" +'\n');
+		st.append("plot_colors <- c( \"#D92121\",\"#2121D9\", \"#21D921\", \"#FFFF4D\", \"#FF9326\", \"#9999FF\")" +'\n');
+		st.append("png(\"" +
+				plotImage +
+				"\", width = 1536, height = 900)" + '\n');
+		st.append("y_range <-range(-300,300)" + '\n');
+		
+		st.append("plot(PrDataset$V3, (Dataset$V13-PrDataset$V5), type=\"l\", xlab=\"Day of year\", ylab=\"w/m2\", lwd=1.5, pch=21, lty=1, ylim=y_range, axes=TRUE , xlim=c(" +
+				startDay +
+				"," +
+				endDay +
+				"))" + '\n');
+		st.append("lines(PrDataset$V3, (Dataset$V13-PrDataset$V5), type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[1])" + '\n');
+		st.append("lines(PrDataset$V3, (Dataset$V14-PrDataset$V6), type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])" + '\n');
+				
+		st.append("lines(PrDataset$V3, (Dataset$V9-PrDataset$V5), type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[1])" + '\n');
+		st.append("lines(PrDataset$V3, (Dataset$V10-PrDataset$V6), type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[2])" + '\n');
+		
+		st.append("atx <- seq(" +
+				startDay +
+				"," +
+				endDay +
+				",1)" + '\n');
+		st.append("axis(1, at=atx, labels=atx, padj=0.5)" + '\n');
+		st.append("axis(side = 2)" + '\n');
+		st.append("box()" + '\n');
+		st.append("title(\"" +
+				title +
+				"\", \"\")" + '\n');
+		st.append("legend(\"topright\", legend = c(\"QH\",\"QE\"), col = plot_colors[1:2], lty = 1:1)" + '\n');
+		st.append("legend(\"topleft\", legend = c(\"LUMPS\",\"SUEWS\"), col = plot_colors[1:1], lty = 1:2)" + '\n');
+		st.append("grid()" + '\n');
+		st.append("dev.off()" + '\n');
+		st.append("" + '\n');
+		st.append("" + '\n');
+				
+		common.runR(runDirectory, st.toString());
+		
+		String dirPlot = runDirectory + plotImage;
+		File diffPlotImage = new File(dirPlot);
+		if (!diffPlotImage.exists())
+		{
+			return;
+		}
+		
+		String source = dirPlot;
+		String tempDirectory = "/tmp/SUEWS_Graphs/";
+		String target = tempDirectory + plotImage;		
+		common.createSymlink(source, target);
+		
+		
+	}	
+	
 
 }

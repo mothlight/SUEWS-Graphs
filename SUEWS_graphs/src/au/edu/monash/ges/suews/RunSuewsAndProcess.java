@@ -8,20 +8,43 @@ public class RunSuewsAndProcess
 {
 	
 	ENVICommon common = new ENVICommon();
-	SuewsConfigValues suewsConfigValues = new SuewsConfigValues();
+	SuewsConfigValues suewsConfigValues;
+	boolean justGraphs = false;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args)
-	{
+	{	
+		String runPrefix = "Pr0001";
+		String justGraphsStr = "";
+				
+		if (args.length > 0) 
+		{
+			runPrefix = args[0];		    
+		}
+		
 		RunSuewsAndProcess run = new RunSuewsAndProcess();
+		if (args.length > 1) 
+		{
+			justGraphsStr = args[1];	
+			if (justGraphsStr != null && justGraphsStr.equals("graphs"))
+			{
+				run.justGraphs = true;
+			}
+		}
+		
+		run.suewsConfigValues = new SuewsConfigValues(runPrefix);
+		
 		run.process();
 
 	}
 	
 	public void process()
 	{
+		String basePath = common.getHostnameWorkDirPath();
+		//System.out.println(basePath);
+		
 		GenerateSuewsConfig generateConfig = new GenerateSuewsConfig();
 		
 		int numGridConnections = suewsConfigValues.getNumGridConnections();
@@ -38,7 +61,7 @@ public class RunSuewsAndProcess
 		
 		//String sourceDir = "/home/nice/Climate_Research/SUEWS_V2011b_example/";
 		
-		String sourceDir = Messages.getString("ProcessSUEWSRun.HOME") + Messages.getString("SUEWS_EXE_DIR");
+		String sourceDir = basePath + Messages.getString("SUEWS_EXE_DIR");
 		
 		// /home/nice/Climate_Research/SUEWS_V2011b_example/SUEWS_V1_1.exe
 		// /home/nice/Climate_Research/SUEWS_V2011b_example/salflibc.dll
@@ -53,8 +76,15 @@ public class RunSuewsAndProcess
 		target = runDirectory + sourceDll;		
 		common.createSymlink(source, target);
 		
-		generateConfig.processConfig();		
-		common.runWineExe(runDirectory);
+		if (justGraphs)
+		{
+			
+		}
+		else
+		{
+			generateConfig.processConfig(suewsConfigValues);		
+			common.runWineExe(runDirectory);
+		}
 		
 		if (suewsConfigValues.getRun().equals(suewsConfigValues.PRESTON_RUN))
 		{
@@ -151,7 +181,9 @@ public class RunSuewsAndProcess
 		processSUEWSRun.generateReformattedDataFile(sUEWSDataFile);
 
 		// get comparison Preston data
-		PrestonDataFile prestonDataFile = new PrestonDataFile(Messages.getString("ProcessSUEWSRun.HOME") + Messages.getString("PrestonDataFile.DATA_PATH2"), 
+		PrestonDataFile prestonDataFile = new PrestonDataFile(
+				common.getHostnameWorkDirPath()
+				+ Messages.getString("PrestonDataFile.DATA_PATH2"), 
 				Messages.getString("PrestonDataFile.2004_DATA_FILE"), false);		
 
 		PrestonMonthlyAverages averages = new PrestonMonthlyAverages(prestonDataFile);
@@ -175,6 +207,11 @@ public class RunSuewsAndProcess
 		{
 			rGraphs.runPreston3(graphDirectory, i);
 		}
+		
+		rGraphs.runPrestonSuewsApril2004Compare(graphDirectory, suewsConfigValues.getRunPrefix());
+		rGraphs.runPrestonSuewsApril2004CompareDays(graphDirectory, suewsConfigValues.getRunPrefix(), 5);
+		rGraphs.runPrestonSuewsApril2004CompareDaysDiff(graphDirectory, suewsConfigValues.getRunPrefix(), 5);
+		
 	}
 	
 	public void generateSuewsAverageFiles(String graphDirectory, int startingYear, SUEWSDataFile sUEWSDataFile)
@@ -252,7 +289,8 @@ public class RunSuewsAndProcess
 	
 	public void generatePrestonAverageFiles(String graphDirectory)
 	{
-		String prestonDataAveDataDir = Messages.getString("ProcessSUEWSRun.HOME") + Messages.getString("PrestonDataFile.AVE_DATA_PATH2");
+		String prestonDataAveDataDir = common.getHostnameWorkDirPath()
+				+ Messages.getString("PrestonDataFile.AVE_DATA_PATH2");
 		
 		PrestonWeatherData weatherData = new PrestonWeatherData();
 		//ArrayList<TreeMap<String, String>> variables = weatherData.getPrestonData(-1);

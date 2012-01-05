@@ -186,10 +186,10 @@ public class PrestonMonthlyAverages
 
 				if (!getKeySetForData().contains(testKey))
 				{
-					System.out.println("Didn't find " + testKey);
+					//System.out.println("Didn't find " + testKey);
 					continue;
 				}
-				System.out.println("Found " + testKey);
+				//System.out.println("Found " + testKey);
 
 				//outputStr.append(date + " ");
 				int counter = 0;
@@ -289,10 +289,10 @@ public class PrestonMonthlyAverages
 
 				if (!getKeySetForData().contains(testKey))
 				{
-					System.out.println("Didn't find " + testKey);
+					//System.out.println("Didn't find " + testKey);
 					continue;
 				}
-				System.out.println("Found " + testKey);
+				//System.out.println("Found " + testKey);
 
 				//outputStr.append(date + " ");
 				int counter = 0;

@@ -10,6 +10,7 @@ public class SuewsConfigGridConnections
 	private String filename ;
 	private String fileText;
 	private int year;
+	private String runPrefix;
 	
 	public static void main(String[] args)
 	{
@@ -35,7 +36,8 @@ public class SuewsConfigGridConnections
 		this.year = year;
 		this.numGridConnections = numGridConnections;
 		this.filename = generateFilename(year);		
-		setFileText(generateConfigFileText(year, runPrefix, numGridConnections));
+		setRunPrefix(runPrefix);
+		//setFileText(generateConfigFileText(year, runPrefix, numGridConnections));
 	}
 	
 	private String generateFilename(int year)
@@ -64,8 +66,13 @@ public class SuewsConfigGridConnections
 		return st.toString();
 	}
 	
-	public void writeConfigFile()
+	public void generateFile()
 	{
+		setFileText(generateConfigFileText(year, runPrefix, numGridConnections));
+	}
+	
+	public void writeConfigFile()
+	{		
 		common.createDirectory(runDirectory);
 		common.writeFile(getFileText(), runDirectory + this.filename);
 	}	
@@ -116,5 +123,13 @@ public class SuewsConfigGridConnections
 		this.runDirectory = runDirectory;
 	}
 
+	public String getRunPrefix() {
+		return runPrefix;
+	}
+
+
+	public void setRunPrefix(String runPrefix) {
+		this.runPrefix = runPrefix;
+	}
 
 }

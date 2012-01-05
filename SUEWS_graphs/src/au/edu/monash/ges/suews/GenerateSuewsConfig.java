@@ -8,7 +8,7 @@ import javax.print.DocFlavor.INPUT_STREAM;
 public class GenerateSuewsConfig
 {
 	ENVICommon common = new ENVICommon();
-	SuewsConfigValues suewsConfigValues = new SuewsConfigValues();
+	//SuewsConfigValues suewsConfigValues = new SuewsConfigValues();
 	final String INPUT_DIRECTORY = "Input";
 	final String OUTPUT_DIRECTORY = "Output";
 	private String outputDirectory;
@@ -39,7 +39,7 @@ public class GenerateSuewsConfig
 //		generateConfig.processConfig();
 	}
 	
-	public void processConfig()
+	public void processConfig(SuewsConfigValues suewsConfigValues)
 	{
 		
 		
@@ -58,7 +58,9 @@ public class GenerateSuewsConfig
 			int configYear = startingYear + i;
 					
 			SuewsConfigGridConnections gridConnections = new SuewsConfigGridConnections(runDirectory, configYear, runPrefix, numGridConnections);
-			gridConnections.writeConfigFile();			
+			gridConnections.generateFile();
+			gridConnections.writeConfigFile();	
+			
 			SuewsConfigHeaderInput headerInputConfig = new SuewsConfigHeaderInput(runDirectory, configYear, runPrefix);
 			headerInputConfig.setALB1(suewsConfigValues.getALB1());
 			headerInputConfig.setALB2(suewsConfigValues.getALB2());
@@ -116,7 +118,7 @@ public class GenerateSuewsConfig
 			headerInputConfig.setNARPOutput(suewsConfigValues.getNARPOutput());
 			headerInputConfig.setNetRadiationChoice(suewsConfigValues.getNetRadiationChoice());
 			headerInputConfig.setNumCapita(suewsConfigValues.getNumCapita());
-			headerInputConfig.setLdown_option(suewsConfigValues.getLdown_option());
+			headerInputConfig.setLdown_option(suewsConfigValues.getLdown_option());		
 			headerInputConfig.setQf_A1(suewsConfigValues.getQf_A1());
 			headerInputConfig.setQf_A2(suewsConfigValues.getQf_A2());
 			headerInputConfig.setQf_B1(suewsConfigValues.getQf_B1());
@@ -138,7 +140,8 @@ public class GenerateSuewsConfig
 			headerInputConfig.setTreeH(suewsConfigValues.getTreeH());
 			headerInputConfig.setVeg_type(suewsConfigValues.getVeg_type());
 			headerInputConfig.setZ(suewsConfigValues.getZ());
-			headerInputConfig.setZ0_method(suewsConfigValues.getZ0_method());			
+			headerInputConfig.setZ0_method(suewsConfigValues.getZ0_method());	
+			headerInputConfig.generateFile();
 			headerInputConfig.writeConfigFile();
 			
 			SuewsConfigCanopyMoisture canopyMoistureConfig = new SuewsConfigCanopyMoisture(runDirectory, configYear, runPrefix);
@@ -178,7 +181,8 @@ public class GenerateSuewsConfig
 			canopyMoistureConfig.setUnirrGrasstoConif(suewsConfigValues.getCanopyConfigUnirrGrasstoConif());
 			canopyMoistureConfig.setUnirrGrasstoDecid(suewsConfigValues.getCanopyConfigUnirrGrasstoDecid());
 			canopyMoistureConfig.setUnirrGrasstoIrrGrass(suewsConfigValues.getCanopyConfigUnirrGrasstoIrrGrass());
-			canopyMoistureConfig.setUnirrGrasstoWater(suewsConfigValues.getCanopyConfigUnirrGrasstoWater());			
+			canopyMoistureConfig.setUnirrGrasstoWater(suewsConfigValues.getCanopyConfigUnirrGrasstoWater());	
+			canopyMoistureConfig.generateFile();
 			canopyMoistureConfig.writeConfigFile(INPUT_DIRECTORY);
 			
 			SuewsConfigGIS gisConfig = new SuewsConfigGIS(runDirectory, configYear, runPrefix);

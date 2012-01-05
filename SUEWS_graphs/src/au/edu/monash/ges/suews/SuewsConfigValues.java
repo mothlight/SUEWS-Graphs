@@ -8,14 +8,22 @@ public class SuewsConfigValues
 	public SuewsConfigValues()
 	{
 		super();
-		setConfigValues();
+		setConfigValues("");
 	}
+	
+	public SuewsConfigValues(String runPrefix)
+	{
+		super();
+		setConfigValues(runPrefix);
+	}	
 
-	public void setConfigValues()	
+	public void setConfigValues(String runPrefix)	
 	{
 		setDefaultValues();
 		
 		setRun(PRESTON_RUN);
+		//setRunPrefix("Pr0003");	
+		setRunPrefix(runPrefix);
 				
 		if (run.equals(PRESTON_RUN))
 		{
@@ -48,13 +56,72 @@ public class SuewsConfigValues
 			
 			setPrestonExternalWaterHourlyWeighings(prestonExternalWaterHourlyWeighings);
 			setNumGridConnections(1);
-			setRunPrefix("Pr3714");			
+			//setRunPrefix("Pr3714");			
 			setRunDirectory("/tmp/SUEWS_" + runPrefix + "/");
 			setNumYears(1);
 			setStartingYear(2004);
 			
 			Ie_start=0;
 			Ie_end=365;
+			
+			if (getRunPrefix().equals("Pr0000")	)
+			{
+				setPrestonExternalWaterMultiplier(100.0);
+			}			
+			if (runPrefix.equals("Pr0001")	)
+			{
+				setLdown_option(3);				
+			}
+			if (getRunPrefix().equals("Pr0002")	)
+			{
+				setLdown_option(1);				
+			}	
+			if (runPrefix.equals("Pr0003")	)
+			{
+				setLdown_option(1);
+				setSuewsStatus(0);
+			}	
+			if (getRunPrefix().equals("Pr0004")	)
+			{
+				setAnthropHeatChoice(2);
+			}	
+			if (getRunPrefix().equals("Pr0005")	)
+			{
+				setAnthropHeatChoice(1);
+			}
+			if (getRunPrefix().equals("Pr0006")	)
+			{
+				setAnthropHeatChoice(0);
+			}		
+			if (getRunPrefix().equals("Pr0007")	)
+			{
+				setNetRadiationChoice(1);
+			}	
+			if (getRunPrefix().equals("Pr0008")	)
+			{
+				setNetRadiationChoice(2);
+			}	
+			if (getRunPrefix().equals("Pr0009")	)
+			{
+				setQSChoice(1);
+			}
+			if (getRunPrefix().equals("Pr0010")	)
+			{
+				setQSChoice(2);
+			}		
+			if (getRunPrefix().equals("Pr0011")	)
+			{
+				setVeg_type(1);
+			}	
+			if (getRunPrefix().equals("Pr0012")	)
+			{
+				setVeg_type(2);
+			}	
+			if (getRunPrefix().equals("Pr3714")	)
+			{
+				setSuewsConfigSuewsInputWUChoice("0");
+				setPrestonExternalWaterHourlyWeighings(new TreeMap<String, Double>());
+			}
 		}
 		
 		if (run.equals(MAWSON_RUN))

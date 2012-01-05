@@ -30,7 +30,8 @@ import au.edu.monash.ges.suews.SuewsConfigValues;
 
 public class MawsonLakesDataImport
 {
-
+	ENVICommon common = new ENVICommon();
+	
 	public static String YEAR = "Year";
 	public static String DAY_OF_YEAR = "Day_of_year";
 	public static String TIME = "Time";
@@ -73,11 +74,11 @@ public class MawsonLakesDataImport
 	public static int Solar_int = 9;
 
 	private String dataTable = "Mawson_Lakes_data";
-	private String dataFile = Messages.getString("ProcessSUEWSRun.HOME")
+	private String dataFile = common.getHostnameWorkDirPath()		
 			+ Messages.getString("MawsonLakesDataImport.DATA_PATH")
 			+ Messages.getString("MawsonLakesDataImport.DATA_FILE");
 
-	ENVICommon common = new ENVICommon();
+	
 	SuewsConfigValues suewsConfigValues = new SuewsConfigValues();
 
 	/**
