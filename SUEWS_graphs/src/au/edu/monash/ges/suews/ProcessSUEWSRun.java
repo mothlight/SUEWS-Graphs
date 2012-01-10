@@ -19,6 +19,7 @@ public class ProcessSUEWSRun {
 	ENVICommon common = new ENVICommon();
 	final public String VARIABLE_SEPARATOR = Messages.getString("ProcessSUEWSRun.VARIABLE_SEPARATOR");
 	final public int NUMBER_OF_HOURS = 24;
+	private boolean lumpsRun = false;
 
 	/**
 	 * @param args
@@ -187,6 +188,14 @@ public class ProcessSUEWSRun {
 					time = common.padLeft(timeStr, 2, '0');
 					time = common.padRight(time, 4, '0');
 				}
+				
+				String qhVariable = SUEWSDataFile.SUEWS_QH;
+				String qeVariable = SUEWSDataFile.SUEWS_QE;
+				if (isLumpsRun())
+				{
+					qhVariable = SUEWSDataFile.LUMPS_QH;
+					qeVariable = SUEWSDataFile.LUMPS_QE;
+				}
 
 				if (variable.equals(SUEWSDataFile.SUEWS_kup))
 				{
@@ -204,11 +213,11 @@ public class ProcessSUEWSRun {
 				{
 					lup = theData.get(variable).get(i);
 				}
-				else if (variable.equals(SUEWSDataFile.SUEWS_QH))
+				else if (variable.equals(qhVariable))
 				{
 					QH = theData.get(variable).get(i);
 				}
-				else if (variable.equals(SUEWSDataFile.SUEWS_QE))
+				else if (variable.equals(qeVariable))
 				{
 					QE = theData.get(variable).get(i);
 				}
@@ -681,6 +690,16 @@ public class ProcessSUEWSRun {
 		//String outputFile = outputDirectory + File.separator + filename;
 
 
+	}
+
+	public boolean isLumpsRun()
+	{
+		return lumpsRun;
+	}
+
+	public void setLumpsRun(boolean lumpsRun)
+	{
+		this.lumpsRun = lumpsRun;
 	}
 
 }

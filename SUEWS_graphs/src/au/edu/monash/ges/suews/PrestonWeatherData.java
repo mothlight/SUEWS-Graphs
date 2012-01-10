@@ -251,7 +251,7 @@ into table suews.Preston_data fields terminated by ',' lines terminated by '\n';
 				queryWhere +
 				" order by "+ TIMECODE ;
 
-		System.out.println (query);
+		//System.out.println (query);
 		//Connection conn = common.getSuewsMySqlConnection();
 		Connection conn = common.getPrestonSqliteConnection();
 		try

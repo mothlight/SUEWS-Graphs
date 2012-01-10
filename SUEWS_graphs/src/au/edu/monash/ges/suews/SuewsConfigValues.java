@@ -40,10 +40,20 @@ public class SuewsConfigValues
 			setSuewsConfigSuewsInputWUChoice("1");
 			setPrestonWeatherDataDataTable("Preston_data");
 			prestonExternalWaterHourlyWeighings = new TreeMap<String, Double>();
-			prestonExternalWaterHourlyWeighings.put("01", .25);
-			prestonExternalWaterHourlyWeighings.put("02", .25);
-			prestonExternalWaterHourlyWeighings.put("03", .25);
-			prestonExternalWaterHourlyWeighings.put("22", .25);
+//			prestonExternalWaterHourlyWeighings.put("01", .25);
+//			prestonExternalWaterHourlyWeighings.put("02", .25);
+//			prestonExternalWaterHourlyWeighings.put("03", .25);
+//			prestonExternalWaterHourlyWeighings.put("22", .25);
+			
+			prestonExternalWaterHourlyWeighings.put("06", .125);
+			prestonExternalWaterHourlyWeighings.put("07", .125);
+			prestonExternalWaterHourlyWeighings.put("08", .125);
+			prestonExternalWaterHourlyWeighings.put("09", .125);			
+			prestonExternalWaterHourlyWeighings.put("16", .125);
+			prestonExternalWaterHourlyWeighings.put("17", .125);
+			prestonExternalWaterHourlyWeighings.put("18", .125);
+			prestonExternalWaterHourlyWeighings.put("19", .125);
+			
 			setPrestonExternalWaterMultiplier(1.0);
 			
 			setGisConfigBuildingPercentage(0.4500);

@@ -83,7 +83,7 @@ public class RunSuewsAndProcess
 		else
 		{
 			generateConfig.processConfig(suewsConfigValues);		
-			common.runWineExe(runDirectory);
+			common.runWineExe(runDirectory, sourceExe);
 		}
 		
 		if (suewsConfigValues.getRun().equals(suewsConfigValues.PRESTON_RUN))

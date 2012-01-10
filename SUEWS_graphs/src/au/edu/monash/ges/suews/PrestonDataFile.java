@@ -316,7 +316,7 @@ public class PrestonDataFile
 				String variableStr = dis.readLine();
 				//variableStr = variableStr.replaceFirst("%", "");
 				String[] splitString = variableStr.split(",");
-				System.out.println ("variable string size=" + splitString.length);
+				//System.out.println ("variable string size=" + splitString.length);
 				//StringTokenizer st = new StringTokenizer(variableStr, "\t");
 				//while (st.hasMoreTokens())
 				for (String aVariable : splitString)

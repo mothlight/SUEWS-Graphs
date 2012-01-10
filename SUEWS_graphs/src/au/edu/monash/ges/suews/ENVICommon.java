@@ -118,6 +118,58 @@ public class ENVICommon
 
 	}
 	
+	public String shortenYearTo2Digits( int year)
+	{		
+		String shortedYearStr = new Integer(year).toString();
+		if (shortedYearStr.length() == 4)
+		{
+			shortedYearStr = shortedYearStr.substring(2, 4);
+		}		
+		return shortedYearStr;		
+	}
+	
+	public String increaseYearTo4Digits(String year)
+	{
+		if (year.length() == 4)
+		{
+			return year;
+		}
+		
+		if (year.length() == 2)
+		{
+			Integer yearInt = new Integer(year).intValue();
+			if (yearInt < 50)
+			{
+				year = "20" + year ;
+			}
+			else
+			{
+				year = "19" + year;
+			}
+			
+		}
+//		else if (year.length() == 1)
+//		{
+//			Integer yearInt = new Integer(year).intValue();
+//			if (yearInt < 50)
+//			{
+//				year = "200" + yearInt ;
+//			}
+//			else
+//			{
+//				year = "19" + yearInt;
+//			}
+//		}		
+		else
+		{
+			return year;
+		}
+		
+		return year;
+		
+		
+	}
+	
 	public String getHostnameWorkDirPath()
 	{
 		String path = "";
@@ -628,6 +680,19 @@ public class ENVICommon
 		double timecodeFraction = convertTimeDouble / 24;
 		return day + timecodeFraction;
 	}
+	
+	public String padLeft(int str, int size, char padChar)
+	{
+		//StringBuffer padded = new StringBuffer(str);
+		String padded = new Integer(str).toString();
+		while (padded.length() < size)
+		{
+			padded = padChar + padded;
+			//padded.append(padChar);
+		}
+		//return padded.toString();
+		return padded;
+	}	
 
 	public String padLeft(String str, int size, char padChar)
 	{
@@ -706,8 +771,37 @@ public class ENVICommon
 		try
 		{
 			result=rt.exec(exe);
+			
+			result.waitFor();
+			
+			String s;
+			BufferedReader stdInput = new BufferedReader(new 
+		             InputStreamReader(result.getInputStream()));
+
+		    BufferedReader stdError = new BufferedReader(new 
+		             InputStreamReader(result.getErrorStream()));
+
+		        // read the output from the command
+		    //System.out.println("Here is the standard output of the command:\n");
+		    while ((s = stdInput.readLine()) != null) 
+		    {
+		            System.out.println(s);
+		    }
+
+		    // read any errors from the attempted command
+		    //System.out.println("Here is the standard error of the command (if any):\n");
+		    while ((s = stdError.readLine()) != null) 
+		    {
+		            System.out.println(s);
+		    }
+			
+			
+			
 		} catch (IOException e)
 		{			
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -740,14 +834,14 @@ public class ENVICommon
 		             InputStreamReader(result.getErrorStream()));
 
 		        // read the output from the command
-		    System.out.println("Here is the standard output of the command:\n");
+		    //System.out.println("Here is the standard output of the command:\n");
 		    while ((s = stdInput.readLine()) != null) 
 		    {
 		            System.out.println(s);
 		    }
 
 		    // read any errors from the attempted command
-		    System.out.println("Here is the standard error of the command (if any):\n");
+		    //System.out.println("Here is the standard error of the command (if any):\n");
 		    while ((s = stdError.readLine()) != null) 
 		    {
 		            System.out.println(s);
@@ -763,10 +857,10 @@ public class ENVICommon
 		}
 	}	
 	
-	public void runWineExe(String runDirectory)
+	public void runWineExe(String runDirectory, String exeStr)
 	{
 		String filename = "run.sh";
-		String scriptStr = "cd " + runDirectory + '\n' + "wine " + "SUEWS_V1_1.exe" + "\n";
+		String scriptStr = "cd " + runDirectory + '\n' + "wine " + exeStr + "\n";
 		writeFile(scriptStr, runDirectory + filename);
 		
 		
@@ -909,6 +1003,15 @@ public class ENVICommon
 	{
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public String getAverageOf2DoubleStrings(String item1, String item2)
+	{
+		Double item1Double = new Double(item1).doubleValue();
+		Double item2Double = new Double(item2).doubleValue();
+		Double average =  roundToDecimals(  ((item1Double + item2Double) / 2), 2);		
+		
+		return average.toString();
 	}
 
 

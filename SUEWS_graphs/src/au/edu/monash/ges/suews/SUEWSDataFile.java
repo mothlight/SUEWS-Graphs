@@ -52,6 +52,8 @@ public class SUEWSDataFile
 	public static String SUEWS_QH = "QH";
 	public static String SUEWS_QE = "QE";
 	public static String SUEWS_qs = "qs";
+	public static String LUMPS_QH = "h_mod";
+	public static String LUMPS_QE = "e_mod";
 
 	public static String SUEWS_availableEnergy = "availableEnergy";
 	public static String SUEWS_dailyEnergyBalance = "dailyEnergyBalance";
@@ -124,6 +126,7 @@ public class SUEWSDataFile
 	public static int LINES_TO_SKIP_NARP = 0;
 	public static int LINES_TO_SKIP_DAILY_FILE = 1;
 	public static int LINES_TO_SKIP_60 = 4;
+	//public static int LINES_TO_SKIP_LUMPS_60 = 5;
 
 	public static String SUEWS_DAILY_FILE_day = "1";
 	public static String SUEWS_DAILY_FILE_STR_day = "day";
@@ -175,6 +178,8 @@ public class SUEWSDataFile
 
 	public static String SUEWS_DAILY_FILE_STR_FormattedDate = "FormattedDate";
 	public static String SUEWS_DAILY_FILE_FormattedDate = "16";
+	
+	//private boolean lumpsRun;
 
 	public SUEWSDataFile(String path, String filename, boolean skipEveryOtherLine, int initialLinesToSkip)
 	{
@@ -182,6 +187,7 @@ public class SUEWSDataFile
 
 		this.variables = new ArrayList<String>();
 		this.data = new TreeMap<String, ArrayList<String>>();
+		//this.lumpsRun = lumpsRun;
 
 		setPath(path);
 		setFilename(filename);
@@ -408,6 +414,10 @@ public class SUEWSDataFile
 				{
 					offsetProblem = true;
 				}
+//				if (isLumpsRun())
+//				{
+//					offsetProblem = false;
+//				}
 
 				for (int i=splitString.length-1;i>-1;i--)
 				{
@@ -546,5 +556,15 @@ public class SUEWSDataFile
 	{
 		this.data = data;
 	}
+
+//	public boolean isLumpsRun()
+//	{
+//		return lumpsRun;
+//	}
+//
+//	public void setLumpsRun(boolean lumpsRun)
+//	{
+//		this.lumpsRun = lumpsRun;
+//	}
 
 }

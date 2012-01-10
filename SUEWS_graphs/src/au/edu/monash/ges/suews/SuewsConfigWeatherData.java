@@ -16,6 +16,7 @@ public class SuewsConfigWeatherData
 	private int year;
 	private String runPrefix;
 	ArrayList<TreeMap<String,String>> dataForYear;
+	TreeMap<String,String> dataForLastHalfHour = null;
 
 
 	public SuewsConfigWeatherData(String runDirectory, int year, String runPrefix)
@@ -33,9 +34,22 @@ public class SuewsConfigWeatherData
 		setFileText(generateConfigFileText(runPrefix, year));
 	}
 	
+	public String getHourlyAverageForItem(String item, TreeMap<String,String> currentData, TreeMap<String,String> lastData )
+	{				
+		String dataValue = currentData.get(item);
+		
+		if (lastData == null)
+		{
+			return dataValue;
+		}
+		String lastDataValue = lastData.get(item);		
+				
+		return common.getAverageOf2DoubleStrings(dataValue, lastDataValue);
+	}
+	
 	private String generateConfigFileText(String runPrefix, int year)
 	{	
-		boolean wholeHourFound = false;
+//		boolean wholeHourFound = false;
 		StringBuffer st = new StringBuffer();
 		
 		
@@ -105,6 +119,13 @@ public class SuewsConfigWeatherData
 				//}
 				
 			}
+			
+			//SUEWS only uses hourly weather data
+			if (timeMinutes.equals(".5"))
+			{
+				dataForLastHalfHour = oneItem;
+				continue;
+			}
 			//String timeMinutes = time.substring(time.length()-1,time.length());
 			
 			String timeCombined = timeHours + timeMinutes;
@@ -113,34 +134,49 @@ public class SuewsConfigWeatherData
 			double dectimeDouble = new Double(dayOfYear) + timeFraction;
 					
 			//String dectime = dayOfYear + "." + time.replace(".", "");
-			String net = oneItem.get(PrestonWeatherData.NET);
-			String qh = oneItem.get(PrestonWeatherData.QH);
-			String qe = oneItem.get(PrestonWeatherData.QE);
-			String qg = oneItem.get(PrestonWeatherData.QG);
-			String anthrop = oneItem.get(PrestonWeatherData.ANTHROP);
-			String windSpd = oneItem.get(PrestonWeatherData.WIND_SPD);
-			String rh = oneItem.get(PrestonWeatherData.RH);
-			String temp = oneItem.get(PrestonWeatherData.TEMP);
-			String pressure = oneItem.get(PrestonWeatherData.PRESSURE);
-			String precip = oneItem.get(PrestonWeatherData.PRECIP);
-			String kdown = oneItem.get(PrestonWeatherData.KDOWN);
-			String ldown = oneItem.get(PrestonWeatherData.LDOWN);
-			String extWater = oneItem.get(PrestonWeatherData.EXT_WATER);			
+//			String net = oneItem.get(PrestonWeatherData.NET);
+//			String qh = oneItem.get(PrestonWeatherData.QH);
+//			String qe = oneItem.get(PrestonWeatherData.QE);
+//			String qg = oneItem.get(PrestonWeatherData.QG);
+//			String anthrop = oneItem.get(PrestonWeatherData.ANTHROP);
+//			String windSpd = oneItem.get(PrestonWeatherData.WIND_SPD);
+//			String rh = oneItem.get(PrestonWeatherData.RH);
+//			String temp = oneItem.get(PrestonWeatherData.TEMP);
+//			String pressure = oneItem.get(PrestonWeatherData.PRESSURE);
+//			String precip = oneItem.get(PrestonWeatherData.PRECIP);
+//			String kdown = oneItem.get(PrestonWeatherData.KDOWN);
+//			String ldown = oneItem.get(PrestonWeatherData.LDOWN);
+//			String extWater = oneItem.get(PrestonWeatherData.EXT_WATER);	
+			
+			String net = getHourlyAverageForItem(PrestonWeatherData.NET, oneItem, dataForLastHalfHour);			
+			String qh = getHourlyAverageForItem(PrestonWeatherData.QH, oneItem, dataForLastHalfHour);
+			String qe = getHourlyAverageForItem(PrestonWeatherData.QE, oneItem, dataForLastHalfHour);
+			String qg = getHourlyAverageForItem(PrestonWeatherData.QG, oneItem, dataForLastHalfHour);
+			String anthrop = getHourlyAverageForItem(PrestonWeatherData.ANTHROP, oneItem, dataForLastHalfHour);
+			String windSpd = getHourlyAverageForItem(PrestonWeatherData.WIND_SPD, oneItem, dataForLastHalfHour);
+			String rh = getHourlyAverageForItem(PrestonWeatherData.RH, oneItem, dataForLastHalfHour);
+			String temp = getHourlyAverageForItem(PrestonWeatherData.TEMP, oneItem, dataForLastHalfHour);
+			String pressure = getHourlyAverageForItem(PrestonWeatherData.PRESSURE, oneItem, dataForLastHalfHour);
+			String precip = getHourlyAverageForItem(PrestonWeatherData.PRECIP, oneItem, dataForLastHalfHour);
+			String kdown = getHourlyAverageForItem(PrestonWeatherData.KDOWN, oneItem, dataForLastHalfHour);
+			String ldown = getHourlyAverageForItem(PrestonWeatherData.LDOWN, oneItem, dataForLastHalfHour);
+			String extWater = oneItem.get(PrestonWeatherData.EXT_WATER);	
+			
 			//String extWater = "258.18";
 			
 			//apparently SUEWS crashes if a simulation starts not at midnight
 			//actually, it crashes if the first line has a time which is a fraction of an hour. Needs to start with whole number.
-			if (!wholeHourFound)
-			{
-				if (timeCombined.contains("."))
-				{
-					continue;					
-				}
-				else
-				{
-					wholeHourFound = true;					
-				}
-			}
+//			if (!wholeHourFound)
+//			{
+//				if (timeCombined.contains("."))
+//				{
+//					continue;					
+//				}
+//				else
+//				{
+//					wholeHourFound = true;					
+//				}
+//			}
 			
 			st.append("" +
 					dayOfYear +
