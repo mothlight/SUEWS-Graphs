@@ -1,6 +1,10 @@
 package au.edu.monash.ges.suews;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -12,10 +16,8 @@ import org.jgnuplot.PointType;
 import org.jgnuplot.Style;
 import org.jgnuplot.Terminal;
 
-public class PrestonMonthlyAverages
+public class LumpsMonthlyAverages
 {
-	
-	public static int ROUND_DIGITS = 2;
 
 	public String getXRANGE_BEG() {
 		return XRANGE_BEG;
@@ -37,6 +39,9 @@ public class PrestonMonthlyAverages
 	public String XRANGE_END = "2004-03-16";
 	//public static String GRAPH_SIZE = "1024,600";
 	public static String GRAPH_SIZE = "1536,900";
+	//private SUEWSDataFile suewsDataFile;
+
+
 
 	ENVICommon common = new ENVICommon();
 	private int year;
@@ -45,31 +50,28 @@ public class PrestonMonthlyAverages
 	//key of variable_2008_12_1400 year_month_hour, contains ArrayList of data for that hour for the month
 	private TreeMap<String, ArrayList<String>> monthlyAverageData = new TreeMap<String, ArrayList<String>>();
 
-	public PrestonMonthlyAverages(PrestonDataFile prestonDataFile)
+	public LumpsMonthlyAverages(LumpsDataFile lumpsDataFile)
 	{
-
-		setVariables(prestonDataFile.getVariables());
-		TreeMap<String, ArrayList<String>> prestonData = prestonDataFile.getData();
-		//year = new Integer(common.padLeft(prestonDataFile.getYear(), 3, '0')).intValue();
-		year = 2004;
+		//setSuewsDataFile(suewsDataFile);
+		setVariables(lumpsDataFile.getVariables());
+		TreeMap<String, ArrayList<String>> suewsData = lumpsDataFile.getData();
+		year = new Integer(common.padLeft(lumpsDataFile.getYear(), 3, '0')).intValue();
 
 		String key="";
-		//String keyTime="";
-		//String keyMonth="";
-		//String keyDay="";
-		//String keyYear="";
-		//String keyVariable="";
-		String keyTimecode = "";
-		//boolean foundDay = false;
-		//boolean foundTime = false;
-		boolean foundTimecode = false;
+		String keyTime="";
+		String keyMonth="";
+		String keyDay="";
+		String keyYear="";
+		String keyVariable="";
+		boolean foundDay = false;
+		boolean foundTime = false;
 
 		int numberOfData = 0;
 
 		for (String variable : variables)
 		{
 			System.out.println(variable);
-			ArrayList<String> variableData = prestonData.get(variable);
+			ArrayList<String> variableData = suewsData.get(variable);
 			numberOfData = variableData.size();
 
 			break;
@@ -81,178 +83,103 @@ public class PrestonMonthlyAverages
 
 			for (String variable : variables)
 			{
-				ArrayList<String> variableData = prestonData.get(variable);
-				
-				if (variable.equals(PrestonDataFile.PRESTON_STR_timecode))
+				ArrayList<String> variableData = suewsData.get(variable);
+				if (variable.equals(SUEWSDataFile.SUEWS_id))
 				{
-					keyTimecode = variableData.get(i);
-					foundTimecode = true;
+					keyDay = variableData.get(i);
+					foundDay = true;
 				}
-				
-//				if (variable.equals(PrestonDataFile.SUEWS_id))
-//				{
-//					keyDay = variableData.get(i);
-//					foundDay = true;
-//				}
-//				else if (variable.equals(PrestonDataFile.SUEWS_it))
-//				{
-//					keyTime = variableData.get(i);
-//
-////					// if 1, needs to be 0100, if 10, needs to be 1000
-////					keyTime = common.padLeft(keyTime, 2, '0');
-////					keyTime = common.padRight(keyTime, 4, '0');
-//
-//					foundTime = true;
-//					//System.out.println("keyDay=" + keyDay);
-//					// variable_2008_12_1400 year_month_hour
-//					int dayOfYear = new Integer(keyDay).intValue();
-//					int dayOfMonth = common.getDayOfMonthFromDayOfYear(year, dayOfYear);
-//					int month = common.getMonthFromDayOfYear(year, dayOfYear);
-//					keyMonth = new Integer(month).toString();
-//					//key = variable + year + month + keyTime;
-//				}
+				else if (variable.equals(SUEWSDataFile.SUEWS_it))
+				{
+					keyTime = variableData.get(i);
+					//System.out.println ("keyTime=" + keyTime);
+					
+					//Grr, LUMPS doesn't write out data on the hour, round to nearest hour
+					Double keyTimeDouble = new Double(keyTime).doubleValue();
+					Long keyTimeLong = Math.round(keyTimeDouble);
+					
+//					keyTime = keyTimeDouble.toString();
+//					keyTime = keyTime.replace(".0", "");
+					keyTime = keyTimeLong.toString();
+					
+					System.out.println ("keyTime=" + keyTime);
+
+//					// if 1, needs to be 0100, if 10, needs to be 1000
+//					keyTime = common.padLeft(keyTime, 2, '0');
+//					keyTime = common.padRight(keyTime, 4, '0');
+
+					foundTime = true;
+					//System.out.println("keyDay=" + keyDay);
+					// variable_2008_12_1400 year_month_hour
+					int dayOfYear = new Integer(keyDay).intValue();
+					int dayOfMonth = common.getDayOfMonthFromDayOfYear(year, dayOfYear);
+					int month = common.getMonthFromDayOfYear(year, dayOfYear);
+					keyMonth = new Integer(month).toString();
+					//key = variable + year + month + keyTime;
+				}
 				else
 				{
-					if (foundTimecode)
-					{							
-						key =  variable + "_" 
-							+ common.getYearFromTimecode(keyTimecode) + "_" 
-							+ common.getMonthFromTimecode(keyTimecode) + "_" 
-							+ common.getHourFromTimecode(keyTimecode);
-						//key = variable + "_" + year + "_" + keyMonth + "_" + keyTime;
-						//key = variable + "_" + keyTimecode;
-						String variableItem = "?";
-						try
-						{
-							variableItem = variableData.get(i);
-						}
-						catch (IndexOutOfBoundsException e)
-						{
-							//System.out.println("Exception with " + i + " " + variable);
-						}
-						ArrayList<String> tempDataItem = getDataForVariableAndTime(key);
-						if (tempDataItem == null)
-						{
-							tempDataItem = new ArrayList<String>();
-						}
-						tempDataItem.add(variableItem);
-						//System.out.println("Setting key=" + key);
-						setDataForVariableAndTime(key, tempDataItem);
-					}
-				}
-
-			}
-//			foundDay = false;
-			foundTimecode = false;
-
-		}
-
-	}
-
-	public void outputDataFile(String path, String filename)
-	{
-		StringBuffer outputStr = new StringBuffer("# ");
-
-		ArrayList<String> theVariables = getVariables();
-		//System.out.println (variables.toString());
-		int count = 0;
-		for (String variable : theVariables)
-		{
-			if (count == 0)
-			{
-				outputStr.append("Time" + " ");
-			}
-			if (count == 0 || count == 1)
-			{
-				count++;
-				continue;
-			}
-			outputStr.append(variable + " ");
-			count++;
-		}
-		outputStr.append('\n');
-
-		//year will be year
-		//iterate through 0-23 hours and 1-12 months and pull out each data file
-
-		for (int month=1;month<13;month++)
-		{
-			for (int hour=0;hour<24;hour++)
-			{
-				// 2004/1/1 or /year/month/hour
-				String date = year + "/" + month + "/" + month;
-				String testKey = variables.get(4) + "_" + year + "_" + month + "_" + hour;
-				//System.out.println("Look for " + testKey);
-
-				if (!getKeySetForData().contains(testKey))
-				{
-					//System.out.println("Didn't find " + testKey);
-					continue;
-				}
-				//System.out.println("Found " + testKey);
-
-				//outputStr.append(date + " ");
-				int counter = 0;
-				for (String variable : theVariables)
-				{				
-					if (counter == 0)
+					key = variable + "_" + year + "_" + keyMonth + "_" + keyTime;
+					String variableItem = "?";
+					try
 					{
-						String monthStr = common.padLeft(new Integer(month).toString(), 2, '0');
-						String hourStr = common.padLeft(new Integer(hour).toString(), 2, '0');
-						//String dateStr = year + "-" + monthStr + "-15" + "-" + hourStr ;
-						String dateStr = year + "-" + monthStr + "-" + hourStr ;
-						outputStr.append(dateStr + " ");
+						variableItem = variableData.get(i);
 					}
-					if (counter == 0 || counter == 1)
+					catch (IndexOutOfBoundsException e)
 					{
-						counter++;
-						continue;
+						//System.out.println("Exception with " + i + " " + variable);
 					}
-
-					String key = variable + "_" + year + "_" + month + "_" + hour;
-					double average = getAverageForVariableAndTime(key);					
-					outputStr.append(common.roundToDecimals(average, ROUND_DIGITS) + " ");
-
-					counter++;
+					ArrayList<String> tempDataItem = getDataForVariableAndTime(key);
+					if (tempDataItem == null)
+					{
+						tempDataItem = new ArrayList<String>();
+					}
+					tempDataItem.add(variableItem);
+					//System.out.println("Setting key=" + key);
+					setDataForVariableAndTime(key, tempDataItem);
 				}
-				outputStr.append('\n');
+
 			}
+			foundDay = false;
+			foundTime = false;
+
 		}
-
-//		TreeMap<String, ArrayList<String>> theData = prestonDataFile.getData();
-//		ArrayList<String> timeArray = theData.get("tau");
-//		for (int i = 0;i<timeArray.size()-1;i++)
-//		{
-//			count = 0;
-//			for (String variable : variables)
-//			{
-//				ArrayList<String> dataArray = theData.get(variable);
-//				if (dataArray == null)
-//				{
-//					//System.out.println("theData.get(variable)="+ variable);
-//					String variableValue = "?";
-//					outputStr.append(variableValue + " ");
-//				}
-//				else
-//				{
-//					//System.out.println(dataArray.toString());
-//					//System.out.println(variable + "=" + variable);
-//					String variableValue = dataArray.get(i);
-//					//System.out.println(variable + "=" + variableValue);
-//					outputStr.append(variableValue + " ");
-//				}
-//					count++;
-//			}
-//			outputStr.append('\n');
-//		}
-
-		String dataFileName = path + filename;
-		common.writeFile(outputStr.toString(), dataFileName);
-//		System.out.println(outputStr.toString());
 
 	}
 	
-	public void outputDataFiles(String path, String filename)
+	public TreeMap<String, Double> getMonthlyAverageForDataItem(int month, int yearStr, String item)
+	{
+		TreeMap<String, Double> data = new TreeMap<String, Double>();
+		for (int time=0;time<24;time++)
+		{
+			String key = item + "_" + yearStr + "_" + month + "_" + time;
+			ArrayList<String> tempDataItem = getDataForVariableAndTime(key);
+			if (tempDataItem == null)
+			{
+				//return data;
+				continue;
+			}
+			
+			//ArrayList<String> monthlyHourlyData = sUEWSMonthlyAverages.getDataForVariableAndTime("kdown_2004_4_14");
+			
+			int count = 0;
+			double runningTotal = 0;
+			for (String value : tempDataItem)
+			{				
+				count ++;
+				Double valueDouble = new Double(value).doubleValue();
+				runningTotal += valueDouble;					
+			}
+			double average = runningTotal / count;
+			String timeStr = new Integer(time).toString();			
+			data.put(common.padLeft(timeStr, 2, '0'), common.roundTwoDecimals(average));				
+		}
+		
+		return data;
+		
+	}
+
+	public void outputDataFile(String path, String filename)
 	{
 		StringBuffer outputStr = new StringBuffer("# ");
 
@@ -297,13 +224,12 @@ public class PrestonMonthlyAverages
 				//outputStr.append(date + " ");
 				int counter = 0;
 				for (String variable : theVariables)
-				{				
+				{
 					if (counter == 0)
 					{
 						String monthStr = common.padLeft(new Integer(month).toString(), 2, '0');
 						String hourStr = common.padLeft(new Integer(hour).toString(), 2, '0');
-						//String dateStr = year + "-" + monthStr + "-15" + "-" + hourStr ;
-						String dateStr = year + "-" + monthStr + "-" + hourStr ;
+						String dateStr = year + "-" + monthStr + "-15" + "-" + hourStr ;
 						outputStr.append(dateStr + " ");
 					}
 					if (counter == 0 || counter == 1)
@@ -313,8 +239,9 @@ public class PrestonMonthlyAverages
 					}
 
 					String key = variable + "_" + year + "_" + month + "_" + hour;
-					double average = getAverageForVariableAndTime(key);					
-					outputStr.append(common.roundToDecimals(average, ROUND_DIGITS) + " ");
+					double average = getAverageForVariableAndTime(key);
+					average = common.roundTwoDecimals(average);
+					outputStr.append(average + " ");
 
 					counter++;
 				}
@@ -353,7 +280,7 @@ public class PrestonMonthlyAverages
 		common.writeFile(outputStr.toString(), dataFileName);
 //		System.out.println(outputStr.toString());
 
-	}	
+	}
 
 	public void plotData(String dataFilePath, String dataFileName, String timeField, String variable,
 			ArrayList<String> plotFields, ArrayList<String> plotFieldLabel)
@@ -404,7 +331,7 @@ public class PrestonMonthlyAverages
 			aPlot.setDataFileName(dataFile);
 			for (int i=0;i<plotFields.size();i++)
 			{
-				aPlot.pushGraph(new Graph(dataFile, timeField + ":" + plotFields.get(i), Axes.X1Y1, plotFieldLabel.get(i) + "-Preston", Style.LINESPOINTS, LineType.NOT_SPECIFIED, PointType.NOT_SPECIFIED));
+				aPlot.pushGraph(new Graph(dataFile, timeField + ":" + plotFields.get(i), Axes.X1Y1, plotFieldLabel.get(i) + "-SUEWS", Style.LINESPOINTS, LineType.NOT_SPECIFIED, PointType.NOT_SPECIFIED));
 			}
 
 			try
@@ -457,6 +384,23 @@ public class PrestonMonthlyAverages
 	{
 		return monthlyAverageData.get(key);
 	}
+	
+	public ArrayList<String> getKeysForMonthlyData()
+	{
+		ArrayList<String> keys = new ArrayList<String>();
+		
+		Set keySet = monthlyAverageData.keySet();
+		
+		Iterator keySetItr = keySet.iterator();
+		while (keySetItr.hasNext())
+		//for (String key : keySet)
+		{
+			String key = (String)keySetItr.next();
+			keys.add(key);
+		}
+		
+		return keys;
+	}
 
 	public double getAverageForVariableAndTime(String key)
 	{
@@ -499,24 +443,18 @@ public class PrestonMonthlyAverages
 	 */
 	public static void main(String[] args)
 	{
-		String path = Messages.getString("PrestonDataFile.DATA_PATH");
-		String filename = Messages.getString("PrestonDataFile.2004_DATA_FILE");
 
-		PrestonDataFile prestonDataFile = new PrestonDataFile(path, filename, false);		
-		
-		TreeMap<String, ArrayList<String>> theData = prestonDataFile.getData();
-
-		Set<String> keys = theData.keySet();
-		for (String key : keys)
-		{
-			System.out.println(key);
-		}
-		PrestonMonthlyAverages averages = new PrestonMonthlyAverages(prestonDataFile);
-		averages.outputDataFile(Messages.getString("SuewsPrestonComparisonGraphs.graph_dir"),
-										Messages.getString("SuewsPrestonComparisonGraphs.PrestonMonthlyAve"));
-		
-		
 
 	}
+	
+//	public SUEWSDataFile getSuewsDataFile()
+//	{
+//		return suewsDataFile;
+//	}
+//
+//	public void setSuewsDataFile(SUEWSDataFile suewsDataFile)
+//	{
+//		this.suewsDataFile = suewsDataFile;
+//	}
 
 }

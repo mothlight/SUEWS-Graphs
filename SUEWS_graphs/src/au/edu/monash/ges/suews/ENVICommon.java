@@ -492,6 +492,11 @@ public class ENVICommon
         return Double.valueOf(twoDForm.format(d));
 	}
 	
+	long round0Decimal (double d)
+	{
+		return Math.round(d);
+	}
+	
 	double roundToDecimals(double d, int c) 
 	{
 		int temp=(int)((d*Math.pow(10,c)));

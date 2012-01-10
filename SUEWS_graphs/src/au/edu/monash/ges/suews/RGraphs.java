@@ -390,56 +390,56 @@ public class RGraphs {
 		
 		st.append("y_range <-range(preston_table$Kdown,preston_table$Lup,preston_table$QG, suews_table$Kdown,suews_table$Lup,suews_table$QG)" + '\n');
 
-		st.append("plot(preston_table$Time, preston_table$Kdown, type=\"l\", xlab=\"Time of day\", ylab=\"w/m2\", lwd=1.5, pch=21, lty=1, ylim=y_range, axes=TRUE)" +'\n');
+		st.append("plot(preston_table$Time, preston_table$Kdown, type=\"l\", xlab=\"Time of day\", ylab=\"w/m2\", lwd=1, pch=1,col=plot_colors[1], lty=1, ylim=y_range, axes=TRUE)" +'\n');
 		st.append(" lines(preston_table$Time, preston_table$" +
 				PrestonWeatherData.KDOWN +
-				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[1])" +'\n');
+				", type=\"b\", lwd=1, pch=1, lty=1, col=plot_colors[1])" +'\n');
 		st.append(" lines(preston_table$Time, preston_table$" +
 				PrestonWeatherData.KUP +
-				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])" +'\n');
+				", type=\"b\", lwd=1, pch=2, lty=1, col=plot_colors[2])" +'\n');
 		st.append(" lines(preston_table$Time, preston_table$" +
 				PrestonWeatherData.LDOWN +
-				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[3])" +'\n');		
+				", type=\"b\", lwd=1, pch=3, lty=1, col=plot_colors[3])" +'\n');		
 		st.append(" lines(preston_table$Time, preston_table$" +
 				PrestonWeatherData.LUP +
-				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[4])" +'\n');	
+				", type=\"b\", lwd=1, pch=4, lty=1, col=plot_colors[4])" +'\n');	
 		st.append(" lines(preston_table$Time, preston_table$" +
 				PrestonWeatherData.ANTHROP +
-				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[5])" +'\n');
+				", type=\"b\", lwd=1, pch=5, lty=1, col=plot_colors[5])" +'\n');
 		st.append(" lines(preston_table$Time, preston_table$" +
 				PrestonWeatherData.QH +
-				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[6])" +'\n');	
+				", type=\"b\", lwd=1, pch=6, lty=1, col=plot_colors[6])" +'\n');	
 		st.append(" lines(preston_table$Time, preston_table$" +
 				PrestonWeatherData.QE +
-				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[7])" +'\n');
+				", type=\"b\", lwd=1, pch=7, lty=1, col=plot_colors[7])" +'\n');
 		st.append(" lines(preston_table$Time, preston_table$" +
 				PrestonWeatherData.QG +
-				", type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[8])" +'\n');		
+				", type=\"b\", lwd=1, pch=8, lty=1, col=plot_colors[8])" +'\n');		
 		
 		st.append(" lines(suews_table$Time, suews_table$" +
 				PrestonWeatherData.KDOWN +
-				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[1])" +'\n');
+				", type=\"b\", lwd=1, pch=1, lty=3, col=plot_colors[1])" +'\n');
 		st.append(" lines(suews_table$Time, suews_table$" +
 				PrestonWeatherData.KUP +
-				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[2])" +'\n');
+				", type=\"b\", lwd=1, pch=2, lty=3, col=plot_colors[2])" +'\n');
 		st.append(" lines(suews_table$Time, suews_table$" +
 				PrestonWeatherData.LDOWN +
-				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[3])" +'\n');		
+				", type=\"b\", lwd=1, pch=3, lty=3, col=plot_colors[3])" +'\n');		
 		st.append(" lines(suews_table$Time, suews_table$" +
 				PrestonWeatherData.LUP +
-				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[4])" +'\n');	
+				", type=\"b\", lwd=1, pch=4, lty=3, col=plot_colors[4])" +'\n');	
 		st.append(" lines(suews_table$Time, suews_table$" +
 				PrestonWeatherData.ANTHROP +
-				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[5])" +'\n');
+				", type=\"b\", lwd=1, pch=5, lty=3, col=plot_colors[5])" +'\n');
 		st.append(" lines(suews_table$Time, suews_table$" +
 				PrestonWeatherData.QH +
-				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[6])" +'\n');	
+				", type=\"b\", lwd=1, pch=6, lty=3, col=plot_colors[6])" +'\n');	
 		st.append(" lines(suews_table$Time, suews_table$" +
 				PrestonWeatherData.QE +
-				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[7])" +'\n');
+				", type=\"b\", lwd=1, pch=7, lty=3, col=plot_colors[7])" +'\n');
 		st.append(" lines(suews_table$Time, suews_table$" +
 				PrestonWeatherData.QG +
-				", type=\"l\", lwd=2, pch=21, lty=3, col=plot_colors[8])" +'\n');			
+				", type=\"b\", lwd=1, pch=8, lty=3, col=plot_colors[8])" +'\n');			
 
 //		st.append("atx <- seq(firstdate, lastdate, by=24*60*60)" +'\n');
 //		st.append("axis(1, at=atx, labels=format(atx, \"%b\n%d\"), padj=0.5)" +'\n');
@@ -467,13 +467,175 @@ public class RGraphs {
 				PrestonWeatherData.QE +
 				"\",\"" +				
 				PrestonWeatherData.QG +
-				"\"), col = plot_colors[1:8], lty = 1:1)" +'\n');
-		st.append("legend(\"topleft\", legend = c(\"Preston\",\"SUEWS\"), col = plot_colors[1:1], lty = 1:2)" +'\n');
+				"\"), col = plot_colors[1:8], lty = 1:1, lty = 1:2, pch=c(1,2,3,4,5,6,7,8))" +'\n');
+		st.append("legend(\"topleft\", legend = c(\"Preston\",\"SUEWS\"), col = plot_colors[1:1])" +'\n');
 		st.append("grid()" +'\n');
 		st.append("dev.off()" +'\n');
 		
 		common.runR(runDirectory, st.toString());
 	}	
+	
+	public void runLumpsPreston3(String runDirectory, int month)
+	{
+		String monthName = common.getMonthForMonthInt(month);
+		String title = "Monthly averages comparisons, Preston vs. LUMPS - " +
+				monthName +
+				" 2004";
+		String plotImage = "monthlyAve_" +
+				month +
+				".png";
+		
+		String monthStr = new Integer(month).toString();
+		String monthPadded = common.padLeft(monthStr, 2, '0');
+		
+		StringBuffer st = new StringBuffer();
+		
+		String prestonDataFile = "PrestonMonthlyAve_2004" + monthPadded + ".dat";
+		File prestonDataFileFile = new File(runDirectory + prestonDataFile);
+		if (!prestonDataFileFile.exists())
+		{
+			return;
+		}
+		st.append("preston_file <-\"" +
+				prestonDataFile +
+				"\"" +'\n');
+		String suewsDataFile = "SUEWSMonthlyAve_" + month + ".dat";
+		File suewsDataFileFile = new File(runDirectory + suewsDataFile);
+		if (!suewsDataFileFile.exists())
+		{
+			return;
+		}		
+		st.append("suews_file <-\"" +
+				suewsDataFile +
+				"\"" +'\n');
+	
+		st.append("preston_table <- read.table(preston_file,header = FALSE,col.names=c(\"Time\",\"" +
+				PrestonWeatherData.KDOWN +
+				"\",\"" +
+				PrestonWeatherData.KUP +
+				"\",\"" +	
+				PrestonWeatherData.LDOWN +
+				"\",\"" +	
+				PrestonWeatherData.LUP +
+				"\",\"" +	
+				PrestonWeatherData.ANTHROP +
+				"\",\"" +	
+				PrestonWeatherData.QH +
+				"\",\"" +	
+				PrestonWeatherData.QE +
+				"\",\"" +
+				PrestonWeatherData.QG +
+				"\"))" +'\n');
+		
+		st.append("suews_table <- read.table(suews_file,header = FALSE,col.names=c(\"Time\",\"" +
+				PrestonWeatherData.KDOWN +
+				"\",\"" +
+				PrestonWeatherData.KUP +
+				"\",\"" +	
+				PrestonWeatherData.LDOWN +
+				"\",\"" +	
+				PrestonWeatherData.LUP +
+				"\",\"" +	
+				PrestonWeatherData.ANTHROP +
+				"\",\"" +	
+				PrestonWeatherData.QH +
+				"\",\"" +	
+				PrestonWeatherData.QE +
+				"\",\"" +
+				PrestonWeatherData.QG +
+				"\"))" +'\n');		
+
+		st.append("plot_colors <- rainbow(10)" + '\n');
+		st.append("png(\"" +
+				plotImage +
+				"\", width = 1536, height = 900)" +'\n');
+		
+		st.append("y_range <-range(preston_table$Kdown,preston_table$Lup,preston_table$QG, suews_table$Kdown,suews_table$Lup,suews_table$QG)" + '\n');
+
+		st.append("plot(preston_table$Time, preston_table$Kdown, type=\"b\", xlab=\"Time of day\", ylab=\"w/m2\", lwd=1, col=plot_colors[1], pch=1, lty=1, ylim=y_range, axes=TRUE)" +'\n');
+		st.append(" lines(preston_table$Time, preston_table$" +
+				PrestonWeatherData.KDOWN +
+				", type=\"b\", lwd=1, pch=1, lty=1, col=plot_colors[1])" +'\n');
+		st.append(" lines(preston_table$Time, preston_table$" +
+				PrestonWeatherData.KUP +
+				", type=\"b\", lwd=1, pch=2, lty=1, col=plot_colors[2])" +'\n');
+		st.append(" lines(preston_table$Time, preston_table$" +
+				PrestonWeatherData.LDOWN +
+				", type=\"b\", lwd=1, pch=3, lty=1, col=plot_colors[3])" +'\n');		
+		st.append(" lines(preston_table$Time, preston_table$" +
+				PrestonWeatherData.LUP +
+				", type=\"b\", lwd=1, pch=4, lty=1, col=plot_colors[4])" +'\n');	
+		st.append(" lines(preston_table$Time, preston_table$" +
+				PrestonWeatherData.ANTHROP +
+				", type=\"b\", lwd=1, pch=5, lty=1, col=plot_colors[5])" +'\n');
+		st.append(" lines(preston_table$Time, preston_table$" +
+				PrestonWeatherData.QH +
+				", type=\"b\", lwd=1, pch=6, lty=1, col=plot_colors[6])" +'\n');	
+		st.append(" lines(preston_table$Time, preston_table$" +
+				PrestonWeatherData.QE +
+				", type=\"b\", lwd=1, pch=7, lty=1, col=plot_colors[7])" +'\n');
+		st.append(" lines(preston_table$Time, preston_table$" +
+				PrestonWeatherData.QG +
+				", type=\"b\", lwd=1, pch=8, lty=1, col=plot_colors[8])" +'\n');		
+		
+		st.append(" lines(suews_table$Time, suews_table$" +
+				PrestonWeatherData.KDOWN +
+				", type=\"b\", lwd=1, pch=1, lty=3, col=plot_colors[1])" +'\n');
+		st.append(" lines(suews_table$Time, suews_table$" +
+				PrestonWeatherData.KUP +
+				", type=\"b\", lwd=1, pch=2, lty=3, col=plot_colors[2])" +'\n');
+		st.append(" lines(suews_table$Time, suews_table$" +
+				PrestonWeatherData.LDOWN +
+				", type=\"b\", lwd=1, pch=3, lty=3, col=plot_colors[3])" +'\n');		
+		st.append(" lines(suews_table$Time, suews_table$" +
+				PrestonWeatherData.LUP +
+				", type=\"b\", lwd=1, pch=4, lty=3, col=plot_colors[4])" +'\n');	
+		st.append(" lines(suews_table$Time, suews_table$" +
+				PrestonWeatherData.ANTHROP +
+				", type=\"b\", lwd=1, pch=5, lty=3, col=plot_colors[5])" +'\n');
+		st.append(" lines(suews_table$Time, suews_table$" +
+				PrestonWeatherData.QH +
+				", type=\"b\", lwd=1, pch=6, lty=3, col=plot_colors[6])" +'\n');	
+		st.append(" lines(suews_table$Time, suews_table$" +
+				PrestonWeatherData.QE +
+				", type=\"b\", lwd=1, pch=7, lty=3, col=plot_colors[7])" +'\n');
+		st.append(" lines(suews_table$Time, suews_table$" +
+				PrestonWeatherData.QG +
+				", type=\"b\", lwd=1, pch=8, lty=3, col=plot_colors[8])" +'\n');			
+
+//		st.append("atx <- seq(firstdate, lastdate, by=24*60*60)" +'\n');
+//		st.append("axis(1, at=atx, labels=format(atx, \"%b\n%d\"), padj=0.5)" +'\n');
+		st.append("atx <- seq(0,24,6)" + '\n');
+		st.append("axis(1, at=atx, labels=atx, padj=0.5)" + '\n');
+		st.append("axis(side = 2)" +'\n');
+		st.append("box()" +'\n');
+
+		st.append("title(\"" +
+				title +
+				"\", \"\")" +'\n');
+		st.append("legend(\"topright\", legend = c(\"" +
+				PrestonWeatherData.KDOWN +
+				"\",\"" +
+				PrestonWeatherData.KUP +
+				"\",\"" +	
+				PrestonWeatherData.LDOWN +
+				"\",\"" +	
+				PrestonWeatherData.LUP +
+				"\",\"" +	
+				PrestonWeatherData.ANTHROP +
+				"\",\"" +	
+				PrestonWeatherData.QH +
+				"\",\"" +	
+				PrestonWeatherData.QE +
+				"\",\"" +				
+				PrestonWeatherData.QG +
+				"\"), col = plot_colors[1:8], lty = 1:1, pch=c(1,2,3,4,5,6,7,8))" +'\n');
+		st.append("legend(\"topleft\", legend = c(\"Preston\",\"SUEWS\"), col = plot_colors[1:1], lty = 1:2)" +'\n');
+		st.append("grid()" +'\n');
+		st.append("dev.off()" +'\n');
+		
+		common.runR(runDirectory, st.toString());
+	}		
 	
 	public void runGenericChart(String runDirectory, String datafile, String imageFile, ArrayList<String> plotItems, String title)
 	{

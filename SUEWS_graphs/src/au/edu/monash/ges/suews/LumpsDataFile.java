@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
-public class SUEWSDataFile
+public class LumpsDataFile
 {
 	ENVICommon common = new ENVICommon();
 
@@ -179,9 +179,9 @@ public class SUEWSDataFile
 	public static String SUEWS_DAILY_FILE_STR_FormattedDate = "FormattedDate";
 	public static String SUEWS_DAILY_FILE_FormattedDate = "16";
 	
-	//private boolean lumpsRun;
+	final private boolean lumpsRun = true;
 
-	public SUEWSDataFile(String path, String filename, boolean skipEveryOtherLine, int initialLinesToSkip)
+	public LumpsDataFile(String path, String filename, boolean skipEveryOtherLine, int initialLinesToSkip)
 	{
 		super();
 
@@ -217,9 +217,9 @@ public class SUEWSDataFile
 		String year;
 
 		String[] filenameSplit = filename.split("_");
-		year = filenameSplit[1];
-
-		return year;
+		String runPrefix = filenameSplit[0];		
+		year = runPrefix.substring(2, runPrefix.length());		
+		return common.increaseYearTo4Digits(year);
 	}
 
 	public String getYear()
@@ -242,7 +242,7 @@ public class SUEWSDataFile
 		String path = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_DATA_PATH");
 		String filename = Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE");
 
-		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, LINES_TO_SKIP_60);
+		LumpsDataFile sUEWSDataFile = new LumpsDataFile(path, filename, true, LINES_TO_SKIP_60);
 		TreeMap<String, ArrayList<String>> theData = sUEWSDataFile.getData();
 
 		Set<String> keys = theData.keySet();
@@ -255,7 +255,7 @@ public class SUEWSDataFile
 
 		//System.out.println(theData.get(SUEWS_DAILY_FILE_STR_Change).toString());
 
-		SUEWSMonthlyAverages sUEWSMonthlyAverages = new SUEWSMonthlyAverages(sUEWSDataFile);
+		LumpsMonthlyAverages sUEWSMonthlyAverages = new LumpsMonthlyAverages(sUEWSDataFile);
 
 //		ArrayList<String> keys = sUEWSMonthlyAverages.getKeySetForData();
 //		for (String key : keys)
@@ -414,10 +414,10 @@ public class SUEWSDataFile
 				{
 					offsetProblem = true;
 				}
-//				if (isLumpsRun())
-//				{
-//					offsetProblem = false;
-//				}
+				if (isLumpsRun())
+				{
+					offsetProblem = false;
+				}
 
 				for (int i=splitString.length-1;i>-1;i--)
 				{
@@ -557,11 +557,11 @@ public class SUEWSDataFile
 		this.data = data;
 	}
 
-//	public boolean isLumpsRun()
-//	{
-//		return lumpsRun;
-//	}
-//
+	public boolean isLumpsRun()
+	{
+		return lumpsRun;
+	}
+
 //	public void setLumpsRun(boolean lumpsRun)
 //	{
 //		this.lumpsRun = lumpsRun;
