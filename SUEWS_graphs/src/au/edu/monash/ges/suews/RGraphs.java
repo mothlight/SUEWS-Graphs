@@ -124,7 +124,7 @@ public class RGraphs {
 		String runDirectory = "/tmp/SUEWS_Pr3714/graphs/";
 		
 		PrestonWeatherData weatherData = new PrestonWeatherData();
-		ArrayList<TreeMap<String, String>> variables = weatherData.getPrestonData(-1);
+		//ArrayList<TreeMap<String, String>> variables = weatherData.getPrestonData(-1);
 		ArrayList<String> months =weatherData.getMonthAndYearsOfData();
 		for (String month:months)
 		{
@@ -184,6 +184,7 @@ public class RGraphs {
 		String prestonCalculatedPath = Messages.getString("ProcessLumps.PrestonCalculatedPath");
 		
 		String source = basePath + prestonCalculatedPath + prestonCalculated;
+		String imageName = "r_plot.png";
 
 		String target = runDirectory + prestonCalculated;		
 		common.createSymlink(source, target);	
@@ -201,7 +202,9 @@ public class RGraphs {
 		st.append("end <- as.Date(\"2004-11-28\", \"%Y-%m-%d\") " +'\n');
 		st.append("firstdate = ISOdate(2004,3,1)" +'\n');
 		st.append("lastdate = ISOdate(2004,3,20)" +'\n');
-		st.append("png(\"r_plot.png\", width = 1536, height = 900)" +'\n');
+		st.append("png(\"" +
+				imageName +
+				"\", width = 1536, height = 900)" +'\n');
 		st.append("plot(dates, data_table$Kdown, type=\"l\", xlab=\"Date\", ylab=\"w/m2\", lwd=1.5, pch=21, lty=1, xlim=c(firstdate, lastdate), axes=FALSE)" +'\n');
 		st.append("lines(dates, data_table$Kdown, type=\"l\", lwd=1.5, pch=21, lty=1, col=1)" +'\n');
 		st.append("lines(dates, data_table$Ldown, type=\"l\", lwd=1.5, pch=19, lty=1, col=2)" +'\n');
@@ -220,7 +223,7 @@ public class RGraphs {
 		st.append("grid()" +'\n');
 		st.append("dev.off()" +'\n');
 
-		common.runR(runDirectory, st.toString());		
+		common.runR(runDirectory, st.toString(), imageName);		
 	}
 	
 	public void runPreston2(String runDirectory)
@@ -310,7 +313,7 @@ public class RGraphs {
 		st.append("grid()" +'\n');
 		st.append("dev.off()" +'\n');
 		
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), plotImage);
 	}
 	
 	public void runPreston3(String runDirectory, int month)
@@ -443,9 +446,9 @@ public class RGraphs {
 
 //		st.append("atx <- seq(firstdate, lastdate, by=24*60*60)" +'\n');
 //		st.append("axis(1, at=atx, labels=format(atx, \"%b\n%d\"), padj=0.5)" +'\n');
-		st.append("atx <- seq(0,24,6)" + '\n');
-		st.append("axis(1, at=atx, labels=atx, padj=0.5)" + '\n');
-		st.append("axis(side = 2)" +'\n');
+		//st.append("atx <- seq(0,24,6)" + '\n');
+		//st.append("axis(1, at=atx, labels=atx, padj=0.5)" + '\n');
+		//st.append("axis(side = 2)" +'\n');
 		st.append("box()" +'\n');
 
 		st.append("title(\"" +
@@ -467,12 +470,12 @@ public class RGraphs {
 				PrestonWeatherData.QE +
 				"\",\"" +				
 				PrestonWeatherData.QG +
-				"\"), col = plot_colors[1:8], lty = 1:1, lty = 1:2, pch=c(1,2,3,4,5,6,7,8))" +'\n');
-		st.append("legend(\"topleft\", legend = c(\"Preston\",\"SUEWS\"), col = plot_colors[1:1])" +'\n');
+				"\"), col = plot_colors[1:8], lty = 1:1, pch=c(1,2,3,4,5,6,7,8))" +'\n');
+		st.append("legend(\"topleft\", legend = c(\"Preston\",\"SUEWS\"), col = plot_colors[1:1], lty = 1:2)" +'\n');
 		st.append("grid()" +'\n');
 		st.append("dev.off()" +'\n');
 		
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), plotImage);
 	}	
 	
 	public void runLumpsPreston3(String runDirectory, int month)
@@ -605,9 +608,9 @@ public class RGraphs {
 
 //		st.append("atx <- seq(firstdate, lastdate, by=24*60*60)" +'\n');
 //		st.append("axis(1, at=atx, labels=format(atx, \"%b\n%d\"), padj=0.5)" +'\n');
-		st.append("atx <- seq(0,24,6)" + '\n');
-		st.append("axis(1, at=atx, labels=atx, padj=0.5)" + '\n');
-		st.append("axis(side = 2)" +'\n');
+		//st.append("atx <- seq(0,24,6)" + '\n');
+		//st.append("axis(1, at=atx, labels=atx, padj=0.5)" + '\n');
+		//st.append("axis(side = 2)" +'\n');
 		st.append("box()" +'\n');
 
 		st.append("title(\"" +
@@ -634,7 +637,7 @@ public class RGraphs {
 		st.append("grid()" +'\n');
 		st.append("dev.off()" +'\n');
 		
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), plotImage);
 	}		
 	
 	public void runGenericChart(String runDirectory, String datafile, String imageFile, ArrayList<String> plotItems, String title)
@@ -711,7 +714,7 @@ public class RGraphs {
 		st.append("grid()" +'\n');
 		st.append("dev.off()" +'\n');
 		
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), imageFile);
 	}	
 	
 	public void runGenericSuewsChart(String runDirectory, String datafile, String imageFile, ArrayList<String> plotItems, String title, int numberInHeader)
@@ -817,7 +820,7 @@ public class RGraphs {
 		st.append("grid()" +'\n');
 		st.append("dev.off()" +'\n');
 		
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), imageFile);
 	}	
 	
 	public void runPrestonSuewsApril2004Compare(String runDirectory, String runPrefix)
@@ -985,7 +988,7 @@ public class RGraphs {
 		st.append("grid()" +'\n');
 		st.append("dev.off()" +'\n');
 		
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), plotImage);
 	}	
 	
 	public void runPrestonSuewsApril2004CompareDays(String runDirectory, String runPrefix, int numDays)
@@ -1051,8 +1054,219 @@ public class RGraphs {
 		st.append("" + '\n');
 		st.append("" + '\n');
 				
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), plotImage);
 	}	
+	
+	public void runSUEWSDailyAverageGraphs(String runDirectory, String runPrefix)
+	{
+		//# X.day counter  qn  qs  qf qe_S  pp  ext_Ie  int_Ie tot_ie  E_S  Change  R_Soil   R   Fw    addWater
+		
+		
+		// plot_colors <- c( "#D92121","#2121D9", "#21D921", "#FFFF4D", "#FF9326", "#9999FF")
+		// PrDataset <- read.table("/home/kerryn/Documents/Work/PrestonData/CalculatedAverages/Preston2004DailyAverages.dat", header=TRUE, sep="", na.strings="NA", dec=".", strip.white=TRUE)
+		// lines(PrDataset$Day_of_year, PrDataset$QE, type="l", lwd=2, pch=21, lty=1, col=plot_colors[2])
+		// lines(PrDataset$Day_of_year, PrDataset$NET, type="l", lwd=2, pch=21, lty=1, col=plot_colors[2])
+		
+
+		
+		
+		String[] variables = {"qn","qs","qf","qe_S","pp","ext_Ie","int_Ie","tot_ie","E_S","Change","R_Soil","R","Fw","addWater"};
+		String[] variablesDescript = {"(net all wave radiation)","(storage heat flux)","(anthropogenic heat flux)",
+				"(latent heat flux-SUEWS)","(precipitation)","(external water use on grass)","(internal water)",
+				"(total, ext+int, water use)","(evaportation per day/month)","(storage change)","(soil runoff)",
+				"(surface runoff)","(additional water flow to water body)","(water input from other grids)"};
+		
+		StringBuffer st = new StringBuffer();
+		st.append("plot_colors <- c( \"#D92121\",\"#2121D9\", \"#21D921\", \"#FFFF4D\", \"#FF9326\", \"#9999FF\")" + '\n');
+		st.append("PrDataset <- read.table(\"" +
+				common.getHostnameWorkDirPath() +
+				Messages.getString("ProcessLumps.PrestonCalculatedPath") +				
+				Messages.getString("ProcessLumps.PrestonCalculuated2004DailyAverages") +				
+				"\", header=TRUE, sep=\"\", na.strings=\"NA\", dec=\".\", strip.white=TRUE)" + '\n');
+		st.append("Dataset <- read.table(\"/tmp/SUEWS_" +
+				runPrefix +
+				"/graphs/../Output/" +
+				runPrefix +
+				"_2004_DailyFile.txt\", header=TRUE, sep=\"\", na.strings=\"NA\", dec=\".\", strip.white=TRUE, skip=1)" + '\n');
+		int count = 0;
+		for (String variable : variables)
+		{
+			String lineStr = "";
+			String legendStr = "legend(\"topright\", legend = c(\"SUEWS\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+			String rangeStr = "";
+			
+			if (variable.equals("qn"))
+			{
+				lineStr = "lines(PrDataset$Day_of_year, PrDataset$NET, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])" + '\n';
+				legendStr = "legend(\"topright\", legend = c(\"SUEWS\",\"Preston\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+				rangeStr = ",PrDataset$NET";
+			}
+			if (variable.equals("qs"))
+			{
+				lineStr = "lines(PrDataset$Day_of_year, PrDataset$QG, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])"+ '\n';
+				legendStr = "legend(\"topright\", legend = c(\"SUEWS\",\"Preston\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+				rangeStr = ",PrDataset$QG";
+			}	
+			if (variable.equals("qf"))
+			{
+				lineStr = "lines(PrDataset$Day_of_year, PrDataset$Anthrop, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])"+ '\n';
+				legendStr = "legend(\"topright\", legend = c(\"SUEWS\",\"Preston\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+				rangeStr = ",PrDataset$Anthrop";
+			}
+			if (variable.equals("qe_S"))
+			{
+				lineStr = "lines(PrDataset$Day_of_year, PrDataset$QE, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])"+ '\n';
+				legendStr = "legend(\"topright\", legend = c(\"SUEWS\",\"Preston\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+				rangeStr = ",PrDataset$QE";
+			}	
+			if (variable.equals("pp"))
+			{
+				lineStr = "lines(PrDataset$Day_of_year, PrDataset$Precip, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])"+ '\n';
+				legendStr = "legend(\"topright\", legend = c(\"SUEWS\",\"Preston\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+				rangeStr = ",PrDataset$Precip";
+			}				
+			
+			st.append("png(\"" +
+					runPrefix +
+					"_Daily_" +
+					variable +
+					".png\", width = 1536, height = 900)" + '\n');
+			st.append("y_range <-range(Dataset$" + variable + rangeStr +")" + '\n');
+			st.append("plot(Dataset$X.day, Dataset$" +
+					variable +
+					", type=\"l\", xlab=\"Day of year\", ylab=\" \", lwd=1.5, pch=21, lty=1, ylim=y_range, axes=TRUE, col=plot_colors[1] )" + '\n');
+			st.append(lineStr + '\n');
+			
+			st.append(legendStr);
+			st.append("box()" + '\n');
+			st.append("title(\"SUEWS " +
+					runPrefix +
+					" run 2004, " +
+					variable + variablesDescript[count] + " from daily average file (DailyFile) " +
+					"\", \"\")" + '\n');
+			st.append("grid()" + '\n');
+			st.append("dev.off()" + '\n');
+			count ++;
+		}	
+		String imageFile = runPrefix + "_Daily_" + ".png";
+		common.runR(runDirectory, st.toString(), imageFile);
+		
+//		String dirPlot = runDirectory + plotImage;
+//		File diffPlotImage = new File(dirPlot);
+//		if (!diffPlotImage.exists())
+//		{
+//			return;
+//		}		
+//		String source = dirPlot;
+//		String tempDirectory = "/tmp/SUEWS_Graphs/";
+//		String target = tempDirectory + plotImage;		
+//		common.createSymlink(source, target);
+		
+		
+	}	
+	
+	public void runSUEWSCalculatedDailyAverageGraphs(String runDirectory, String runPrefix)
+	{
+		//dectime kdown kup ldown lup Tsurf qn h_mod e_mod qs QF QH QE P/i Ie/i E/i DR/i Ch/i ST/i ROsoil/i RO/i ROpipe ROpav ROveg ROwater RA RS ustar L_mod SoilSt_pav SoilSt_blg SoilSt_con SoilSt_dec SoilSt_Irrgr SoilSt_Gr St_pav St_blg St_con St_dec St_Irrgr St_Gr St_water Fcld SoilState smd LAI Fw addWater 
+
+		//Day_of_year time timecode month week Kdown Kup Ldown Lup NET QH QE QG Flux_validity CO2flux_final CO2_flux_validity Temp e_a wind_spd wind_dir. pressure Precip. Anthrop. tau soil_moisture deep_soil_temp FormattedDate RH  
+		
+		//String[] variables = {"qn","qs","qf","qe_S","pp","ext_Ie","int_Ie","tot_ie","E_S","Change","R_Soil","R","Fw","addWater"};
+		String[] variables = {"kdown"};
+		String[] variablesDescript = {"(incoming shortwave)"};
+//		String[] variablesDescript = {"(net all wave radiation)","(storage heat flux)","(anthropogenic heat flux)",
+//				"(latent heat flux-SUEWS)","(precipitation)","(external water use on grass)","(internal water)",
+//				"(total, ext+int, water use)","(evaportation per day/month)","(storage change)","(soil runoff)",
+//				"(surface runoff)","(additional water flow to water body)","(water input from other grids)"};
+		
+		StringBuffer st = new StringBuffer();
+		st.append("plot_colors <- c( \"#D92121\",\"#2121D9\", \"#21D921\", \"#FFFF4D\", \"#FF9326\", \"#9999FF\")" + '\n');
+		st.append("PrDataset <- read.table(\"" +
+				common.getHostnameWorkDirPath() +
+				Messages.getString("ProcessLumps.PrestonCalculatedPath") +				
+				Messages.getString("ProcessLumps.PrestonCalculuated2004DailyAverages") +				
+				"\", header=TRUE, sep=\"\", na.strings=\"NA\", dec=\".\", strip.white=TRUE)" + '\n');
+		st.append("Dataset <- read.table(\"/tmp/SUEWS_" +
+				runPrefix +
+				"/graphs/" +
+				Messages.getString("SuewsPrestonComparisonGraphs.DAILY_AVERAGE_DAT_FILE") +
+				"\", header=TRUE, sep=\"\", na.strings=\"NA\", dec=\".\", strip.white=TRUE)" + '\n');
+		int count = 0;
+		for (String variable : variables)
+		{
+			String lineStr = "";
+			String legendStr = "legend(\"topright\", legend = c(\"SUEWS\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+			String rangeStr = "";
+			
+			if (variable.equals("kdown"))
+			{
+				lineStr = "lines(PrDataset$Day_of_year, PrDataset$Kdown, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])" + '\n';
+				legendStr = "legend(\"topright\", legend = c(\"SUEWS\",\"Preston\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+				rangeStr = ",PrDataset$Kdown";
+			}
+			if (variable.equals("qs"))
+			{
+				lineStr = "lines(PrDataset$Day_of_year, PrDataset$QG, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])"+ '\n';
+				legendStr = "legend(\"topright\", legend = c(\"SUEWS\",\"Preston\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+				rangeStr = ",PrDataset$QG";
+			}	
+			if (variable.equals("qf"))
+			{
+				lineStr = "lines(PrDataset$Day_of_year, PrDataset$Anthrop, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])"+ '\n';
+				legendStr = "legend(\"topright\", legend = c(\"SUEWS\",\"Preston\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+				rangeStr = ",PrDataset$Anthrop";
+			}
+			if (variable.equals("qe_S"))
+			{
+				lineStr = "lines(PrDataset$Day_of_year, PrDataset$QE, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])"+ '\n';
+				legendStr = "legend(\"topright\", legend = c(\"SUEWS\",\"Preston\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+				rangeStr = ",PrDataset$QE";
+			}	
+			if (variable.equals("pp"))
+			{
+				lineStr = "lines(PrDataset$Day_of_year, PrDataset$Precip, type=\"l\", lwd=2, pch=21, lty=1, col=plot_colors[2])"+ '\n';
+				legendStr = "legend(\"topright\", legend = c(\"SUEWS\",\"Preston\"), col = plot_colors[1:2], lty = 1:1)" + '\n';
+				rangeStr = ",PrDataset$Precip";
+			}				
+			
+			st.append("png(\"" +
+					runPrefix +
+					"_CALC_Daily_" +
+					variable +
+					".png\", width = 1536, height = 900)" + '\n');
+			st.append("y_range <-range(Dataset$" + variable + rangeStr +")" + '\n');
+			st.append("plot(Dataset$dectime, Dataset$" +
+					variable +
+					", type=\"l\", xlab=\"Day of year\", ylab=\" \", lwd=1.5, pch=21, lty=1, ylim=y_range, axes=TRUE, col=plot_colors[1] )" + '\n');
+			st.append(lineStr + '\n');
+			
+			st.append(legendStr);
+			st.append("box()" + '\n');
+			st.append("title(\"SUEWS " +
+					runPrefix +
+					" run 2004, " +
+					variable + variablesDescript[count] + " from daily average file (calclated from 60 min file) " +
+					"\", \"\")" + '\n');
+			st.append("grid()" + '\n');
+			st.append("dev.off()" + '\n');
+			count ++;
+		}	
+		String imageFile = runPrefix + "_CALC_Daily_" + ".png";
+		common.runR(runDirectory, st.toString(), imageFile);
+		
+//		String dirPlot = runDirectory + plotImage;
+//		File diffPlotImage = new File(dirPlot);
+//		if (!diffPlotImage.exists())
+//		{
+//			return;
+//		}		
+//		String source = dirPlot;
+//		String tempDirectory = "/tmp/SUEWS_Graphs/";
+//		String target = tempDirectory + plotImage;		
+//		common.createSymlink(source, target);
+		
+		
+	}			
 
 	public void runPrestonSuewsApril2004CompareDaysDiff(String runDirectory, String runPrefix, int numDays)
 	{
@@ -1119,7 +1333,7 @@ public class RGraphs {
 		st.append("" + '\n');
 		st.append("" + '\n');
 				
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), plotImage);
 		
 		String dirPlot = runDirectory + plotImage;
 		File diffPlotImage = new File(dirPlot);
@@ -1306,7 +1520,7 @@ public class RGraphs {
 		st.append("grid()" +'\n');
 		st.append("dev.off()" +'\n');
 		
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), plotImage);
 	}	
 	
 	public void runPrestonLumpsApril2004CompareDays(String runDirectory, String runPrefix, int numDays)
@@ -1382,7 +1596,7 @@ public class RGraphs {
 		st.append("" + '\n');
 		st.append("" + '\n');
 				
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), plotImage);
 	}	
 
 	public void runPrestonLumpsApril2004CompareDaysDiff(String runDirectory, String runPrefix, int numDays)
@@ -1448,7 +1662,7 @@ public class RGraphs {
 		st.append("" + '\n');
 		st.append("" + '\n');
 				
-		common.runR(runDirectory, st.toString());
+		common.runR(runDirectory, st.toString(), plotImage);
 		
 		String dirPlot = runDirectory + plotImage;
 		File diffPlotImage = new File(dirPlot);

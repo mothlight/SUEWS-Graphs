@@ -395,6 +395,39 @@ public class ENVICommon
 	    //System.out.println("Day of year " + dayOfYear + " = " + calendar.getTime());
 	    return dayOfMonth;
 	}
+	
+	public int getMonthFromDayOfYear(int year, String dayOfYearStr)
+	{
+		
+		Integer dayOfYear = new Integer(dayOfYearStr).intValue(); 
+
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+	    calendar.set(Calendar.YEAR, year);
+	    int month = calendar.get(Calendar.MONTH) + 1;
+
+	    //System.out.println("dayOfYear=" + dayOfYear + " month=" + month);
+	    
+	    //System.out.println("Day of year " + dayOfYear + " = " + calendar.getTime());
+	    return month;
+	}	
+	
+	public String getMonthStrFromDayOfYear(int year, String dayOfYearStr)
+	{
+		
+		Integer dayOfYear = new Integer(dayOfYearStr).intValue(); 
+
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+	    calendar.set(Calendar.YEAR, year);
+	    int month = calendar.get(Calendar.MONTH) + 1;
+	    String monthStr = new Integer(month).toString();
+
+	    //System.out.println("dayOfYear=" + dayOfYear + " month=" + month);
+	    
+	    //System.out.println("Day of year " + dayOfYear + " = " + calendar.getTime());
+	    return monthStr;
+	}		
 
 	public int getMonthFromDayOfYear(int year, int dayOfYear)
 	{
@@ -788,6 +821,59 @@ public class ENVICommon
 
 		        // read the output from the command
 		    //System.out.println("Here is the standard output of the command:\n");
+//		    while ((s = stdInput.readLine()) != null) 
+//		    {
+//		            System.out.println(s);
+//		    }
+//
+//		    // read any errors from the attempted command
+//		    //System.out.println("Here is the standard error of the command (if any):\n");
+//		    while ((s = stdError.readLine()) != null) 
+//		    {
+//		            System.out.println(s);
+//		    }
+			
+			
+			
+		} catch (IOException e)
+		{			
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void runR(String runDirectory, String rScript, String imageName)
+	{
+		String rFilename = imageName +
+				".r";
+		String scriptFilename = "run.sh";
+		String scriptStr = "cd " + runDirectory + '\n' + "/usr/bin/R CMD BATCH " + rFilename + "\n";
+		writeFile(scriptStr, runDirectory + scriptFilename);
+		writeFile(rScript, runDirectory + rFilename);
+		
+		
+		Runtime rt=Runtime.getRuntime();		
+		Process result=null;
+		//String exe=new String("wine " + exeStr);
+		//String[] exe={new String("/bin/sh " + exeStr + "exe.sh"),exeStr};
+		String exe=new String("/bin/sh " + runDirectory + scriptFilename);
+		try
+		{
+			
+			result=rt.exec(exe);
+			result.waitFor();
+			
+			String s;
+			BufferedReader stdInput = new BufferedReader(new 
+		             InputStreamReader(result.getInputStream()));
+
+		    BufferedReader stdError = new BufferedReader(new 
+		             InputStreamReader(result.getErrorStream()));
+
+		        // read the output from the command
+		    //System.out.println("Here is the standard output of the command:\n");
 		    while ((s = stdInput.readLine()) != null) 
 		    {
 		            System.out.println(s);
@@ -802,15 +888,19 @@ public class ENVICommon
 			
 			
 			
-		} catch (IOException e)
+			
+			//System.out.println(result.getOutputStream());
+		} catch (Exception e)
 		{			
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * @param runDirectory
+	 * @param rScript
+	 */
+	@Deprecated
 	public void runR(String runDirectory, String rScript)
 	{
 		String rFilename = "run.r";
@@ -1008,6 +1098,38 @@ public class ENVICommon
 	{
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public String averageListOfStrings(ArrayList<String> data)
+	{
+		String averageStr = "0";
+		if (data == null || data.size() == 0)
+		{
+			return averageStr;
+		}			
+		
+		double total = 0.0;
+		Double average = 0.0;
+		
+		for (String item : data)
+		{
+			Double itemDouble;
+			try
+			{
+				itemDouble = new Double(item).doubleValue();
+			}
+			catch (Exception e)
+			{
+				return "0";
+			}
+			total = total + itemDouble;
+		}
+		average = total / data.size();
+		average = roundTwoDecimals(average);
+		averageStr = average.toString();
+		
+		return averageStr;
+		
 	}
 	
 	public String getAverageOf2DoubleStrings(String item1, String item2)

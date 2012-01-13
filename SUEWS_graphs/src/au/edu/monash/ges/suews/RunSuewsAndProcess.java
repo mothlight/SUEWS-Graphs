@@ -16,7 +16,11 @@ public class RunSuewsAndProcess
 	 */
 	public static void main(String[] args)
 	{	
-		String runPrefix = "Pr0001";
+		RunSuewsAndProcess run = new RunSuewsAndProcess();
+		
+		//run.justGraphs = true;
+		String runPrefix = "Pr0030";
+		
 		String justGraphsStr = "";
 				
 		if (args.length > 0) 
@@ -24,7 +28,7 @@ public class RunSuewsAndProcess
 			runPrefix = args[0];		    
 		}
 		
-		RunSuewsAndProcess run = new RunSuewsAndProcess();
+		
 		if (args.length > 1) 
 		{
 			justGraphsStr = args[1];	
@@ -33,10 +37,12 @@ public class RunSuewsAndProcess
 				run.justGraphs = true;
 			}
 		}
-		
+		System.out.println ("Start Suews run " + runPrefix);
 		run.suewsConfigValues = new SuewsConfigValues(runPrefix);
 		
 		run.process();
+		
+		System.out.println ("End Suews run and process " + runPrefix);
 
 	}
 	
@@ -59,12 +65,7 @@ public class RunSuewsAndProcess
 		int startingYear = suewsConfigValues.getStartingYear();
 		generateConfig.setStartingYear(startingYear);	
 		
-		//String sourceDir = "/home/nice/Climate_Research/SUEWS_V2011b_example/";
-		
 		String sourceDir = basePath + Messages.getString("SUEWS_EXE_DIR");
-		
-		// /home/nice/Climate_Research/SUEWS_V2011b_example/SUEWS_V1_1.exe
-		// /home/nice/Climate_Research/SUEWS_V2011b_example/salflibc.dll
 		String sourceExe = Messages.getString("SUEWS_EXE");
 		String sourceDll = Messages.getString("SUEWS_DLL");
 		
@@ -106,12 +107,12 @@ public class RunSuewsAndProcess
 		String suewsDataFilePrefix = suewsConfigValues.getRunPrefix() + "_" + suewsConfigValues.getStartingYear();
 		String filename = suewsDataFilePrefix + Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE2");
 
-		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, SUEWSDataFile.LINES_TO_SKIP_60);
+		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, SuewsPrestonComparisonGraphs.SKIP_LINES_FALSE, SUEWSDataFile.LINES_TO_SKIP_60);
 
 		String suewsFilename = suewsDataFilePrefix + Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE2");
 
 		ProcessSUEWSRun processSUEWSRun = new ProcessSUEWSRun();
-		SUEWSDataFile suewsDataFile = new SUEWSDataFile(path, suewsFilename, SuewsPrestonComparisonGraphs.SKIP_LINES_TRUE, SUEWSDataFile.LINES_TO_SKIP_60);
+		SUEWSDataFile suewsDataFile = new SUEWSDataFile(path, suewsFilename, SuewsPrestonComparisonGraphs.SKIP_LINES_FALSE, SUEWSDataFile.LINES_TO_SKIP_60);
 		suewsDataFile.setPath(graphDirectory);
 		processSUEWSRun.generateReformattedDataFile(suewsDataFile);
 
@@ -153,7 +154,7 @@ public class RunSuewsAndProcess
 		String suewsDataFilePrefix = suewsConfigValues.getRunPrefix() + "_" + suewsConfigValues.getStartingYear();
 		String filename = suewsDataFilePrefix + Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE2");
 
-		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, true, SUEWSDataFile.LINES_TO_SKIP_60);
+		SUEWSDataFile sUEWSDataFile = new SUEWSDataFile(path, filename, SuewsPrestonComparisonGraphs.SKIP_LINES_FALSE, SUEWSDataFile.LINES_TO_SKIP_60);
 		//TreeMap<String, ArrayList<String>> theData = sUEWSDataFile.getData();
 
 //		Set<String> keys = theData.keySet();
@@ -170,7 +171,7 @@ public class RunSuewsAndProcess
 		String suewsFilename = suewsDataFilePrefix + Messages.getString("ProcessSUEWSRun.SUEWS_OUTPUT_60_FILE2");
 
 		ProcessSUEWSRun processSUEWSRun = new ProcessSUEWSRun();
-		SUEWSDataFile suewsDataFile = new SUEWSDataFile(path, suewsFilename, SuewsPrestonComparisonGraphs.SKIP_LINES_TRUE, SUEWSDataFile.LINES_TO_SKIP_60);
+		SUEWSDataFile suewsDataFile = new SUEWSDataFile(path, suewsFilename, SuewsPrestonComparisonGraphs.SKIP_LINES_FALSE, SUEWSDataFile.LINES_TO_SKIP_60);
 		suewsDataFile.setPath(graphDirectory);
 		processSUEWSRun.generateReformattedDataFile(suewsDataFile);
 		
@@ -200,7 +201,7 @@ public class RunSuewsAndProcess
 		
 		//generate SUEWS monthly average data files
 		generateSuewsAverageFiles(graphDirectory, startingYear, sUEWSDataFile);
-		
+				
 		rGraphs.runPreston2(graphDirectory);
 		
 		for (int i=1;i<13;i++)
@@ -211,6 +212,17 @@ public class RunSuewsAndProcess
 		rGraphs.runPrestonSuewsApril2004Compare(graphDirectory, suewsConfigValues.getRunPrefix());
 		rGraphs.runPrestonSuewsApril2004CompareDays(graphDirectory, suewsConfigValues.getRunPrefix(), 5);
 		rGraphs.runPrestonSuewsApril2004CompareDaysDiff(graphDirectory, suewsConfigValues.getRunPrefix(), 5);
+		
+		rGraphs.runSUEWSDailyAverageGraphs(graphDirectory, suewsConfigValues.getRunPrefix());
+		
+		//generate monthly/daily average files from 60 minute files
+		SUEWSDailyAverages sUEWSDailyAverages = new SUEWSDailyAverages(sUEWSDataFile);
+		sUEWSDailyAverages.outputDailyFile(graphDirectory,
+				Messages.getString("SuewsPrestonComparisonGraphs.DAILY_AVERAGE_DAT_FILE"));
+		sUEWSDailyAverages.outputMonthlyFile(graphDirectory,
+				Messages.getString("SuewsPrestonComparisonGraphs.MONTHLY_CALCD_AVERAGE_DAT_FILE"));		
+		
+		rGraphs.runSUEWSCalculatedDailyAverageGraphs(graphDirectory, suewsConfigValues.getRunPrefix());
 		
 	}
 	

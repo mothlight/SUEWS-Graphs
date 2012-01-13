@@ -1,4 +1,4 @@
-package au.edu.monash.ges.suews;
+package au.edu.monash.ges.suews.test;
 
 import org.rosuda.JRI.Rengine;
 

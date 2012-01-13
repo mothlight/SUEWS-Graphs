@@ -61,8 +61,8 @@ public class SUEWSMonthlyAverages
 		String keyTime="";
 		String keyMonth="";
 		String keyDay="";
-		String keyYear="";
-		String keyVariable="";
+//		String keyYear="";
+//		String keyVariable="";
 		boolean foundDay = false;
 		boolean foundTime = false;
 
@@ -101,7 +101,7 @@ public class SUEWSMonthlyAverages
 					//System.out.println("keyDay=" + keyDay);
 					// variable_2008_12_1400 year_month_hour
 					int dayOfYear = new Integer(keyDay).intValue();
-					int dayOfMonth = common.getDayOfMonthFromDayOfYear(year, dayOfYear);
+					//int dayOfMonth = common.getDayOfMonthFromDayOfYear(year, dayOfYear);
 					int month = common.getMonthFromDayOfYear(year, dayOfYear);
 					keyMonth = new Integer(month).toString();
 					//key = variable + year + month + keyTime;
@@ -198,7 +198,7 @@ public class SUEWSMonthlyAverages
 			for (int hour=0;hour<24;hour++)
 			{
 				// 2004/1/1 or /year/month/hour
-				String date = year + "/" + month + "/" + month;
+				//String date = year + "/" + month + "/" + month;
 				String testKey = variables.get(4) + "_" + year + "_" + month + "_" + hour;
 				//System.out.println("Look for " + testKey);
 
@@ -312,7 +312,7 @@ public class SUEWSMonthlyAverages
 
 			aPlot.addExtra("set dgrid3d 10,10,1");
 			aPlot.addExtra("set ylabel \" fluxes\"");
-			String xLabel = "Time";
+			//String xLabel = "Time";
 			aPlot.addExtra("set xlabel \" Time\"");
 
 			aPlot.setDataFileName(dataFile);

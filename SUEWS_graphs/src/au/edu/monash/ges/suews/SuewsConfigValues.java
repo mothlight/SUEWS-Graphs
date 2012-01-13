@@ -127,11 +127,163 @@ public class SuewsConfigValues
 			{
 				setVeg_type(2);
 			}	
+			
+			if (getRunPrefix().equals("Pr0013")	)
+			{
+				setRoughLen_heat(1);
+			}
+			if (getRunPrefix().equals("Pr0014")	)
+			{
+				setRoughLen_heat(2);
+			}
+			if (getRunPrefix().equals("Pr0015")	)
+			{
+				setRoughLen_heat(3);
+			}
+			if (getRunPrefix().equals("Pr0016")	)
+			{
+				setRoughLen_heat(4);
+			}
+			if (getRunPrefix().equals("Pr0017")	)
+			{
+				setSmd_choice(0);
+			}
+			if (getRunPrefix().equals("Pr0018")	)
+			{
+				setSmd_choice(1);
+			}
+			if (getRunPrefix().equals("Pr0019")	)
+			{
+				setSm_input(1);
+			}
+			if (getRunPrefix().equals("Pr0020")	)
+			{
+				setSm_input(2);
+			}
+			if (getRunPrefix().equals("Pr0021")	)
+			{
+				setStabilityMethod(2);
+			}
+			if (getRunPrefix().equals("Pr0022")	)
+			{
+				setStabilityMethod(3);
+			}
+			if (getRunPrefix().equals("Pr0023")	)
+			{
+				setStabilityMethod(4);
+			}
+			if (getRunPrefix().equals("Pr0024")	)
+			{
+				setSuewsConfigSuewsInputWUChoice("0");
+			}
+			if (getRunPrefix().equals("Pr0025")	)
+			{
+				setSuewsConfigSuewsInputWUChoice("1");
+			}
+			
+			if (getRunPrefix().equals("Pr0026")	)
+			{
+				setSuewsConfigSuewsInputWUChoice("1");
+				setPrestonExternalWaterMultiplier(100.0);
+				
+				prestonExternalWaterHourlyWeighings = new TreeMap<String, Double>();
+				
+				prestonExternalWaterHourlyWeighings.put("11", .25);
+				prestonExternalWaterHourlyWeighings.put("12", .25);
+				prestonExternalWaterHourlyWeighings.put("13", .25);
+				prestonExternalWaterHourlyWeighings.put("14", .25);			
+			}
+			
+			if (getRunPrefix().equals("Pr0027")	)
+			{
+				setSuewsConfigSuewsInputWUChoice("1");
+				setPrestonExternalWaterMultiplier(1000.0);
+				
+				prestonExternalWaterHourlyWeighings = new TreeMap<String, Double>();
+				
+				prestonExternalWaterHourlyWeighings.put("11", .25);
+				prestonExternalWaterHourlyWeighings.put("12", .25);
+				prestonExternalWaterHourlyWeighings.put("13", .25);
+				prestonExternalWaterHourlyWeighings.put("14", .25);			
+			}
+			
+			if (getRunPrefix().equals("Pr0028")	)
+			{
+				setSuewsConfigSuewsInputWUChoice("1");
+				setPrestonExternalWaterMultiplier(1000.0);
+				
+				prestonExternalWaterHourlyWeighings = new TreeMap<String, Double>();
+				
+				prestonExternalWaterHourlyWeighings.put("11", .25);
+				prestonExternalWaterHourlyWeighings.put("12", .25);
+				prestonExternalWaterHourlyWeighings.put("13", .25);
+				prestonExternalWaterHourlyWeighings.put("14", .25);		
+				
+				setGisConfigBuildingPercentage(0.1000);
+				setGisConfigPavedPercentage(0.1000);
+				setGisConfigUnmanPercentage(0.1000);
+				setGisConfigConPercentage(0.115);
+				setGisConfigDecPercentage(0.115);
+				setGisConfigGrassPercentage(0.01);
+				setGisConfigIrrGrassPercentage(0.39);
+			}
+			
+			if (getRunPrefix().equals("Pr0029")	)
+			{
+				setSuewsConfigSuewsInputWUChoice("1");
+				setPrestonExternalWaterMultiplier(1.0);
+				
+				prestonExternalWaterHourlyWeighings = new TreeMap<String, Double>();
+				
+				prestonExternalWaterHourlyWeighings.put("11", .25);
+				prestonExternalWaterHourlyWeighings.put("12", .25);
+				prestonExternalWaterHourlyWeighings.put("13", .25);
+				prestonExternalWaterHourlyWeighings.put("14", .25);		
+				
+				setGisConfigBuildingPercentage(0.1000);
+				setGisConfigPavedPercentage(0.1000);
+				setGisConfigUnmanPercentage(0.1000);
+				setGisConfigConPercentage(0.115);
+				setGisConfigDecPercentage(0.115);
+				setGisConfigGrassPercentage(0.01);
+				setGisConfigIrrGrassPercentage(0.39);
+			}	
+			
+			
+			if (getRunPrefix().equals("Pr0030")	)
+			{
+				setSuewsConfigSuewsInputWUChoice("1");
+				setPrestonExternalWaterMultiplier(1.0);
+				
+				prestonExternalWaterHourlyWeighings = new TreeMap<String, Double>();
+				
+				prestonExternalWaterHourlyWeighings.put("11", .25);
+				prestonExternalWaterHourlyWeighings.put("12", .25);
+				prestonExternalWaterHourlyWeighings.put("13", .25);
+				prestonExternalWaterHourlyWeighings.put("14", .25);		
+				
+				setGisConfigBuildingPercentage(0.4400);
+				setGisConfigPavedPercentage(0.1600);
+				setGisConfigUnmanPercentage(0.0100);
+				setGisConfigConPercentage(0.115);
+				setGisConfigDecPercentage(0.115);
+				setGisConfigGrassPercentage(0.01);
+				setGisConfigIrrGrassPercentage(0.15);
+			}				
+			
+			
+
+			
 			if (getRunPrefix().equals("Pr3714")	)
 			{
 				setSuewsConfigSuewsInputWUChoice("0");
 				setPrestonExternalWaterHourlyWeighings(new TreeMap<String, Double>());
 			}
+			
+
+
+			
+			
 		}
 		
 		if (run.equals(MAWSON_RUN))
